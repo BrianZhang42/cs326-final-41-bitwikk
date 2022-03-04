@@ -1,5 +1,5 @@
 <h1>BitWikk</h1>
-Team: BitWikk
+Team: BitWikk <br>
 Application name: BitWikk
 
 <h2>Team Overview</h2>
