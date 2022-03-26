@@ -33,5 +33,5 @@ The search results page features the pictures of each article very prominently, 
 <br>
 The login page allows the user to sign in or sign up.
 
-Article Page Wireframe
+<h3>Article Page Wireframe<h3> <br>
 <img src="imgs/Wireframe_Article_Page.jpg" height="500px">
