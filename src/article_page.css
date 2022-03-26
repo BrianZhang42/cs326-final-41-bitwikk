@@ -4,25 +4,7 @@
     grid-template-columns: 200px 200px 200px;
     grid-gap: 80px;
 }
-.panel {
-    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
-    margin-bottom: 15px;
-}
 
-.panel-body {
-    padding: 25px 20px;
-}
-.btn {
-    float: right;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
 .ml {
     margin-left: 10px;
-}
-.homepagelink {
-    margin-right: 15px;
-}
-footer {
-    background-color: rgb(233, 230, 230);
 }
