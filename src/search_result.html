@@ -20,7 +20,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link active" href=".">Home</a>
             </li>
@@ -34,7 +34,7 @@
               <a class="nav-link active" href="./random">Random Article</a>
             </li>
           </ul>
-          <form class="d-flex" id="searchForm">
+          <form class="d-flex ms-auto" id="searchForm">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
@@ -119,14 +119,23 @@
 
     </main>
 
-    <footer class="container-fluid bg-dark py-3">
+    <footer class="container-fluid bg-dark">
       <div class="container">
-        <p class="mb-0">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href=".">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./404.html">Contact us</a>
+          </li>
+        </ul>
+        <!-- <p class="mb-0">
           <a href="." class="text-muted" style="margin-right: 15px;">Homepage</a>
           <a href="./404.html" class="text-muted">Contact us</a>
-        </p>
+        </p> -->
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>
