@@ -47,7 +47,7 @@
         <div class="col-md-8">
           <hr/>
 
-          <article class="blog-post">
+          <article class="blog-post mb-3">
             <h1 class="blog-post-title">Article Title</h1>
             <hr>
             <p class="blog-post-meta">Date created</a></p>
@@ -59,7 +59,7 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corporis expedita rem sequi ipsam et distinctio magni, inventore ullam ab numquam voluptatem. Excepturi quia commodi ullam quae deleniti labore dicta.
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odio repellat eius corrupti aspernatur temporibus eum laudantium inventore, facilis perferendis tempore similique nobis aut impedit sit dolores enim amet reiciendis!
             </p>
-            <svg class="bd-placeholder-img float-end ml" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
+            <svg class="bd-placeholder-img float-end ms-3" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
             <ul>
               <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, vel. Et sequi magni quisquam, cum possimus aspernatur vitae quos saepe culpa quas atque aliquam accusantium voluptatem corporis laboriosam, laborum omnis.</li>
               <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, nostrum iusto et in non illum incidunt placeat obcaecati! Accusamus illo hic asperiores maiores itaque porro aperiam perspiciatis nostrum dignissimos commodi?</li>
@@ -68,29 +68,47 @@
             <h2>Topic Info 2</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas nulla perspiciatis fugiat aperiam modi maiores ab perferendis. Inventore provident corrupti atque eum, ea quod obcaecati dignissimos aspernatur hic, omnis fugit.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem eveniet nam magnam assumenda adipisci ullam minima vitae, alias id illo? Cupiditate sapiente voluptatum veniam quibusdam dolores quod optio aut temporibus!.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aut laborum, at inventore ut magnam reiciendis corrupti optio, maiores unde hic voluptas. Optio error aspernatur beatae, repellat placeat fugiat aliquid.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae incidunt quod aliquid. Cupiditate dolores officiis sequi doloremque. Nemo esse beatae exercitationem reprehenderit repellendus perferendis, vitae animi consectetur dolore libero aliquam.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aut laborum, at inventore ut magnam reiciendis corrupti optio, maiores unde hic voluptas. Optio error aspernatur beatae, repellat placeat fugiat aliquid.
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae incidunt quod aliquid. Cupiditate dolores officiis sequi doloremque. Nemo esse beatae exercitationem reprehenderit repellendus perferendis, vitae animi consectetur dolore libero aliquam.
             </p>
 
             <div class="p-4 p-md-4 mb-4 text-white rounded bg-dark">
-              <div class="col-md-6 px-0">
-                <h1 class="display-4 fst-italic mb-3">Gallery</h1>
-                <div class="gallery">
-                  <svg class="bd-placeholder-img" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
-                  <svg class="bd-placeholder-img" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
-                  <svg class="bd-placeholder-img" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
+              <h1 class="display-4 fst-italic mb-3">Gallery</h1>
+              <div id="galleryCarouselControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner d-flex align-items-center">
+                  <div class="carousel-item active">
+                    <div class="row align-items-center">
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?1"></div>
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?2"></div>
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?3"></div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row align-items-center">
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?4"></div>
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?5"></div>
+                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?6"></div>
+                    </div>
+                  </div>
                 </div>
+                <button class="carousel-control-prev" data-bs-target="#galleryCarouselControls" role="button" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <bytton class="carousel-control-next" data-bs-target="#galleryCarouselControls" role="button" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
               </div>
             </div>
+
           </article>
 
           <div class="col-md-8">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div class="col p-4 d-flex flex-column position-static">
-                <h3 class="mb-5">Comments</h3>
+                <h3 class="mb-4">Comments</h3>
                 <div>
-                    <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
-                    <button class="btn btn-outline-success my-2" type="submit">Post</button>
+                  <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+                  <button class="btn btn-outline-success my-2" type="submit">Post</button>
                 </div>
               </div>
             </div>
