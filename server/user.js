@@ -4,17 +4,55 @@ import jwt from "jwt-simple";
 
 export const router = express.Router();
 
+// simulating database
+const users = {};
+
 // require("dotenv").config({ path: __dirname + "/../private.env" });
 
 // const saltRounds = 10;
 // const SECRET = process.env.SECRET;
 
-router.post("/login", async (request, response) => {});
+router.post("/login", async (request, response) => {
+    try {
+        response.status(200);
+    } catch (e) {
+        response.status(500);
+    }
+    response.end();
+});
 
-router.get("/get", async (request, responses) => {});
-router.post("/create", async (request, response) => {});
-router.post("/edit", async (request, response) => {});
-router.post("/delete", async (request, response) => {});
+// empty request body
+router.get("/get", async (request, responses) => {
+    const { userID } = req.params;
+    const user = users[userID];
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: `User ${userID} not found` });
+}});
+
+
+// request body: { username: string, email: string, password: string }
+router.post("/create", async (request, response) => {
+    let user = req.body;
+    const newID = (Object.keys(users).length)+1;
+    user.ID = newID;
+    users[user.ID] = user;
+    // Status code 201: Created
+    res.status(201).json(user);
+});
+
+// request body: { ID: number, username: string, email: string, password: string }
+router.post("/edit", async (request, response) => {
+    let user = req.body;
+    users[user.ID] = user;
+    res.status(200).json(user);
+});
+
+
+router.post("/delete", async (request, response) => {
+    users[]
+});
 
 // router.post("/user", (req, res) => {
 //     bcrypt.genSalt(saltRounds, (err, salt) => {

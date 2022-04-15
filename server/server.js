@@ -14,6 +14,7 @@ const comments = {};
 // mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
 
 const app = express();
+app.use(express.json());
 
 app.use("/user", userRouter);
 
@@ -46,7 +47,7 @@ app.get('/article/:articleID', (req, res) => {
     } else {
       res.status(404).json({ message: `Article ${name} not found` });
     }
-  });
+});
 
 //   request body: { articleID: number, title: string, body: string }
 app.post('/article/edit', (req, res) => {
@@ -72,34 +73,35 @@ app.post('/article/comment/:articleID/:userID', (req, res) => {
     comments[comment.ID] = comment;
 });
 
-app.get('/category/consoles', (req, res) => {
-    let article = {};
+app.get('/category/:category', (req, res) => {
+    const { category } = req.params;
+    let articlez = {};
     for (const i in articles) {
-        if (i.category == "console") {
-            articles[i] = {"title": i.title};
+        if (i.category == category) { //can be "console" or "game"
+            articlez[i] = {"title": i.title};
         }
     }
-    if (article) {
-      res.json(article);
+    if (articlez) {
+      res.json(articlez);
     } else {
-      res.status(404).json({ message: `Article ${name} not found` });
+      res.status(404).json({ message: `No entries found in the ${name} category` });
     }
 });
 
-app.get('/category/games', (req, res) => {
-    let article = {};
+app.get('/article/search/:query', (req, res) => {
+    const { query } = req.params;
+    let articlez = {};
     for (const i in articles) {
-        if (i.category == "game") {
-            articles[i] = {"title": i.title};
+        if (i.title.includes(query)) { //can be "console" or "game"
+            articlez[i] = {"title": i.title};
         }
     }
-    if (article) {
-      res.json(article);
+    if (articlez) {
+      res.json(articlez);
     } else {
-      res.status(404).json({ message: `Article ${name} not found` });
+      res.status(404).json({ message: `No entries found in the ${name} category` });
     }
 });
-
 
 app.get('/', function(req, res) {res.redirect('/index')});
 
