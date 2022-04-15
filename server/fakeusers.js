@@ -1,4 +1,4 @@
-export let user = [
+export let users = [
     {
         userId: 1,
         email: "cringe@gmail.com",

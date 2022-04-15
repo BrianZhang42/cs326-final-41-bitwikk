@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
-import user from "./fakeusers.js";
+import { users } from "./fakeusers.js";
 
 export const router = express.Router();
 

@@ -26,6 +26,13 @@ app.use("/user", userRouter);
 //  request body: { content: string }
 app.post('article/create/:title/:contributor/:category', (req, res) => {
     const article = req.params;
+    if(article.title == undefined || article.contributor == undefined ||
+        article.category == undefined) {
+        res.status(400).json({message: `title, contributor, and category fields must be defined`})
+    }
+    if ((article.category != "game" && article.category != "console")) {
+        res.status(418).json({message: `category field must be either 'game' or 'console'.`}) 
+    }
     let { content } = req.body;
     article.content = content;
     const newID = (Object.keys(articles).length)+1;
@@ -92,7 +99,7 @@ app.get('/article/search/:query', (req, res) => {
     const { query } = req.params;
     let articlez = {};
     for (const i in articles) {
-        if (i.title.includes(query)) { //can be "console" or "game"
+        if (i.title.includes(query)) {
             articlez[i] = {"title": i.title};
         }
     }

@@ -1,4 +1,4 @@
-import {user, comments, articles} from "./fakeusers.js";
+import {users, comments, articles} from "./fakeusers.js";
 
 export function createUser(email, name, password) {
     const newUser = {
@@ -7,21 +7,21 @@ export function createUser(email, name, password) {
         username: name,
         password: password
     };
-    user.push(newUser);
+    users.push(newUser);
     return newUser;
 }
 
 // get index of user with userId
 export function getUserIndex(id) {
-    return user.findIndex((a) => a.userId === userId);
+    return users.findIndex((a) => a.userId === userId);
 }
 
 export function getUser(id) {
-    return user.find((user) => user.userId === userId);
+    return users.find((user) => user.userId === userId);
 }
 
 export function editUser(id, toEdit, email, password) {
-    const person = user[getUserIndex(id)];
+    const person = users[getUserIndex(id)];
     if (toEdit === "email") {
         person.email = email;
     }
@@ -32,7 +32,7 @@ export function editUser(id, toEdit, email, password) {
 }
 
 export function deleteUser(id) {
-    user.splice(user.findIndex((a) => a.userId === userId), 1);
+    users.splice(users.findIndex((a) => a.userId === userId), 1);
 }
 
 export function checkRegister(info) {
@@ -41,23 +41,35 @@ export function checkRegister(info) {
     const password = info.password;
     const password2 = info.password2;
     if (password != password2) {
-        console.error("Passwords do not match");
-        return;
+        return {error: "Passwords do not match"};
     }
     if (password === undefined || password2 === undefined) {
-        console.error("No password entered");
-        return;
+        return {error: "No password entered"};
     }
     if (email === undefined) {
-        console.error("No email entered");
-        return;
+        return {error: "No email entered"};
     }
     if (username === undefined) {
-        console.error("No password entered");
-        return;
+        return {error: "No username entered"};
     }
-    if (!user.every((a) => a.email !== email && a.username !== username)) {
-        return {error: "email or username is taken"}
+    if (!users.every((a) => a.email !== email && a.username !== username)) {
+        return {error: "email or username is taken"};
+    }
+    return true;
+}
+
+export function checkUpdate(info) {
+    const email = info.email;
+    const password = info.password;
+    const password2 = info.password2;
+    if (password != password2) {
+        return {error: "Passwords do not match"};
+    }
+    if (password === undefined || password2 === undefined) {
+        return {error: "No password entered"};
+    }
+    if (email === undefined) {
+        return {error: "No email entered"};
     }
     return true;
 }
