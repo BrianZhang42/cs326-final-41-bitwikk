@@ -1,0 +1,10 @@
+{
+  "name": "BitWikk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
