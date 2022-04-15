@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as url from 'url';
 import express from 'express';
 import { readFile, writeFile, access } from 'fs/promises';
+import { router as userRouter } from "./user.js";
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
@@ -13,7 +14,9 @@ const comments = {};
 // mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
 
 const app = express();
-const router = express.Router();
+
+app.use("/user", userRouter);
+
 // router.use(bodyParser.urlencoded({
 //     extended: false
 // }));

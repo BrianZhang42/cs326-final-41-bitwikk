@@ -1,21 +1,20 @@
-import express from 'express';
-const bcrypt = require("bcrypt-nodejs");
-const jwt = require("jwt-simple");
-const User = require("../models/user");
+import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jwt-simple";
 
-const router = express.Router();
+export const router = express.Router();
 
 // require("dotenv").config({ path: __dirname + "/../private.env" });
 
-const saltRounds = 10;
-const SECRET = process.env.SECRET;
+// const saltRounds = 10;
+// const SECRET = process.env.SECRET;
 
-router.post("/user/login", async (request, response) => {});
+router.post("/login", async (request, response) => {});
 
-router.get("/user/get", async (request, responses) => {});
-router.post("/user/create", async (request, response) => {});
-router.post("/user/edit", async (request, response) => {});
-router.post("/user/delete", async (request, response) => {});
+router.get("/get", async (request, responses) => {});
+router.post("/create", async (request, response) => {});
+router.post("/edit", async (request, response) => {});
+router.post("/delete", async (request, response) => {});
 
 // router.post("/user", (req, res) => {
 //     bcrypt.genSalt(saltRounds, (err, salt) => {
@@ -57,6 +56,3 @@ router.post("/user/delete", async (request, response) => {});
 //         }
 //     });
 // });
-
-
-export router;

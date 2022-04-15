@@ -5,6 +5,8 @@
   "main": "server.js",
   "type": "module",
   "dependencies": {
-    "express": "^4.17.3"
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
+    "jwt-simple": "^0.5.6"
   }
 }

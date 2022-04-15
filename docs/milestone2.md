@@ -1,5 +1,11 @@
 <h1>BitWikk Milestone 2</h1>
 
+<h2>Division of Labor</h2>
+Donald Hurld, DonaldHurldUni - <br>
+Einar Klarlund, einarklarlund - <br>
+Brian Zhang, BrianZhang42 - <br>
+Neil Gupta, nog642 - <br>
+
 APIs
 
 Objects:
