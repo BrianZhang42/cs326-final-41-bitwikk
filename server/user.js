@@ -1,11 +1,9 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
+import user from "./fakeusers.js";
 
 export const router = express.Router();
-
-// simulating database
-const users = {};
 
 // require("dotenv").config({ path: __dirname + "/../private.env" });
 
@@ -31,7 +29,6 @@ router.get("/get", async (request, responses) => {
       res.status(404).json({ message: `User ${userID} not found` });
 }});
 
-
 // request body: { username: string, email: string, password: string }
 router.post("/create", async (request, response) => {
     let user = req.body;
@@ -49,9 +46,11 @@ router.post("/edit", async (request, response) => {
     res.status(200).json(user);
 });
 
-
+// empty request body
 router.post("/delete", async (request, response) => {
-    users[]
+    const { userID } = request.params;
+    users[userID] = undefined;
+    res.status(200).end();
 });
 
 // router.post("/user", (req, res) => {
