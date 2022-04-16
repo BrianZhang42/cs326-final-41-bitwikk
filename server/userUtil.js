@@ -1,6 +1,10 @@
 import { users } from "./fakedata.js";
+import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
+
+// TODO: replace with database
+const sessions = new Map();
 
 export function validateRegisterBody(body, response) {
     for (const attr of ["username", "password"]) {
@@ -37,7 +41,7 @@ export function createUser(username, password) {
     };
     users.push(newUser);
     console.log(`Created new user: ${username}`);
-    return newUser;
+    return createSession(username);
 }
 
 export function getUser(username) {
@@ -62,6 +66,28 @@ export function getUserProfile(username) {
     return {
         username: user.username
     };
+}
+
+function createSession(username) {
+    const sessionID = randomUUID();
+    sessions.set(sessionID, {
+        username: username
+    });
+    return {
+        sessionID: sessionID,
+        username: username
+    };
+}
+
+function checkSession(username, sessionID) {
+    if (!sessions.has(sessionID)) {
+        return false;
+    }
+    const session = sessions.get(sessionID);
+    if (session.username !== username) {
+        return false
+    }
+    return true;
 }
 
 // const saltRounds = 10;
@@ -94,14 +120,6 @@ export function getUserProfile(username) {
 //             res.status(401).json({ error: "Invalid username" });
 //         } else {
 //             bcrypt.compare(req.body.password, user.password, (err, valid) => {
-//                 if (err) {
-//                     res.status(400).json({ error: "Failed to authenticate." });
-//                 } else if (valid) {
-//                     const token = jwt.encode({ username: user.username }, SECRET);
-//                     res.clearCookie("x-auth").cookie("x-auth", token, { expires: new Date(Date.now() + 90000), httpOnly: true}).redirect("/index");
-//                 } else {
-//                     res.status(401).json({ error: "Wrong password" });
-//                 }
 //             });
 //         }
 //     });

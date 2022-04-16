@@ -36,8 +36,10 @@ router.post("/create", asyncRoute(async (request, response) => {
         response.json(checkResult);
         return;
     }
-    const user = createUser(...checkResult);
-    response.status(200).json(user);
+    const {username, sessionID} = createUser(...checkResult);
+    response.cookie("user", username);
+    response.cookie("session", sessionID);
+    response.status(200).end();
 }));
 
 // request body: { username: string, password: string }
