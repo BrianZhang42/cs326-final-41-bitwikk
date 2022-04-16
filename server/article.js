@@ -12,10 +12,6 @@ router.get("/:name", asyncRoute(async (request, response) => {
     }
 }));
 
-router.post("/:name/create", asyncRoute(async (request, response) => {
-    console.log(request.params.name);
-}));
-
 router.post("/:name/edit", asyncRoute(async (request, response) => {
     console.log(request.params.name);
 }));

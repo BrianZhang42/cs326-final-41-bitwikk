@@ -33,7 +33,7 @@ app.get('/article/:articleID', (req, res) => {
 });
 
 //  request body: { content: string }
-app.post('article/create/:title/:contributor/:category', (req, res) => {
+app.post("/create/:title/:contributor/:category", (req, res) => {
     const {title, contributor, category} = req.params;
     const { content } = req.body;
     const [success, result] = createArticle(title, content, contributor,
@@ -99,5 +99,5 @@ app.get('/article/search/:query', (req, res) => {
     }
 });
 
-app.use(express.static("static", { extensions: ["html"] }));
+app.use(express.static("static"));
 app.listen(3000, "", () => console.log("app is listening on port 3000!"));
