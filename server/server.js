@@ -1,7 +1,8 @@
-import express from 'express';
+import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { createArticle, getArticle, getCategory } from './articleUtil.js';
+import { createArticle, getCategory } from './articleUtil.js';
+import { asyncRoute } from './utils.js';
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
@@ -15,25 +16,12 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRouter);
-// app.use("/article", articleRouter);
+app.use("/article", articleRouter);
 
-// router.use(bodyParser.urlencoded({
-//     extended: false
-// }));
 // router.use(cookieParser());
 
-app.get('/article/:articleID', (req, res) => {
-    const { articleID } = req.params;
-    const article = getArticle(articleID);
-    if (article !== undefined) {
-        res.json(article);
-    } else {
-        res.status(404).end();
-    }
-});
-
 //  request body: { content: string }
-app.post("/create/:title/:contributor/:category", (req, res) => {
+app.post("/create/:title/:contributor/:category", asyncRoute((req, res) => {
     const {title, contributor, category} = req.params;
     const { content } = req.body;
     const [success, result] = createArticle(title, content, contributor,
@@ -47,7 +35,7 @@ app.post("/create/:title/:contributor/:category", (req, res) => {
     } else {
         res.status(400).json(result);
     }
-});
+}));
 
 // request body: { articleID: string, title: string, body: string }
 app.post('/article/edit', (req, res) => {
@@ -73,7 +61,7 @@ app.post('/article/comment/:articleID/:userID', (req, res) => {
     comments[comment.ID] = comment;
 });
 
-app.get('/category/:category', (req, res) => {
+app.get("/category/:category", asyncRoute((req, res) => {
     const { category } = req.params;
     const [success, result] = getCategory(category);
     if (!success) {
@@ -82,9 +70,9 @@ app.get('/category/:category', (req, res) => {
         return;
     }
     res.json(result);
-});
+}));
 
-app.get('/article/search/:query', (req, res) => {
+app.get('/article/search/:query', asyncRoute((req, res) => {
     const { query } = req.params;
     let articlez = {};
     for (const i in articles) {
@@ -95,9 +83,10 @@ app.get('/article/search/:query', (req, res) => {
     if (articlez) {
       res.json(articlez);
     } else {
-      res.status(404).json({ message: `No entries found in the ${name} category` });
+      res.status(404).json({message: `No entries found in the ${name} category`});
     }
-});
+}));
 
 app.use(express.static("static"));
+
 app.listen(3000, "", () => console.log("app is listening on port 3000!"));
