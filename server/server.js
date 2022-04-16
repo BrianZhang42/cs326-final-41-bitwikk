@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as url from 'url';
 import express from 'express';
 import { router as userRouter } from "./user.js";
+import { router as articleRouter } from "./article.js";
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRouter);
+// app.use("/article", articleRouter);
 
 // router.use(bodyParser.urlencoded({
 //     extended: false
@@ -109,7 +111,5 @@ app.get('/article/search/:query', (req, res) => {
     }
 });
 
-app.get('/', function(req, res) {res.redirect('/index')});
-
-app.use(express.static("public", { index: false, extensions: ["html"] }));
+app.use(express.static("static", { extensions: ["html"] }));
 app.listen(3000, "", () => console.log("app is listening on port 3000!"));

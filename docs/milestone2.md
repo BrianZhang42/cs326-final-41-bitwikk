@@ -15,12 +15,13 @@ Comment - ID, username, articleID, content
 
 Note: The article content will be storeed as markdown and will need to be translated into html. It could be done on the client or the server side.
 
-GET  /category?name=category -
-GET  /article/search?query=value
 GET  /article/get?name=value -
+GET  /article/search?query=value
 POST /article/create -
 POST /article/edit -
 POST /article/comment -
+
+GET  /category?name=category -
 
 POST /user/login
 GET  /user/get?user=value
