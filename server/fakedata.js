@@ -65,4 +65,3 @@ export let articles = [
         category: "game"
     }
 ]
-
