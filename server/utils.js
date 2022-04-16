@@ -1,3 +1,8 @@
+import {fileURLToPath} from "url";
+import path from "path";
+
+export const projectRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+
 export const asyncRoute = route =>
                           (req, res, next = console.error) =>
                           Promise.resolve(route(req, res)).catch(next);

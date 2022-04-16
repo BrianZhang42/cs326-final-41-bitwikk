@@ -1,18 +1,19 @@
 import express from "express";
-import { asyncRoute, requireParams } from "./utils.js"
+import { projectRoot, asyncRoute, requireParams } from "./utils.js"
 import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
 
 // TODO: serve the HTML here
-// router.get("/:articleID", asyncRoute(async (request, response) => {
-//     const article = getArticle(request.params.articleID);
-//     if (article === undefined) {
-//         response.status(404).end();
-//         return;
-//     }
-//     response.json(article);
-// }));
+router.get("/:articleID", asyncRoute(async (request, response) => {
+    // make sure the article exists
+    const article = getArticle(request.params.articleID);
+    if (article === undefined) {
+        response.status(404).sendFile(`${projectRoot}/static/404.html`);
+        return;
+    }
+    response.sendFile(`${projectRoot}/static/article_page.html`);
+}));
 
 router.get("/get", asyncRoute(async (request, response) => {
     if (!requireParams(request.query, ["id"], response)) {

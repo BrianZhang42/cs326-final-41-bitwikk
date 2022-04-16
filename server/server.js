@@ -2,7 +2,7 @@ import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles } from './articleUtil.js';
-import { asyncRoute } from './utils.js';
+import { projectRoot, asyncRoute } from './utils.js';
 
 // const cookieParser = require("cookie-parser");
 
@@ -59,6 +59,6 @@ app.get('/article/search', asyncRoute((request, response) => {
     res.json(result);
 }));
 
-app.use(express.static("static"));
+app.use(express.static(`${projectRoot}/static`));
 
 app.listen(3000, "", () => console.log("app is listening on port 3000!"));
