@@ -4,7 +4,6 @@ import { addComment, checkComment, checkEdit, editArticle, getArticle } from './
 
 export const router = express.Router();
 
-// TODO: serve the HTML here
 router.get("/:articleID", asyncRoute(async (request, response) => {
     // make sure the article exists
     const article = getArticle(request.params.articleID);

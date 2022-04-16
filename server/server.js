@@ -1,8 +1,9 @@
 import express from "express";
+import parseurl from "parseurl";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles } from './articleUtil.js';
-import { projectRoot, asyncRoute } from './utils.js';
+import { projectRoot, asyncRoute, serve404 } from './utils.js';
 
 // const cookieParser = require("cookie-parser");
 
@@ -59,6 +60,50 @@ app.get('/article/search', asyncRoute((request, response) => {
     res.json(result);
 }));
 
-app.use(express.static(`${projectRoot}/static`));
+// static serving
+app.use((request, response, next) => {
+    if (request.method !== "GET" && request.method !== "HEAD") {
+        next();
+        return;
+    }
+    if (request.originalUrl == "/") {
+        response.sendFile(`${projectRoot}/static/index.html`, {
+            lastModified: false
+        });
+        return;
+    }
+
+    const serveDirect = () =>
+        response.sendFile(`${projectRoot}/static${request.originalUrl}`, {
+            lastModified: false
+        }, err => {
+            if (err !== undefined) {
+                serve404(response);
+            }
+        });
+
+    if (    request.originalUrl.endsWith(".js") ||
+            request.originalUrl.endsWith(".css") ||
+            request.originalUrl.endsWith(".png")) {
+        serveDirect();
+        return;
+    }
+
+    // article_page.html is served under /article/{ID}
+    // so don't allow direct access
+    if (request.originalUrl == "/article_page.html") {
+        serve404(response);
+        return;
+    }
+
+    // try adding html
+    response.sendFile(`${projectRoot}/static${request.originalUrl}.html`, {
+        lastModified: false
+    }, err => {
+        if (err !== undefined) {
+            serve404(response);
+        }
+    });
+});
 
 app.listen(3000, "", () => console.log("app is listening on port 3000!"));
