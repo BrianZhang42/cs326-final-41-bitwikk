@@ -1,11 +1,9 @@
 import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { checkEdit, createArticle, editArticle, getCategory, searchArticles } from './articleUtil.js';
+import { createArticle, getCategory, searchArticles } from './articleUtil.js';
 import { asyncRoute } from './utils.js';
 
-// const bodyParser = require("body-parser");
-// const User = require("./models/user");
 // const cookieParser = require("cookie-parser");
 
 // const mongoose = require("mongoose");

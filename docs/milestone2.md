@@ -15,7 +15,9 @@ API:
 
 Note: The article content will be stored as markdown and will need to be translated into html. It could be done on the client or the server side.
 
-GET  /article/{ID}
+GET  /article/{ID} serves the static article.html
+
+GET  /article/get?id={ID} returns a JSON with article content
 POST /create
         Requires login (cookie header)
         Body: {title: title, content: content}
