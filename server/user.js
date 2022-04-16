@@ -1,14 +1,11 @@
 import express from "express";
 import { asyncRoute, requireParams } from "./utils.js"
-import { getUser, validateSignUpBody,
-         createUser, deleteUser, checkRegister } from "./userUtil.js"
+import { validateRegisterBody, checkRegister, createUser,
+         getUser,
+         validateUpdateBody, checkUpdate, editUser,
+         deleteUser } from "./userUtil.js"
 
 export const router = express.Router();
-
-// require("dotenv").config({ path: __dirname + "/../private.env" });
-
-// const saltRounds = 10;
-// const SECRET = process.env.SECRET;
 
 router.post("/login", async (request, response) => {
     try {
@@ -38,21 +35,33 @@ router.post("/create", asyncRoute(async (request, response) => {
     if (!validateRegisterBody(request.body)) {
         return;
     }
-    const [registerSuccess, registerResult] = checkRegister(request.body);
-    if (!registerSuccess) {
+    const [checkSuccess, checkResult] = checkRegister(request.body);
+    if (!checkSuccess) {
         response.status(400);
-        response.json(registerResult);
+        response.json(checkResult);
         return;
     }
-    const user = createUser(...registerResult);
+    const user = createUser(...checkResult);
     response.status(200).json(user);
 }));
 
 // request body: { ID: number, username: string, email: string, password: string }
 router.post("/edit", asyncRoute(async (request, response) => {
-    let user = req.body;
-    users[user.ID] = user;
-    res.status(200).json(user);
+    if (!validateUpdateBody(request.body)) {
+        return;
+    }
+    const [checkSuccess, checkResult] = checkUpdate(request.body);
+    if (!checkSuccess) {
+        response.status(400);
+        response.json(checkResult);
+        return;
+    }
+    const [success, user] = editUser(...checkResult);
+    if (success) {
+        response.status(200).json(user);
+    } else {
+        response.status(500).json({message: "Unexpected error"});
+    }
 }));
 
 // empty request body
@@ -66,43 +75,3 @@ router.post("/delete", asyncRoute(async (request, response) => {
     res.status(200).end();
 }));
 
-// router.post("/user", (req, res) => {
-//     bcrypt.genSalt(saltRounds, (err, salt) => {
-//         bcrypt.hash(req.body.password, salt, null, (err, hash) => {
-//             let newUser = new User({
-//                 username: req.body.username,
-//                 password: hash,
-//                 email: req.body.email,
-//             });
-
-//             newUser.save((err) => {
-//                 if (err) {
-//                     res.status(500).json({ error: "Error creating user" });
-//                 } else {
-//                     res.redirect("/login"); // New user created
-//                 }
-//             });
-//         });
-//     });
-// });
-
-// router.post("/auth", (req, res) => {
-//     User.findOne({ username: req.body.username }, (err, user) => {
-//         if (err) throw err;
-
-//         if (!user) {
-//             res.status(401).json({ error: "Invalid username" });
-//         } else {
-//             bcrypt.compare(req.body.password, user.password, (err, valid) => {
-//                 if (err) {
-//                     res.status(400).json({ error: "Failed to authenticate." });
-//                 } else if (valid) {
-//                     const token = jwt.encode({ username: user.username }, SECRET);
-//                     res.clearCookie("x-auth").cookie("x-auth", token, { expires: new Date(Date.now() + 90000), httpOnly: true}).redirect("/index");
-//                 } else {
-//                     res.status(401).json({ error: "Wrong password" });
-//                 }
-//             });
-//         }
-//     });
-// });

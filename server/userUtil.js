@@ -2,6 +2,41 @@ import {users, comments, articles} from "./fakeusers.js";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 
+export function validateRegisterBody(body, response) {
+    for (const attr of ["username", "password", "password2"]) {
+        if (!body.hasOwnProperty(attr)) {
+            response.status(400);
+            response.send(`Body missing required attribute: ${attr}`);
+            return false;
+        }
+    }
+    return true;
+}
+
+export function checkRegister({ username, password, password2 }) {
+    if (!username) {
+        return [false, {invalid: "username",
+                        message: "No username entered"}];
+    }
+    if (!password) {
+        return [false, {invalid: "password",
+                        message: "No password entered"}];
+    }
+    if (!password2) {
+        return [false, {invalid: "password2",
+                        message: "Please re-enter password"}];
+    }
+    if (password != password2) {
+        return [false, {invalid: "password2",
+                        message: "Passwords do not match"}];
+    }
+    if (!users.every(user => user.username !== username)) {
+        return [false, {invalid: "username",
+                        message: "username is taken"}];
+    }
+    return [true, [username, password]];
+}
+
 export function createUser(username, password) {
     // TODO: password hashing and salting
     const newUser = {
@@ -12,17 +47,61 @@ export function createUser(username, password) {
     return newUser;
 }
 
-// get index of user with userId
+export function getUser(username) {
+    return users.find(user => user.username === username);
+}
+
+// get index of user in list
+// (probably won't be needed after we have a databse)
 function getUserIndex(username) {
     return users.findIndex(user => user.username === username);
 }
 
-export function getUser(username) {
-    return users.find((user) => user.username === username);
-}
+// const saltRounds = 10;
 
-export function validateRegisterBody(body, response) {
-    for (const attr of ["username", "password1", "password2"]) {
+// router.post("/user", (req, res) => {
+//     bcrypt.genSalt(saltRounds, (err, salt) => {
+//         bcrypt.hash(req.body.password, salt, null, (err, hash) => {
+//             let newUser = new User({
+//                 username: req.body.username,
+//                 password: hash,
+//                 email: req.body.email,
+//             });
+
+//             newUser.save((err) => {
+//                 if (err) {
+//                     res.status(500).json({ error: "Error creating user" });
+//                 } else {
+//                     res.redirect("/login"); // New user created
+//                 }
+//             });
+//         });
+//     });
+// });
+
+// router.post("/auth", (req, res) => {
+//     User.findOne({ username: req.body.username }, (err, user) => {
+//         if (err) throw err;
+
+//         if (!user) {
+//             res.status(401).json({ error: "Invalid username" });
+//         } else {
+//             bcrypt.compare(req.body.password, user.password, (err, valid) => {
+//                 if (err) {
+//                     res.status(400).json({ error: "Failed to authenticate." });
+//                 } else if (valid) {
+//                     const token = jwt.encode({ username: user.username }, SECRET);
+//                     res.clearCookie("x-auth").cookie("x-auth", token, { expires: new Date(Date.now() + 90000), httpOnly: true}).redirect("/index");
+//                 } else {
+//                     res.status(401).json({ error: "Wrong password" });
+//                 }
+//             });
+//         }
+//     });
+// });
+
+export function validateUpdateBody(body, response) {
+    for (const attr of ["username", "password", "password2"]) {
         if (!body.hasOwnProperty(attr)) {
             response.status(400);
             response.send(`Body missing required attribute: ${attr}`);
@@ -32,56 +111,48 @@ export function validateRegisterBody(body, response) {
     return true;
 }
 
-export function editUser(username, password) {
-    const i = getUserIndex(username);
-    const updatedUser = {
-        username: username,
-        password: password
-    }
-    users[i] = updatedUser;
-    return updatedUser;
-}
-
-export function deleteUser(username) {
-    users.splice(users.findIndex(user => user.username === username), 1);
-}
-
-export function checkRegister({ username, password1, password2 }) {
+export function checkUpdate({username, password, password2}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
     }
-    if (!password1) {
-        return [false, {invalid: "password1",
+    if (!password) {
+        return [false, {invalid: "password",
                         message: "No password entered"}];
     }
     if (!password2) {
         return [false, {invalid: "password2",
                         message: "Please re-enter password"}];
     }
-    if (password1 != password2) {
+    if (password != password2) {
         return [false, {invalid: "password2",
                         message: "Passwords do not match"}];
     }
-    if (!users.every(user => user.username !== username)) {
+    if (getUser(username) === undefined) {
         return [false, {invalid: "username",
-                        message: "username is taken"}];
+                        message: `User ${username} does not exist`}]
     }
-    return [true, [username, password1]];
+    return [true, [username, password]];
 }
 
-export function checkUpdate(info) {
-    const email = info.email;
-    const password = info.password;
-    const password2 = info.password2;
-    if (password != password2) {
-        return {error: "Passwords do not match"};
+export function editUser(username, password) {
+    const i = getUserIndex(username);
+    if (i === undefined) {
+        return [false, null];
     }
-    if (password === undefined || password2 === undefined) {
-        return {error: "No password entered"};
+    const updatedUser = {
+        username: username,
+        password: password
     }
-    if (email === undefined) {
-        return {error: "No email entered"};
+    users[i] = updatedUser;
+    return [true, updatedUser];
+}
+
+export function deleteUser(username) {
+    const i = getUserIndex(username);
+    if (i === undefined) {
+        return false;
     }
+    users.splice(i, 1);
     return true;
 }
