@@ -73,3 +73,17 @@ export function getArticle(articleID) {
 function getArticleIndex(articleID) {
     return articles.findIndex(article => article.ID === articleID);
 }
+
+export function getCategory(category) {
+    if ((category != "game" && category != "console")) {
+        return [false, `category field must be either 'game' or 'console'.`];
+    }
+    const categoryArticles = articles.filter(article => article.category === category);
+
+    // only return some keys, not all the content
+    // maybe we will add preview data here later
+    return [true, categoryArticles.map(article => ({
+        ID: article.ID,
+        title: article.title
+    }))];
+}

@@ -1,9 +1,7 @@
-import * as http from 'http';
-import * as url from 'url';
 import express from 'express';
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { createArticle, getArticle } from './articleUtil.js';
+import { createArticle, getArticle, getCategory } from './articleUtil.js';
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
@@ -77,17 +75,13 @@ app.post('/article/comment/:articleID/:userID', (req, res) => {
 
 app.get('/category/:category', (req, res) => {
     const { category } = req.params;
-    let articlez = {};
-    for (const i in articles) {
-        if (i.category == category) { //can be "console" or "game"
-            articlez[i] = {"title": i.title};
-        }
+    const [success, result] = getCategory(category);
+    if (!success) {
+        res.status(404);
+        res.json({message: result});
+        return;
     }
-    if (articlez) {
-      res.json(articlez);
-    } else {
-      res.status(404).json({ message: `No entries found in the ${name} category` });
-    }
+    res.json(result);
 });
 
 app.get('/article/search/:query', (req, res) => {
