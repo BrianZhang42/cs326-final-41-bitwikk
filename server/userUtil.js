@@ -51,6 +51,20 @@ export function getUser(username) {
     return users.find(user => user.username === username);
 }
 
+// this is for the /user/get route
+export function getUserProfile(username) {
+    const user = getUser(username);
+
+    // filter only the keys we want to return to the client.
+    // right now this has nothing useful, but in the future it will
+    // contain the user profile.
+    // we don't want to return the user entry unfiltered, because that
+    // contains the password, which the client should not have.
+    return {
+        username: user.username
+    };
+}
+
 // get index of user in list
 // (probably won't be needed after we have a databse)
 function getUserIndex(username) {

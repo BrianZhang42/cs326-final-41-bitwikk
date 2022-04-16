@@ -1,20 +1,15 @@
 import express from "express";
 import { asyncRoute, requireParams } from "./utils.js"
 import { validateRegisterBody, checkRegister, createUser,
-         getUser,
+         getUserProfile,
          validateUpdateBody, checkUpdate, editUser,
          deleteUser } from "./userUtil.js"
 
 export const router = express.Router();
 
-router.post("/login", async (request, response) => {
-    try {
-        response.status(200);
-    } catch (e) {
-        response.status(500);
-    }
-    response.end();
-});
+router.post("/login", asyncRoute(async (request, response) => {
+    throw "not implemented";
+}));
 
 // empty request body
 router.get("/get", asyncRoute(async (request, response) => {
@@ -22,11 +17,12 @@ router.get("/get", asyncRoute(async (request, response) => {
         return;
     }
     const { user } = request.query;
-    const userEntry = getUser(user);
-    if (userEntry) {
-      res.status(200).json(userEntry);
+    const userProfile = getUserProfile(user);
+
+    if (userProfile) {
+      response.status(200).json(userProfile);
     } else {
-      res.status(404).json({message: `User ${user} not found`});
+      response.status(404).json({message: `User ${user} not found`});
     }
 }));
 
@@ -72,6 +68,6 @@ router.post("/delete", asyncRoute(async (request, response) => {
     const { user } = request.query;
     // TODO: error handling
     deleteUser(user);
-    res.status(200).end();
+    response.status(200).end();
 }));
 

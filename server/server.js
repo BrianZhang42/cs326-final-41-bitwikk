@@ -1,7 +1,6 @@
 import * as http from 'http';
 import * as url from 'url';
 import express from 'express';
-import { readFile, writeFile, access } from 'fs/promises';
 import { router as userRouter } from "./user.js";
 
 // const bodyParser = require("body-parser");
@@ -31,7 +30,7 @@ app.post('article/create/:title/:contributor/:category', (req, res) => {
         res.status(400).json({message: `title, contributor, and category fields must be defined`})
     }
     if ((article.category != "game" && article.category != "console")) {
-        res.status(418).json({message: `category field must be either 'game' or 'console'.`}) 
+        res.status(418).json({message: `category field must be either 'game' or 'console'.`})
     }
     let { content } = req.body;
     article.content = content;
