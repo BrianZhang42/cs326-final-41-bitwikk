@@ -14,11 +14,8 @@ router.get("/:articleID", asyncRoute(async (request, response) => {
     response.sendFile(`${projectRoot}/static/article_page.html`);
 }));
 
-router.get("/get", asyncRoute(async (request, response) => {
-    if (!requireParams(request.query, ["id"], response)) {
-        return;
-    }
-    const article = getArticle(request.query.id);
+router.get("/:articleID/get", asyncRoute(async (request, response) => {
+    const article = getArticle(request.params.articleID);
     if (article === undefined) {
         response.status(404).end();
         return;
