@@ -27,7 +27,7 @@ router.get("/get", asyncRoute(async (request, response) => {
 
 // request body: { username: string, password: string }
 router.post("/create", asyncRoute(async (request, response) => {
-    if (!validateRegisterBody(request.body)) {
+    if (!validateRegisterBody(request.body, response)) {
         return;
     }
     const [checkSuccess, checkResult] = checkRegister(request.body);
@@ -36,13 +36,15 @@ router.post("/create", asyncRoute(async (request, response) => {
         response.json(checkResult);
         return;
     }
-    const user = createUser(...checkResult);
-    response.status(200).json(user);
+    const {username, sessionID} = createUser(...checkResult);
+    response.cookie("user", username);
+    response.cookie("session", sessionID);
+    response.status(200).end();
 }));
 
 // request body: { username: string, password: string }
 router.post("/edit", asyncRoute(async (request, response) => {
-    if (!validateUpdateBody(request.body)) {
+    if (!validateUpdateBody(request.body, response)) {
         return;
     }
     const [checkSuccess, checkResult] = checkUpdate(request.body);
