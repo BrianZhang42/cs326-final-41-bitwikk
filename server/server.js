@@ -3,12 +3,11 @@ import * as url from 'url';
 import express from 'express';
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { createArticle } from './articleUtil.js';
+import { createArticle, getArticle } from './articleUtil.js';
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
 // const cookieParser = require("cookie-parser");
-const articles = {};
 const comments = {};
 
 // const mongoose = require("mongoose");
@@ -24,6 +23,16 @@ app.use("/user", userRouter);
 //     extended: false
 // }));
 // router.use(cookieParser());
+
+app.get('/article/:articleID', (req, res) => {
+    const { articleID } = req.params;
+    const article = getArticle(articleID);
+    if (article !== undefined) {
+        res.json(article);
+    } else {
+        res.status(404).end();
+    }
+});
 
 //  request body: { content: string }
 app.post('article/create/:title/:contributor/:category', (req, res) => {
@@ -42,17 +51,7 @@ app.post('article/create/:title/:contributor/:category', (req, res) => {
     }
 });
 
-app.get('/article/:articleID', (req, res) => {
-    const { articleID } = req.params;
-    const article = articles[articleID];
-    if (article) {
-      res.json(article);
-    } else {
-      res.status(404).json({ message: `Article ${name} not found` });
-    }
-});
-
-//   request body: { articleID: number, title: string, body: string }
+// request body: { articleID: string, title: string, body: string }
 app.post('/article/edit', (req, res) => {
     const formData = req.body;
     if(formData.articleID == undefined || formData.title == undefined ||
