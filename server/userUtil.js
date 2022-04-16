@@ -21,8 +21,15 @@ export function getUser(username) {
     return users.find((user) => user.username === username);
 }
 
-export function validateSignUpBody(body) {
-    console.log(body);
+export function validateRegisterBody(body, response) {
+    for (const attr of ["username", "password1", "password2"]) {
+        if (!body.hasOwnProperty(attr)) {
+            response.status(400);
+            response.send(`Body missing required attribute: ${attr}`);
+            return false;
+        }
+    }
+    return true;
 }
 
 export function editUser(username, password) {
@@ -39,25 +46,26 @@ export function deleteUser(username) {
     users.splice(users.findIndex(user => user.username === username), 1);
 }
 
-export function checkRegister(info) {
-    // const email = info.email;
-    const username = info.username;
-    const password = info.password;
-    const password2 = info.password2;
-    if (password != password2) {
-        return {error: "Passwords do not match"};
+export function checkRegister(username, password1, password2) {
+    if (!username) {
+        return {invalid: "username",
+                message: "No username entered"};
     }
-    if (password === undefined || password2 === undefined) {
-        return {error: "No password entered"};
+    if (!password1) {
+        return {invalid: "password1",
+                message: "No password entered"};
     }
-    // if (email === undefined) {
-    //     return {error: "No email entered"};
-    // }
-    if (username === undefined) {
-        return {error: "No username entered"};
+    if (!password2) {
+        return {invalid: "password2",
+                message: "Please re-enter password"};
     }
-    if (!users.every((a) => a.email !== email && a.username !== username)) {
-        return {error: "email or username is taken"};
+    if (password1 != password2) {
+        return {invalid: "password2",
+                message: "Passwords do not match",};
+    }
+    if (!users.every(user => user.username !== username)) {
+        return {invalid: "username",
+                message: "username is taken"};
     }
     return true;
 }

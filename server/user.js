@@ -1,7 +1,7 @@
 import express from "express";
 import { asyncRoute, requireParams } from "./utils.js"
 import { getUser, validateSignUpBody,
-         createUser, deleteUser } from "./userUtil.js"
+         createUser, deleteUser, checkRegister } from "./userUtil.js"
 
 export const router = express.Router();
 
@@ -35,7 +35,17 @@ router.get("/get", asyncRoute(async (request, response) => {
 
 // request body: { username: string, email: string, password: string }
 router.post("/create", asyncRoute(async (request, response) => {
-    validateSignUpBody(request.body)
+    if (!validateRegisterBody(request.body)) {
+        return;
+    }
+    const registerResult = checkRegister(request.body.username,
+                                         request.body.password1,
+                                         request.body.password2);
+    if (registerResult !== true) {
+        response.status(400);
+        response.json(registerResult);
+        return;
+    }
     // createUser();
     // const newID = (Object.keys(users).length)+1;
     // user.ID = newID;
