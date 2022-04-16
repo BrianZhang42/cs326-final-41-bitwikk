@@ -32,9 +32,9 @@ router.post("/:articleID/edit", asyncRoute(async (request, response) => {
     const success = editArticle(request.params.articleID,
                                 ...checkResult);
     if (success) {
-        resposne.status(200).end();
+        response.status(200).end();
     } else {
-        resposne.status(500).end();
+        response.status(500).end();
     }
 }));
 
