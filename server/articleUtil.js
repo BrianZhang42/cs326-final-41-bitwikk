@@ -2,8 +2,16 @@ import { articles } from "./fakedata.js";
 import { getUser } from "./userUtil.js";
 
 function generateArticleID(title) {
-    // TODO
-    return title;
+    // don't allow non-printable characters
+    if (title.match(/\p{C}/u) !== null) {
+        return [false, "Invalid characters in title"]
+    }
+
+    // replace spaces with underscores
+    title = title.replace(" ", "_");
+
+    // URL-encode the title
+    return [true, encodeURI(title)];
 }
 
 export function createArticle(title, content, contributor, category) {
@@ -31,10 +39,18 @@ export function createArticle(title, content, contributor, category) {
         return [false, {invalid: "contributor",
                         message: `User ${contributor} does not exist`}];
     }
-    const articleID = generateArticleID(title);
+
+    const [titleValid, articleIDResult] = generateArticleID(title);
+    if (!titleValid) {
+        return [false, {invalid: "title",
+                        message: articleIDResult}];
+    }
+    // TODO: check if articleID already exists
+
     // TODO: validate content
+
     const article = {
-        ID: articleID,
+        ID: articleIDResult,
         title: title,
         content: content,
         contributers: [contributor],
