@@ -20,9 +20,10 @@ app.use("/article", articleRouter);
 // router.use(cookieParser());
 
 //  request body: { content: string }
-app.post("/create/:title/:contributor/:category", asyncRoute((req, res) => {
-    const {title, contributor, category} = req.params;
-    const { content } = req.body;
+app.post("/create", asyncRoute((req, res) => {
+    // TODO: validation
+    const { title, content } = req.body;
+    // TODO: extract contributor from login cookie
     const [success, result] = createArticle(title, content, contributor,
                                             category);
     if (success) {
@@ -35,21 +36,6 @@ app.post("/create/:title/:contributor/:category", asyncRoute((req, res) => {
         res.status(400).json(result);
     }
 }));
-
-// request body: { articleID: string, title: string, body: string }
-app.post('/article/edit', (req, res) => {
-    const [checkSuccess, checkResult] = checkEdit(req.body);
-    if (!checkSuccess) {
-        res.status(400).json(checkResult);
-        return;
-    }
-    const success = editArticle(...checkResult);
-    if (success) {
-        res.status(200).end();
-    } else {
-        res.status(500).end();
-    }
-});
 
 app.get("/category/:category", asyncRoute((req, res) => {
     const { category } = req.params;

@@ -11,7 +11,6 @@ router.post("/login", asyncRoute(async (request, response) => {
     throw "not implemented";
 }));
 
-// empty request body
 router.get("/get", asyncRoute(async (request, response) => {
     if (!requireParams(request.query, ["user"], response)) {
         return;
@@ -26,7 +25,7 @@ router.get("/get", asyncRoute(async (request, response) => {
     }
 }));
 
-// request body: { username: string, email: string, password: string }
+// request body: { username: string, password: string }
 router.post("/create", asyncRoute(async (request, response) => {
     if (!validateRegisterBody(request.body)) {
         return;
@@ -41,7 +40,7 @@ router.post("/create", asyncRoute(async (request, response) => {
     response.status(200).json(user);
 }));
 
-// request body: { ID: number, username: string, email: string, password: string }
+// request body: { username: string, password: string }
 router.post("/edit", asyncRoute(async (request, response) => {
     if (!validateUpdateBody(request.body)) {
         return;

@@ -13,20 +13,20 @@ router.get("/:articleID", asyncRoute(async (request, response) => {
     response.json(article);
 }));
 
-// router.post("/:articleID/edit", asyncRoute(async (request, response) => {
-//     const [checkSuccess, checkResult] = checkEdit(req.body);
-//     if (!checkSuccess) {
-//         response.status(400).json(checkResult);
-//         return;
-//     }
-//     const success = editArticle(request.params.articleID,
-//                                 ...checkResult);
-//     if (success) {
-//         resposne.status(200).end();
-//     } else {
-//         resposne.status(500).end();
-//     }
-// }));
+router.post("/:articleID/edit", asyncRoute(async (request, response) => {
+    const [checkSuccess, checkResult] = checkEdit(req.body);
+    if (!checkSuccess) {
+        response.status(400).json(checkResult);
+        return;
+    }
+    const success = editArticle(request.params.articleID,
+                                ...checkResult);
+    if (success) {
+        resposne.status(200).end();
+    } else {
+        resposne.status(500).end();
+    }
+}));
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {
     const [checkSuccess, checkResult] = checkComment(req.body);

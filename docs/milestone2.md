@@ -8,7 +8,7 @@ Neil Gupta, nog642 - <br>
 
 Objects:
 User - {username, password (hash and salt)}
-Article - PID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
+Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
 Comment - {ID, username, articleID, content}
 
 API:
@@ -35,5 +35,7 @@ GET  /user/get?user={username}
 POST /user/create
         Body: {username: username, password: password (plaintext)}
 POST /user/edit
+        Requires login (cookie header)
         Body: {username: username, ...additional fields}
 POST /user/delete?user={username}
+        Requires login (cookie header)
