@@ -1,4 +1,4 @@
-import {users, comments, articles} from "./fakeusers.js";
+import { users } from "./fakedata.js";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 

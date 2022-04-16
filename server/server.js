@@ -3,6 +3,7 @@ import * as url from 'url';
 import express from 'express';
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
+import { createArticle } from './articleUtil.js';
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
@@ -26,26 +27,20 @@ app.use("/user", userRouter);
 
 //  request body: { content: string }
 app.post('article/create/:title/:contributor/:category', (req, res) => {
-    const article = req.params;
-    if(article.title == undefined || article.contributor == undefined ||
-        article.category == undefined) {
-        res.status(400).json({message: `title, contributor, and category fields must be defined`})
+    const {title, contributor, category} = req.params;
+    const { content } = req.body;
+    const [success, result] = createArticle(title, content, contributor,
+                                            category);
+    if (success) {
+        // Status code 201: Created
+        // Standard requires setting the Location header
+        // to the location of the created resource
+        res.location(`/article/${result.ID}`)
+        res.status(201).end();
+    } else {
+        res.status(400).json(result);
     }
-    if ((article.category != "game" && article.category != "console")) {
-        res.status(418).json({message: `category field must be either 'game' or 'console'.`})
-    }
-    let { content } = req.body;
-    article.content = content;
-    const newID = (Object.keys(articles).length)+1;
-    article.ID = newID;
-    let images = {};
-    let commentIDs = {};
-    article.images = images;
-    article.commentIDs = commentIDs;
-    articles[article.ID] = article;
-    // Status code 201: Created
-    res.status(201).json(article);
-  });
+});
 
 app.get('/article/:articleID', (req, res) => {
     const { articleID } = req.params;
