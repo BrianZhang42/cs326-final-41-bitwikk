@@ -1,7 +1,7 @@
 import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
+import { checkEdit, createArticle, editArticle, getCategory, searchArticles } from './articleUtil.js';
 import { asyncRoute } from './utils.js';
 
 // const bodyParser = require("body-parser");
@@ -62,19 +62,17 @@ app.get("/category/:category", asyncRoute((req, res) => {
     res.json(result);
 }));
 
-app.get('/article/search/:query', asyncRoute((req, res) => {
-    const { query } = req.params;
-    let articlez = {};
-    for (const i in articles) {
-        if (i.title.includes(query)) {
-            articlez[i] = {"title": i.title};
-        }
+app.get('/article/search', asyncRoute((request, response) => {
+    if (!requireParams(request.query, ["query"], response)) {
+        return;
     }
-    if (articlez) {
-      res.json(articlez);
-    } else {
-      res.status(404).json({message: `No entries found in the ${name} category`});
+    const [success, result] = searchArticles(request.query.query);
+    if (!success) {
+        res.status(404);
+        res.json({message: result});
+        return;
     }
+    res.json(result);
 }));
 
 app.use(express.static("static"));

@@ -105,13 +105,13 @@ export function editArticle(articleID, title, content) {
 
 const commentFormDataAttrs = ["username", "content"];
 export function checkComment(formData) {
-    for (const attr of editFormDataAttrs) {
+    for (const attr of commentFormDataAttrs) {
         if (!formData.hasOwnProperty(attr)) {
             return [false, {invalid: attr,
                             message: `Missing required attribute: ${attr}`}]
         }
     }
-    for (const attr of editFormDataAttrs) {
+    for (const attr of commentFormDataAttrs) {
         if (!formData[attr]) {
             return [false, {invalid: attr,
                             message: `${attr} cannot be empty`}];
@@ -147,6 +147,20 @@ export function getCategory(category) {
         return [false, `category field must be either 'game' or 'console'.`];
     }
     const categoryArticles = articles.filter(article => article.category === category);
+
+    // only return some keys, not all the content
+    // maybe we will add preview data here later
+    return [true, categoryArticles.map(article => ({
+        ID: article.ID,
+        title: article.title
+    }))];
+}
+
+export function searchArticles(query) {
+    const categoryArticles = articles.filter(article =>
+        // TODO: make this case insensitive, at least
+        article.title.includes(query)
+    );
 
     // only return some keys, not all the content
     // maybe we will add preview data here later

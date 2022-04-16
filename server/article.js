@@ -4,8 +4,8 @@ import { addComment, checkComment, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
 
-router.get("/:name", asyncRoute(async (request, response) => {
-    const article = getArticle(request.params.name);
+router.get("/:articleID", asyncRoute(async (request, response) => {
+    const article = getArticle(request.params.articleID);
     if (article === undefined) {
         response.status(404).end();
         return;
@@ -13,13 +13,14 @@ router.get("/:name", asyncRoute(async (request, response) => {
     response.json(article);
 }));
 
-// router.post("/:name/edit", asyncRoute(async (request, response) => {
+// router.post("/:articleID/edit", asyncRoute(async (request, response) => {
 //     const [checkSuccess, checkResult] = checkEdit(req.body);
 //     if (!checkSuccess) {
 //         response.status(400).json(checkResult);
 //         return;
 //     }
-//     const success = editArticle(request.params.name, ...checkResult);
+//     const success = editArticle(request.params.articleID,
+//                                 ...checkResult);
 //     if (success) {
 //         resposne.status(200).end();
 //     } else {
@@ -27,13 +28,14 @@ router.get("/:name", asyncRoute(async (request, response) => {
 //     }
 // }));
 
-router.post("/:name/comment", asyncRoute(async (request, response) => {
+router.post("/:articleID/comment", asyncRoute(async (request, response) => {
     const [checkSuccess, checkResult] = checkComment(req.body);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
         return;
     }
-    const [success, result] = addComment(request.params.name, ...checkResult);
+    const [success, result] = addComment(request.params.articleID,
+                                         ...checkResult);
     if (success) {
         response.json(result);
     } else {
