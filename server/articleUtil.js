@@ -45,7 +45,10 @@ export function createArticle(title, content, contributor, category) {
         return [false, {invalid: "title",
                         message: articleIDResult}];
     }
-    // TODO: check if articleID already exists
+    if (!articles.every(article => article.ID !== articleIDResult)) {
+        return [false, {invalid: "title",
+                        message: `/article/${articleIDResult} already exists`}];
+    }
 
     // TODO: validate content
 
@@ -59,4 +62,14 @@ export function createArticle(title, content, contributor, category) {
     }
     articles.push(article);
     return [true, article];
+}
+
+export function getArticle(articleID) {
+    return articles.find(article => article.ID === articleID);
+}
+
+// get index of article in list
+// (probably won't be needed after we have a databse)
+function getArticleIndex(articleID) {
+    return articles.findIndex(article => article.ID === articleID);
 }

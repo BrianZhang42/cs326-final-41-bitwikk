@@ -51,6 +51,12 @@ export function getUser(username) {
     return users.find(user => user.username === username);
 }
 
+// get index of user in list
+// (probably won't be needed after we have a databse)
+function getUserIndex(username) {
+    return users.findIndex(user => user.username === username);
+}
+
 // this is for the /user/get route
 export function getUserProfile(username) {
     const user = getUser(username);
@@ -63,12 +69,6 @@ export function getUserProfile(username) {
     return {
         username: user.username
     };
-}
-
-// get index of user in list
-// (probably won't be needed after we have a databse)
-function getUserIndex(username) {
-    return users.findIndex(user => user.username === username);
 }
 
 // const saltRounds = 10;
