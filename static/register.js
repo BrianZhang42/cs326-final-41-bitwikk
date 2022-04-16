@@ -1,5 +1,6 @@
-import * as user from './user-viewmodel.js';
-import { checkRegister } from '../server/userUtil.js';
+const usernameField = document.getElementById("username");
+const passwordField = document.getElementById("pass");
+const passwordField2 = document.getElementById("pass2");
 
 function checkRegister(username, password, password2) {
     if (!username) {
@@ -18,24 +19,36 @@ function checkRegister(username, password, password2) {
         return [false, {invalid: "password2",
                         message: "Passwords do not match"}];
     }
-    if (!users.every(user => user.username !== username)) {
-        return [false, {invalid: "username",
-                        message: "username is taken"}];
-    }
-    return [true, [username, password]];
+    return [true, {username: username, password: password}];
 }
 
-const password = document.getElementById("pass");
-const password2 = document.getElementById("pass2");
-// const email = document.getElementById("email");
-const username = document.getElementById("username");
 document.getElementById("register").addEventListener("click", async () => {
-    if (checkRegister())
-    // let formData = {
-    //     username: username.value,
-    //     email: email.value,
-    //     password: password.value
-    // }
+    const username = usernameField.value;
+    const password = passwordField.value;
+    const password2 = passwordField2.value;
+    const [valid, result] = checkRegister(username, password, password2);
+    if (!valid) {
+        const {invalid, message} = result;
+        // TODO: highlight invalid field
+        alert(message);
+        return;
+    }
 
-    user.createUser(formData);
+    const response = await fetch(`/user/create`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(result)
+    });
+    if (response.ok) {
+        // redirect to homepage
+        window.location.href = "/";
+        return;
+    }
+    if (response.status == 400 && response.headers.get("content-type") == "application/json") {
+        const { invalid, message } = await response.json();
+        // TODO: highlight invalid field
+        alert(message);
+        return;
+    }
+    alert(`Unexpected error: ${response.status} ${response.statusText} ${await response.text()}`);
 });

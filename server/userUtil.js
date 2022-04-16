@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 
 export function validateRegisterBody(body, response) {
-    for (const attr of ["username", "password", "password2"]) {
+    for (const attr of ["username", "password"]) {
         if (!body.hasOwnProperty(attr)) {
             response.status(400);
             response.send(`Body missing required attribute: ${attr}`);
@@ -36,6 +36,7 @@ export function createUser(username, password) {
         password: password
     };
     users.push(newUser);
+    console.log(`Created new user: ${username}`);
     return newUser;
 }
 
