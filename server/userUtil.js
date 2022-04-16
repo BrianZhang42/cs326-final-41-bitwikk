@@ -46,28 +46,28 @@ export function deleteUser(username) {
     users.splice(users.findIndex(user => user.username === username), 1);
 }
 
-export function checkRegister(username, password1, password2) {
+export function checkRegister({ username, password1, password2 }) {
     if (!username) {
-        return {invalid: "username",
-                message: "No username entered"};
+        return [false, {invalid: "username",
+                        message: "No username entered"}];
     }
     if (!password1) {
-        return {invalid: "password1",
-                message: "No password entered"};
+        return [false, {invalid: "password1",
+                        message: "No password entered"}];
     }
     if (!password2) {
-        return {invalid: "password2",
-                message: "Please re-enter password"};
+        return [false, {invalid: "password2",
+                        message: "Please re-enter password"}];
     }
     if (password1 != password2) {
-        return {invalid: "password2",
-                message: "Passwords do not match",};
+        return [false, {invalid: "password2",
+                        message: "Passwords do not match"}];
     }
     if (!users.every(user => user.username !== username)) {
-        return {invalid: "username",
-                message: "username is taken"};
+        return [false, {invalid: "username",
+                        message: "username is taken"}];
     }
-    return true;
+    return [true, [username, password1]];
 }
 
 export function checkUpdate(info) {

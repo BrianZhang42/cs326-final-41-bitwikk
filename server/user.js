@@ -38,20 +38,14 @@ router.post("/create", asyncRoute(async (request, response) => {
     if (!validateRegisterBody(request.body)) {
         return;
     }
-    const registerResult = checkRegister(request.body.username,
-                                         request.body.password1,
-                                         request.body.password2);
-    if (registerResult !== true) {
+    const [registerSuccess, registerResult] = checkRegister(request.body);
+    if (!registerSuccess) {
         response.status(400);
         response.json(registerResult);
         return;
     }
-    // createUser();
-    // const newID = (Object.keys(users).length)+1;
-    // user.ID = newID;
-    // users[user.ID] = user;
-    // // Status code 201: Created
-    // res.status(201).json(user);
+    const user = createUser(...registerResult);
+    response.status(200).json(user);
 }));
 
 // request body: { ID: number, username: string, email: string, password: string }
