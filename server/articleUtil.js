@@ -74,6 +74,35 @@ function getArticleIndex(articleID) {
     return articles.findIndex(article => article.ID === articleID);
 }
 
+const editFormDataAttrs = ["articleID", "title", "body"];
+export function checkEdit(formData) {
+    for (const attr of editFormDataAttrs) {
+        if (!formData.hasOwnProperty(attr)) {
+            return [false, {invalid: attr,
+                            message: `Missing required attribute: ${attr}`}]
+        }
+    }
+    for (const attr of editFormDataAttrs) {
+        if (!formData[attr]) {
+            return [false, {invalid: attr,
+                            message: `${attr} cannot be empty`}];
+        }
+    }
+    const {articleID, title, body} = formData;
+
+    if (getArticle(articleID) === undefined) {
+        return [false, {invalid: "articleID",
+                        message: "Article does not exist"}];
+    }
+    // TODO: validate body content
+    return [true, [articleID, title, body]];
+}
+
+export function editArticle(articleID, title, content) {
+    // TODO: actually implement editing
+    return true;
+}
+
 export function getCategory(category) {
     if ((category != "game" && category != "console")) {
         return [false, `category field must be either 'game' or 'console'.`];

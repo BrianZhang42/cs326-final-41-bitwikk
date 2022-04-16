@@ -1,7 +1,7 @@
 import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { createArticle, getCategory } from './articleUtil.js';
+import { checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
 import { asyncRoute } from './utils.js';
 
 // const bodyParser = require("body-parser");
@@ -39,16 +39,16 @@ app.post("/create/:title/:contributor/:category", asyncRoute((req, res) => {
 
 // request body: { articleID: string, title: string, body: string }
 app.post('/article/edit', (req, res) => {
-    const formData = req.body;
-    if(formData.articleID == undefined || formData.title == undefined ||
-            formData.body == undefined) {
-        res.status(400).json({message: `articleID, title, and body fields must be defined`})
+    const [checkSuccess, checkResult] = checkEdit(req.body);
+    if (!checkSuccess) {
+        res.status(400).json(checkResult);
+        return;
     }
-    const article = articles[formData.articleID];
-    if (article) {
-        res.json(article);
+    const success = editArticle(...checkResult);
+    if (success) {
+        res.status(200).end();
     } else {
-        res.status(404).json({ message: `Article ${formData.articleID} not found` });
+        res.status(500).end();
     }
 });
 
