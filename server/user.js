@@ -1,7 +1,8 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
-import { users } from "./fakeusers.js";
+import { asyncRoute, requireParams } from "./utils.js"
+import { getUser } from "./utils.js"
 
 export const router = express.Router();
 
@@ -20,38 +21,42 @@ router.post("/login", async (request, response) => {
 });
 
 // empty request body
-router.get("/get", async (request, responses) => {
-    const { userID } = req.params;
-    const user = users[userID];
-    if (user) {
-      res.status(200).json(user);
+router.get("/get", asyncRoute(async (request, responses) => {
+    if (!requireParams(request.query, ["user"], response)) {
+        return;
+    }
+    const { user } = request.query;
+    const userEntry = getUser(user);
+    if (userEntry) {
+      res.status(200).json(userEntry);
     } else {
-      res.status(404).json({ message: `User ${userID} not found` });
-}});
+      res.status(404).json({message: `User ${user} not found`});
+    }
+}));
 
 // request body: { username: string, email: string, password: string }
-router.post("/create", async (request, response) => {
+router.post("/create", asyncRoute(async (request, response) => {
     let user = req.body;
     const newID = (Object.keys(users).length)+1;
     user.ID = newID;
     users[user.ID] = user;
     // Status code 201: Created
     res.status(201).json(user);
-});
+}));
 
 // request body: { ID: number, username: string, email: string, password: string }
-router.post("/edit", async (request, response) => {
+router.post("/edit", asyncRoute(async (request, response) => {
     let user = req.body;
     users[user.ID] = user;
     res.status(200).json(user);
-});
+}));
 
 // empty request body
-router.post("/delete", async (request, response) => {
+router.post("/delete", asyncRoute(async (request, response) => {
     const { userID } = request.params;
     users[userID] = undefined;
     res.status(200).end();
-});
+}));
 
 // router.post("/user", (req, res) => {
 //     bcrypt.genSalt(saltRounds, (err, salt) => {
