@@ -14,7 +14,17 @@ router.get("/:name", asyncRoute(async (request, response) => {
 }));
 
 // router.post("/:name/edit", asyncRoute(async (request, response) => {
-//     console.log(request.params.name);
+//     const [checkSuccess, checkResult] = checkEdit(req.body);
+//     if (!checkSuccess) {
+//         resposne.status(400).json(checkResult);
+//         return;
+//     }
+//     const success = editArticle(request.params.name, ...checkResult);
+//     if (success) {
+//         resposne.status(200).end();
+//     } else {
+//         resposne.status(500).end();
+//     }
 // }));
 
 // router.post("/:name/comment", asyncRoute(async (request, response) => {
