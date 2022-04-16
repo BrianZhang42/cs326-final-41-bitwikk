@@ -1,8 +1,7 @@
 import express from "express";
-import bcrypt from "bcrypt";
-import jwt from "jwt-simple";
 import { asyncRoute, requireParams } from "./utils.js"
-import { getUser, deleteUser } from "./userUtil.js"
+import { getUser, validateSignUpBody,
+         createUser, deleteUser } from "./userUtil.js"
 
 export const router = express.Router();
 
@@ -21,7 +20,7 @@ router.post("/login", async (request, response) => {
 });
 
 // empty request body
-router.get("/get", asyncRoute(async (request, responses) => {
+router.get("/get", asyncRoute(async (request, response) => {
     if (!requireParams(request.query, ["user"], response)) {
         return;
     }
@@ -36,12 +35,13 @@ router.get("/get", asyncRoute(async (request, responses) => {
 
 // request body: { username: string, email: string, password: string }
 router.post("/create", asyncRoute(async (request, response) => {
-    let user = req.body;
-    const newID = (Object.keys(users).length)+1;
-    user.ID = newID;
-    users[user.ID] = user;
-    // Status code 201: Created
-    res.status(201).json(user);
+    validateSignUpBody(request.body)
+    // createUser();
+    // const newID = (Object.keys(users).length)+1;
+    // user.ID = newID;
+    // users[user.ID] = user;
+    // // Status code 201: Created
+    // res.status(201).json(user);
 }));
 
 // request body: { ID: number, username: string, email: string, password: string }

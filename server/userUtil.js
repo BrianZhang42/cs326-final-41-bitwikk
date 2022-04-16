@@ -1,4 +1,6 @@
 import {users, comments, articles} from "./fakeusers.js";
+import bcrypt from "bcrypt";
+import jwt from "jwt-simple";
 
 export function createUser(username, password) {
     // TODO: password hashing and salting
@@ -11,12 +13,16 @@ export function createUser(username, password) {
 }
 
 // get index of user with userId
-export function getUserIndex(username) {
+function getUserIndex(username) {
     return users.findIndex(user => user.username === username);
 }
 
 export function getUser(username) {
     return users.find((user) => user.username === username);
+}
+
+export function validateSignUpBody(body) {
+    console.log(body);
 }
 
 export function editUser(username, password) {
