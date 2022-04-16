@@ -13,7 +13,7 @@ export function validateRegisterBody(body, response) {
     return true;
 }
 
-export function checkRegister({ username, password, password2 }) {
+export function checkRegister({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -21,14 +21,6 @@ export function checkRegister({ username, password, password2 }) {
     if (!password) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
-    }
-    if (!password2) {
-        return [false, {invalid: "password2",
-                        message: "Please re-enter password"}];
-    }
-    if (password != password2) {
-        return [false, {invalid: "password2",
-                        message: "Passwords do not match"}];
     }
     if (!users.every(user => user.username !== username)) {
         return [false, {invalid: "username",

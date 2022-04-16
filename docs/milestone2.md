@@ -6,25 +6,34 @@ Einar Klarlund, einarklarlund - <br>
 Brian Zhang, BrianZhang42 - <br>
 Neil Gupta, nog642 - <br>
 
-APIs
-
 Objects:
-User - Username, Password (hash and salt)
-Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category
-Comment - ID, username, articleID, content
+User - {username, password (hash and salt)}
+Article - PID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
+Comment - {ID, username, articleID, content}
+
+API:
 
 Note: The article content will be stored as markdown and will need to be translated into html. It could be done on the client or the server side.
 
-GET  /article/search?query=value
-GET  /article/get?name=value -
-POST /article/create -
-POST /article/edit -
+GET  /article/{ID}
+POST /create
+        Requires login (cookie header)
+        Body: {title: title, content: content}
+POST /article/edit
+        Requires login (cookie header)
+        Body: {content: content}
 POST /article/comment -
+        Requires login (cookie header)
+        Body: {article: ID, content: content}
 
-GET  /category?name=category -
+GET  /search?query={query}
+GET  /category/{category}
 
 POST /user/login
-GET  /user/get?user=value
+        Body: {username: username, password: password (plaintext)}
+GET  /user/get?user={username}
 POST /user/create
+        Body: {username: username, password: password (plaintext)}
 POST /user/edit
-POST /user/delete?user=value
+        Body: {username: username, ...additional fields}
+POST /user/delete?user={username}
