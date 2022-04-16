@@ -23,21 +23,21 @@ export let users = [
 
 export let comments = [
     {
-        id: 12,
-        userId: 1,
-        articleID: 1,
+        ID: 12,
+        username: "ben",
+        articleID: "SNES",
         content: "WOW! This article sucks!"
     },
     {
-        id: 13,
-        userId: 2,
-        articleID: 2,
+        ID: 13,
+        username: "Vetruvius",
+        articleID: "Dragon_Warrior",
         content: "Thumbs down"
     },
     {
-        id: 14,
-        userId: 3,
-        articleID: 1,
+        ID: 14,
+        username: "bob",
+        articleID: "SNES",
         content: "Person above me is a loser"
     }
 ]

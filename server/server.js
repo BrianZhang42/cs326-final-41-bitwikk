@@ -1,7 +1,7 @@
 import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
+import { addComment, checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
 import { asyncRoute } from './utils.js';
 
 // const bodyParser = require("body-parser");
@@ -52,13 +52,8 @@ app.post('/article/edit', (req, res) => {
     }
 });
 
-app.post('/article/comment/:articleID/:userID', (req, res) => {
-    const comment = req.params;
-    let { content } = req.body;
-    const newID = (Object.keys(comments).length)+1;
-    comment.ID = newID;
-    comments.content = content;
-    comments[comment.ID] = comment;
+app.post('/article/comment/:articleID/:user', (req, res) => {
+    addComment(req.params.articleID, req.params.user, req.body);
 });
 
 app.get("/category/:category", asyncRoute((req, res) => {

@@ -1,4 +1,4 @@
-import { articles } from "./fakedata.js";
+import { articles, comments } from "./fakedata.js";
 import { getUser } from "./userUtil.js";
 
 function generateArticleID(title) {
@@ -101,6 +101,16 @@ export function checkEdit(formData) {
 export function editArticle(articleID, title, content) {
     // TODO: actually implement editing
     return true;
+}
+
+export function addComment(articleID, username, content) {
+    comments.push({
+        // TODO: use UUID
+        ID: (Object.keys(comments).length) + 1,
+        username: username,
+        articleID: articleID,
+        content: content
+    });
 }
 
 export function getCategory(category) {
