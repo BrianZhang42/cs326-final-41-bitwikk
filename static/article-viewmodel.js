@@ -1,6 +1,6 @@
 export async function createArticle(formData) {
 	try {
-		let url = `article/create?title=${formData.title}&contributor=${formData.contributor}&category=${formData.category}`;
+		let url = `/article/create?title=${formData.title}&contributor=${formData.contributor}&category=${formData.category}`;
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
@@ -19,7 +19,7 @@ export async function createArticle(formData) {
 
 export async function readArticle(articleID) {
 	try {
-		const response = await fetch(`article/read?articleID=${articleID}`, {
+		const response = await fetch(`/article/${articleID}/get`, {
 			method: 'GET',
 		});
 		const data = await response.json();
@@ -32,7 +32,7 @@ export async function readArticle(articleID) {
 
 export async function updateArticle(formData) {
 	try {
-		const response = await fetch(`article/update`, {
+		const response = await fetch(`/article/update`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function updateArticle(formData) {
   
 export async function deleteArticle(formData) {
 	try {
-		const response = await fetch(`article/delete`, {
+		const response = await fetch(`/article/delete`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export async function deleteArticle(formData) {
 
 export async function search(queryString) {
 	try {
-		const response = await fetch(`article/search?query=${queryString}`, {
+		const response = await fetch(`/article/search?query=${queryString}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
