@@ -8,7 +8,32 @@ let getNewArticleData = () =>  {
             { title: faker.company.bsNoun(), body: faker.lorem.paragraph() },
             { title: faker.company.bsNoun(), body: faker.lorem.paragraphs() },
         ],
-        contributor: faker.internet.userName(),
+        contributors: [
+            faker.internet.userName(),
+            faker.internet.userName(),
+            faker.internet.userName(),
+        ],
+        categories: [
+            faker.company.catchPhrase(),
+            faker.company.catchPhrase(),
+        ],
+        images: [
+            faker.image.avatar(),
+            faker.image.avatar(),
+            faker.image.avatar(),
+            faker.image.avatar(),
+        ],
+        details: [
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+        ],
+        relatedTopics: [
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+        ],
     }
 } 
 

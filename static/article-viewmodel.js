@@ -1,3 +1,6 @@
+let articles = await fetch("../article-data.json");
+articles = await articles.json();
+
 export async function createArticle(formData) {
 	try {
 		let url = `/article/create?title=${formData.title}&contributor=${formData.contributor}&category=${formData.category}`;
@@ -19,11 +22,12 @@ export async function createArticle(formData) {
 
 export async function readArticle(articleID) {
 	try {
-		const response = await fetch(`/article/${articleID}/get`, {
-			method: 'GET',
-		});
-		const data = await response.json();
-		return data;
+		// const response = await fetch(`/article/${articleID}/get`, {
+		// 	method: 'GET',
+		// });
+		// const data = await response.json();
+		// return data;
+		return articles[Math.floor(Math.random() * articles.length)];
 	} catch (err) {
 		console.log(err);
 		return null;
