@@ -91,7 +91,7 @@ app.use((request, response, next) => {
 
     // article_page.html is served under /article/{ID}
     // so don't allow direct access
-    if (request.originalUrl == "/article_page.html") {
+    if (request.originalUrl == "/article_page") {
         serve404(response);
         return;
     }
