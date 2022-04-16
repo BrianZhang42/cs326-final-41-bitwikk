@@ -52,3 +52,23 @@ router.post("/:articleID/comment", asyncRoute(async (request, response) => {
         response.status(400).json(result);
     }
 }));
+
+router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, response) => {
+    try {
+        const [checkSuccess, checkResult] = checkComment(request.body);
+        if (!checkSuccess) {
+            response.status(400).json(checkResult);
+            return;
+        }
+        const commentId = request.params.commentId;
+        if (CommentExists(commentId)) {
+          deleteComment(commentId);
+          res.json({ success: `deleted comment ${commentId}` });
+        } else {
+          res.status(400).json({ error: "comment given does not exist" });
+        }
+      } catch (err) {
+        console.log(err);
+        res.status(400).send();
+      }
+}));

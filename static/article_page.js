@@ -83,3 +83,20 @@ async function loadContent() {
         carousel.appendChild(colDiv);
     })
 }
+
+document.getElementById('editPage').addEventListener("click", editContent);
+
+function editContent() {
+    if (!document.getElementById('mainArt').isContentEditable) {
+        document.getElementById('mainArt').contentEditable = true;
+    } else {
+        document.getElementById('mainArt').contentEditable = false;
+    }
+}
+
+document.getElementById('post').addEventListener("click", async event => {
+    // const comment = document.createElement('div');
+    // comment.appendCHild(document.getElementById('comment').value);
+    // document.getElementById('comment').value = '';
+    // document.getElementById('csection').appendChild(comment);
+});

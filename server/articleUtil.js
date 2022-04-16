@@ -142,6 +142,14 @@ export function addComment(articleID, username, content) {
     return [true, comment]
 }
 
+export function deleteComment(commentId) {
+    comments.splice(comments.findIndex((com) => com.commentId === commentId));
+}
+
+export function CommentExists(commentId) {
+    return comments.find((com) => com.commentId === commentId) !== undefined ? true : false;
+}
+
 export function getCategory(category) {
     if ((category != "game" && category != "console")) {
         return [false, `category field must be either 'game' or 'console'.`];
