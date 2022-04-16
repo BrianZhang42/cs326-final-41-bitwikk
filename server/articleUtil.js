@@ -103,14 +103,43 @@ export function editArticle(articleID, title, content) {
     return true;
 }
 
+const commentFormDataAttrs = ["username", "content"];
+export function checkComment(formData) {
+    for (const attr of editFormDataAttrs) {
+        if (!formData.hasOwnProperty(attr)) {
+            return [false, {invalid: attr,
+                            message: `Missing required attribute: ${attr}`}]
+        }
+    }
+    for (const attr of editFormDataAttrs) {
+        if (!formData[attr]) {
+            return [false, {invalid: attr,
+                            message: `${attr} cannot be empty`}];
+        }
+    }
+    const {articleID, title, body} = formData;
+
+    if (getUser(username) === undefined) {
+        return [false, {invalid: "username",
+                        message: `User ${username} does not exist`}];
+    }
+    // TODO: validate content
+    return [true, [username, content]];
+}
+
 export function addComment(articleID, username, content) {
-    comments.push({
+    if (getArticle(articleID) === undefined) {
+        return [false, {message: "Article does not exist"}];
+    }
+    const comment = {
         // TODO: use UUID
         ID: (Object.keys(comments).length) + 1,
         username: username,
         articleID: articleID,
         content: content
-    });
+    };
+    comments.push(comment);
+    return [true, comment]
 }
 
 export function getCategory(category) {

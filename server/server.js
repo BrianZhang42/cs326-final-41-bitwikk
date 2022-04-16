@@ -1,13 +1,12 @@
 import express from "express";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { addComment, checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
+import { checkEdit, createArticle, editArticle, getCategory } from './articleUtil.js';
 import { asyncRoute } from './utils.js';
 
 // const bodyParser = require("body-parser");
 // const User = require("./models/user");
 // const cookieParser = require("cookie-parser");
-const comments = {};
 
 // const mongoose = require("mongoose");
 // mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
@@ -50,10 +49,6 @@ app.post('/article/edit', (req, res) => {
     } else {
         res.status(500).end();
     }
-});
-
-app.post('/article/comment/:articleID/:user', (req, res) => {
-    addComment(req.params.articleID, req.params.user, req.body);
 });
 
 app.get("/category/:category", asyncRoute((req, res) => {

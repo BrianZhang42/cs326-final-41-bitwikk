@@ -1,6 +1,6 @@
 import express from "express";
-import { asyncRoute, requireParams } from "./utils.js"
-import { getArticle } from './articleUtil.js';
+import { asyncRoute } from "./utils.js"
+import { addComment, checkComment, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get("/:name", asyncRoute(async (request, response) => {
 // router.post("/:name/edit", asyncRoute(async (request, response) => {
 //     const [checkSuccess, checkResult] = checkEdit(req.body);
 //     if (!checkSuccess) {
-//         resposne.status(400).json(checkResult);
+//         response.status(400).json(checkResult);
 //         return;
 //     }
 //     const success = editArticle(request.params.name, ...checkResult);
@@ -27,6 +27,16 @@ router.get("/:name", asyncRoute(async (request, response) => {
 //     }
 // }));
 
-// router.post("/:name/comment", asyncRoute(async (request, response) => {
-//     console.log(request.params.name);
-// }));
+router.post("/:name/comment", asyncRoute(async (request, response) => {
+    const [checkSuccess, checkResult] = checkComment(req.body);
+    if (!checkSuccess) {
+        response.status(400).json(checkResult);
+        return;
+    }
+    const [success, result] = addComment(request.params.name, ...checkResult);
+    if (success) {
+        response.json(result);
+    } else {
+        response.status(400).json(result);
+    }
+}));
