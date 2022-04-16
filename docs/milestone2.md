@@ -13,10 +13,10 @@ User - Username, Password (hash and salt)
 Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category
 Comment - ID, username, articleID, content
 
-Note: The article content will be storeed as markdown and will need to be translated into html. It could be done on the client or the server side.
+Note: The article content will be stored as markdown and will need to be translated into html. It could be done on the client or the server side.
 
-GET  /article/get?name=value -
 GET  /article/search?query=value
+GET  /article/get?name=value -
 POST /article/create -
 POST /article/edit -
 POST /article/comment -
