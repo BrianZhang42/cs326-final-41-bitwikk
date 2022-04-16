@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 import { asyncRoute, requireParams } from "./utils.js"
-import { getUser } from "./utils.js"
+import { getUser, deleteUser } from "./userUtil.js"
 
 export const router = express.Router();
 
@@ -53,8 +53,12 @@ router.post("/edit", asyncRoute(async (request, response) => {
 
 // empty request body
 router.post("/delete", asyncRoute(async (request, response) => {
-    const { userID } = request.params;
-    users[userID] = undefined;
+    if (!requireParams(request.query, ["user"], response)) {
+        return;
+    }
+    const { user } = request.query;
+    // TODO: error handling
+    deleteUser(user);
     res.status(200).end();
 }));
 
