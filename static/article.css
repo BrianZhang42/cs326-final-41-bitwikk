@@ -1,0 +1,57 @@
+.edit {
+    display: flex;
+    width: auto;
+    height: auto;
+    min-height: 400px;
+    min-width: 600px;
+}
+
+.editPage {
+    border-radius: 5px;
+    background-color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.contTop {
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.contacts {
+    background-color: rgb(39, 39, 39);
+    height: 90vh;
+    width: auto;
+}
+
+.bar {
+    background-color: rgb(39, 39, 39);
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.barItem {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.cont:link {
+    color: white;
+}
+
+.cont:hover {
+    color: rgb(191, 191, 191);
+}
+
