@@ -91,7 +91,8 @@ app.use((request, response, next) => {
 
     // article_page.html is served under /article/{ID}
     // so don't allow direct access
-    if (request.originalUrl == "/article_page") {
+    // TODO: move this out of the static folder
+    if (request.originalUrl == "/article_page" || request.originalUrl == "/article_page.html") {
         serve404(response);
         return;
     }
@@ -101,7 +102,7 @@ app.use((request, response, next) => {
         lastModified: false
     }, err => {
         if (err !== undefined) {
-            serve404(response);
+            serveDirect();
         }
     });
 });

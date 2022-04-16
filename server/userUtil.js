@@ -107,7 +107,7 @@ export function getUserProfile(username) {
 // });
 
 export function validateUpdateBody(body, response) {
-    for (const attr of ["username", "password", "password2"]) {
+    for (const attr of ["username", "password"]) {
         if (!body.hasOwnProperty(attr)) {
             response.status(400);
             response.send(`Body missing required attribute: ${attr}`);
@@ -117,7 +117,7 @@ export function validateUpdateBody(body, response) {
     return true;
 }
 
-export function checkUpdate({username, password, password2}) {
+export function checkUpdate({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -125,14 +125,6 @@ export function checkUpdate({username, password, password2}) {
     if (!password) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
-    }
-    if (!password2) {
-        return [false, {invalid: "password2",
-                        message: "Please re-enter password"}];
-    }
-    if (password != password2) {
-        return [false, {invalid: "password2",
-                        message: "Passwords do not match"}];
     }
     if (getUser(username) === undefined) {
         return [false, {invalid: "username",
