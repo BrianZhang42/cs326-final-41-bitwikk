@@ -1,5 +1,5 @@
 import express from "express";
-import { projectRoot, asyncRoute, requireParams } from "./utils.js"
+import { projectRoot, asyncRoute, requireParams, serve404 } from "./utils.js"
 import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
@@ -8,10 +8,10 @@ router.get("/:articleID", asyncRoute(async (request, response) => {
     // make sure the article exists
     const article = getArticle(request.params.articleID);
     if (article === undefined) {
-        response.status(404).sendFile(`${projectRoot}/static/404.html`);
+        serve404(response);
         return;
     }
-    response.sendFile(`${projectRoot}/static/article_page.html`);
+    response.sendFile(`${projectRoot}/client/article_page.html`);
 }));
 
 router.get("/:articleID/get", asyncRoute(async (request, response) => {

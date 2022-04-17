@@ -95,14 +95,6 @@ app.use((request, response, next) => {
         return;
     }
 
-    // article_page.html is served under /article/{ID}
-    // so don't allow direct access
-    // TODO: move this out of the static folder
-    if (request.originalUrl == "/article_page") {
-        serve404(response);
-        return;
-    }
-
     // try adding html
     response.sendFile(`${projectRoot}/static${request.originalUrl}.html`, {
         lastModified: false
