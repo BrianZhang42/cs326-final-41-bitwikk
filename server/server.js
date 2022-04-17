@@ -90,10 +90,15 @@ app.use((request, response, next) => {
         return;
     }
 
+    if (request.originalUrl.endsWith(".html")) {
+        serve404(response);
+        return;
+    }
+
     // article_page.html is served under /article/{ID}
     // so don't allow direct access
     // TODO: move this out of the static folder
-    if (request.originalUrl == "/article_page" || request.originalUrl == "/article_page.html") {
+    if (request.originalUrl == "/article_page") {
         serve404(response);
         return;
     }
