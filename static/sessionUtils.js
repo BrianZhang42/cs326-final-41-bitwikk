@@ -6,9 +6,11 @@ const getCookie = name => {
     if (result === null) {
         return undefined;
     }
-    if (result.groups.quotedValue === undefined) {
-        return result.groups.unquotedValue;
-    } else {
+    if (result.groups.quotedValue !== undefined) {
         return result.groups.quotedValue;
     }
-}
+    return result.groups.unquotedValue;
+
+};
+
+export const getUsername = () => getCookie("user");

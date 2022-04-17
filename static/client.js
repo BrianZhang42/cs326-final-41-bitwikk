@@ -1,3 +1,4 @@
+import { getUsername } from "./sessionUtils.js";
 const searchForm = document.getElementById("searchForm");
 const signedOutBar = document.getElementById("signed-out-bar");
 const signedInBar = document.getElementById("signed-in-bar");
@@ -7,8 +8,9 @@ searchForm.addEventListener("submit", event => {
     event.preventDefault();
 });
 
-(async () => {
-    console.log(signedOutBar);
+const username = getUsername();
+if (username === undefined) {
     signedOutBar.hidden = false;
-    console.log(document.cookie);
-})();
+} else {
+    signedInBar.hidden = false;
+}

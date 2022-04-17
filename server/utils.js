@@ -20,7 +20,7 @@ export const requireParams = (obj, attrs, response) => {
 };
 
 export const serve404 = response =>
-    response.sendFile(`${projectRoot}/static/404.html`, {
+    response.status(404).sendFile(`${projectRoot}/static/404.html`, {
         lastModified: false
     }, err => {
         response.status(500).end();
