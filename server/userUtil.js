@@ -105,12 +105,6 @@ function checkSession(username, sessionID) {
     return true;
 }
 
-export function checkSessionCookies(request) {
-    const username = request.cookies.user;
-    const sessionID = request.cookies.session;
-    return checkSession(username, sessionID);
-}
-
 export function deleteSession(sessionID) {
     if (!sessions.has(sessionID)) {
         return false;
@@ -128,6 +122,19 @@ export function deleteSessionCookies(response) {
         expires: new Date(0),
         secure: true
     });
+}
+
+export function validateSession(request, response) {
+    const username = request.cookies.user;
+    const sessionID = request.cookies.session;
+    if (checkSession(username, sessionID)) {
+        return true;
+    } else {
+        response.status(403);
+        deleteSessionCookies(response);
+        response.end();
+        return false;
+    }
 }
 
 // const saltRounds = 10;

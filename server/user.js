@@ -4,7 +4,7 @@ import { validateRegisterBody, checkRegister, createUser,
          getUserProfile,
          validateUpdateBody, checkUpdate, editUser,
          deleteUser,
-         setSessionCookies, checkSessionCookies, deleteSession, deleteSessionCookies} from "./userUtil.js"
+         setSessionCookies, validateSession, deleteSession, deleteSessionCookies} from "./userUtil.js"
 
 export const router = express.Router();
 
@@ -13,12 +13,7 @@ router.post("/login", asyncRoute(async (request, response) => {
 }));
 
 router.post("/logout", asyncRoute(async (request, response) => {
-    if (!checkSessionCookies(request)) {
-        response.status(403);
-        deleteSessionCookies(response);
-        response.end();
-        return;
-    }
+    if (!validateSession(request, response)) { return; }
     const success = deleteSession(request.cookies.session);
     if (!success) {
         response.status(400);
@@ -59,6 +54,7 @@ router.post("/create", asyncRoute(async (request, response) => {
 
 // request body: { username: string, password: string }
 router.post("/edit", asyncRoute(async (request, response) => {
+    if (!validateSession(request, response)) { return; }
     if (!validateUpdateBody(request.body, response)) {
         return;
     }
@@ -83,10 +79,7 @@ router.post("/delete", asyncRoute(async (request, response) => {
     }
     const { user } = request.query;
 
-    if (!checkSessionCookies(request)) {
-        response.status(403).end();
-        return;
-    }
+    if (!validateSession(request, response)) { return; }
 
     // TODO: error handling
     deleteUser(user);

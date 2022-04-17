@@ -24,6 +24,7 @@ router.get("/:articleID/get", asyncRoute(async (request, response) => {
 }));
 
 router.post("/:articleID/edit", asyncRoute(async (request, response) => {
+    if (!validateSession(request, response)) { return; }
     const [checkSuccess, checkResult] = checkEdit(req.body);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
@@ -39,6 +40,7 @@ router.post("/:articleID/edit", asyncRoute(async (request, response) => {
 }));
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {
+    if (!validateSession(request, response)) { return; }
     const [checkSuccess, checkResult] = checkComment(req.body);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
@@ -54,6 +56,8 @@ router.post("/:articleID/comment", asyncRoute(async (request, response) => {
 }));
 
 router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, response) => {
+    if (!validateSession(request, response)) { return; }
+    // TODO: check that user is editing their own comment
     try {
         const [checkSuccess, checkResult] = checkComment(request.body);
         if (!checkSuccess) {

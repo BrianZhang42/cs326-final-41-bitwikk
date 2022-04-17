@@ -21,10 +21,11 @@ app.use("/article", articleRouter);
 
 //  request body: { content: string }
 app.post("/create", asyncRoute((req, res) => {
+    if (!validateSession(request, response)) { return; }
+
     // TODO: validation
     const { title, content } = req.body;
-    // TODO: extract contributor from login cookie
-    const [success, result] = createArticle(title, content, contributor,
+    const [success, result] = createArticle(title, content, request.cookies.user,
                                             category);
     if (success) {
         // Status code 201: Created
@@ -48,7 +49,7 @@ app.get("/category/:category", asyncRoute((req, res) => {
     res.json(result);
 }));
 
-app.get('/article/search', asyncRoute((request, response) => {
+app.get('/search', asyncRoute((request, response) => {
     if (!requireParams(request.query, ["query"], response)) {
         return;
     }
