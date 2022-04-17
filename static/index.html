@@ -33,9 +33,13 @@
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
-          <div class="btn-group my-2">
+          <div class="btn-group my-2" id="signed-out-bar" hidden>
             <a href="./login" class="btn btn-outline-success text-nowrap">Sign in</a>
             <a href="./register" class="btn btn-outline-success text-nowrap">Sign up</a>
+          </div>
+          <div class="btn-group my-2" id="signed-in-bar" hidden>
+            <a class="btn btn-outline-success text-nowrap">Signed in</a>
+            <a href="./register" class="btn btn-outline-success text-nowrap">Sign out</a>
           </div>
         </div>
       </div>

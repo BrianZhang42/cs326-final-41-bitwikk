@@ -1,5 +1,4 @@
 import express from "express";
-import parseurl from "parseurl";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles } from './articleUtil.js';
@@ -9,6 +8,8 @@ import { projectRoot, asyncRoute, serve404 } from './utils.js';
 
 // const mongoose = require("mongoose");
 // mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
+
+// TODO: once this is hosted on Heroku, check the Origin header to prevent CSRF
 
 const app = express();
 app.use(express.json());

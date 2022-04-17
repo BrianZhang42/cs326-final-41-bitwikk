@@ -70,13 +70,28 @@ export function getUserProfile(username) {
 
 function createSession(username) {
     const sessionID = randomUUID();
+    // 30 day expiry, in milliseconds
+    const expires = new Date(Date.now() + 30*24*3600*1000);
     sessions.set(sessionID, {
-        username: username
+        username: username,
+        expires: expires
     });
     return {
         sessionID: sessionID,
-        username: username
+        username: username,
+        expires: expires
     };
+}
+
+export function setSessionCookies(response, {username, sessionID, expires}) {
+    response.cookie("user", username, {
+        expires: expires,
+        secure: true
+    });
+    response.cookie("session", sessionID, {
+        expires: expires,
+        secure: true
+    });
 }
 
 function checkSession(username, sessionID) {
@@ -85,9 +100,15 @@ function checkSession(username, sessionID) {
     }
     const session = sessions.get(sessionID);
     if (session.username !== username) {
-        return false
+        return false;
     }
     return true;
+}
+
+export function checkSessionCookies(request) {
+    const username = request.cookies.user;
+    const sessionID = request.cookies.session;
+    return checkSession(username, sessionID);
 }
 
 // const saltRounds = 10;

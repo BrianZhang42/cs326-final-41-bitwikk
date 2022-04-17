@@ -3,7 +3,8 @@ import { asyncRoute, requireParams } from "./utils.js"
 import { validateRegisterBody, checkRegister, createUser,
          getUserProfile,
          validateUpdateBody, checkUpdate, editUser,
-         deleteUser } from "./userUtil.js"
+         deleteUser,
+         setSessionCookies} from "./userUtil.js"
 
 export const router = express.Router();
 
@@ -36,9 +37,8 @@ router.post("/create", asyncRoute(async (request, response) => {
         response.json(checkResult);
         return;
     }
-    const {username, sessionID} = createUser(...checkResult);
-    response.cookie("user", username);
-    response.cookie("session", sessionID);
+    const session = createUser(...checkResult);
+    setSessionCookies(response, session);
     response.status(200).end();
 }));
 
@@ -67,6 +67,12 @@ router.post("/delete", asyncRoute(async (request, response) => {
         return;
     }
     const { user } = request.query;
+
+    if (!checkSessionCookies(request)) {
+        response.status(403).end();
+        return;
+    }
+
     // TODO: error handling
     deleteUser(user);
     response.status(200).end();
