@@ -1,9 +1,24 @@
-import * as article from './article-viewmodel.js';
-import * as user from './user-viewmodel.js';
+const usernameField = document.getElementById("username");
+const passwordField = document.getElementById("password");
 
 document.getElementById("login").addEventListener("click", async () => {
-    let user = document.getElementById("user");
-    let pass = document.getElementById("logpass");
-    // if username/email is empty or not in user database, give error
-    // if logpass is empty or not in user database, give error
+    // TODO: if username is empty, give error
+    // TODO: if logpass is empty, give error
+    const response = await fetch("/user/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            username: usernameField.value,
+            password: passwordField.value
+        })
+    });
+    if (!response.ok) {
+        alert(`Unexpected error: ${response.status} ${response.statusText} ${await response.text()}`);
+    }
+    const responseJSON = await response.json();
+    if (responseJSON.success) {
+        window.location.href = "/";
+    } else {
+        alert("Incorrect username/password");
+    }
 });

@@ -1,15 +1,26 @@
 import express from "express";
-import { asyncRoute, requireParams } from "./utils.js"
+import { asyncRoute, requireBodyAttrs, requireParams } from "./utils.js"
 import { validateRegisterBody, checkRegister, createUser,
          getUserProfile,
+         setSessionCookies, validateSession,
+         deleteSession, deleteSessionCookies,
+         login,
          validateUpdateBody, checkUpdate, editUser,
-         deleteUser,
-         setSessionCookies, validateSession, deleteSession, deleteSessionCookies} from "./userUtil.js"
+         deleteUser} from "./userUtil.js"
 
 export const router = express.Router();
 
 router.post("/login", asyncRoute(async (request, response) => {
-    throw "not implemented";
+    if (!requireBodyAttrs(request.body, ["username", "password"],
+                          response)) { return; }
+    const session = await login(request.body.username, request.body.password);
+    if (session === null) {
+        response.json({success: false});
+    } else {
+        setSessionCookies(response, session);
+        response.json({success: true});
+    }
+    response.end();
 }));
 
 router.post("/logout", asyncRoute(async (request, response) => {

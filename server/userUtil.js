@@ -3,6 +3,8 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 
+const saltRounds = 10;
+
 // TODO: replace with database
 const sessions = new Map();
 
@@ -33,11 +35,11 @@ export function checkRegister({username, password}) {
     return [true, [username, password]];
 }
 
-export function createUser(username, password) {
-    // TODO: password hashing and salting
+export async function createUser(username, password) {
+    const passwordHash = await bcrypt.hash(password, saltRounds);
     const newUser = {
         username: username,
-        password: password
+        password: passwordHash
     };
     users.push(newUser);
     console.log(`Created new user: ${username}`);
@@ -137,28 +139,21 @@ export function validateSession(request, response) {
     }
 }
 
-// const saltRounds = 10;
+export async function checkPassword(username, password) {
+    const user = getUser(username);
+    if (user === undefined) {
+        return false;
+    }
+    return await bcrypt.compare(password, user.password);
+};
 
-// router.post("/user", (req, res) => {
-//     bcrypt.genSalt(saltRounds, (err, salt) => {
-//         bcrypt.hash(req.body.password, salt, null, (err, hash) => {
-//             let newUser = new User({
-//                 username: req.body.username,
-//                 password: hash,
-//                 email: req.body.email,
-//             });
-
-//             newUser.save((err) => {
-//                 if (err) {
-//                     res.status(500).json({ error: "Error creating user" });
-//                 } else {
-//                     res.redirect("/login"); // New user created
-//                 }
-//             });
-//         });
-//     });
-// });
-
+export async function login(username, password) {
+    if (await checkPassword(username, password)) {
+        return createSession(username);
+    } else {
+        return null;
+    }
+};
 // router.post("/auth", (req, res) => {
 //     User.findOne({ username: req.body.username }, (err, user) => {
 //         if (err) throw err;
