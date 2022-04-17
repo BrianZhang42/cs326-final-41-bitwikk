@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles } from './articleUtil.js';
@@ -13,11 +14,10 @@ import { projectRoot, asyncRoute, serve404 } from './utils.js';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/user", userRouter);
 app.use("/article", articleRouter);
-
-// router.use(cookieParser());
 
 //  request body: { content: string }
 app.post("/create", asyncRoute((req, res) => {

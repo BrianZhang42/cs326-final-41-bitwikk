@@ -33,6 +33,8 @@ GET  /category/{category}
 
 POST /user/login
         Body: {username: username, password: password (plaintext)}
+POST /user/logout
+        Requires login (cookie header)
 GET  /user/get?user={username}
 POST /user/create
         Body: {username: username, password: password (plaintext)}

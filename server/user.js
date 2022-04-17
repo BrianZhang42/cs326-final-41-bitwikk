@@ -4,12 +4,27 @@ import { validateRegisterBody, checkRegister, createUser,
          getUserProfile,
          validateUpdateBody, checkUpdate, editUser,
          deleteUser,
-         setSessionCookies} from "./userUtil.js"
+         setSessionCookies, checkSessionCookies, deleteSession, deleteSessionCookies} from "./userUtil.js"
 
 export const router = express.Router();
 
 router.post("/login", asyncRoute(async (request, response) => {
     throw "not implemented";
+}));
+
+router.post("/logout", asyncRoute(async (request, response) => {
+    if (!checkSessionCookies(request)) {
+        response.status(403);
+        deleteSessionCookies(response);
+        response.end();
+        return;
+    }
+    const success = deleteSession(request.cookies.session);
+    if (!success) {
+        response.status(400);
+    }
+    deleteSessionCookies(response);
+    response.end();
 }));
 
 router.get("/get", asyncRoute(async (request, response) => {

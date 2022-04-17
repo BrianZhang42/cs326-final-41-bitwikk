@@ -111,6 +111,25 @@ export function checkSessionCookies(request) {
     return checkSession(username, sessionID);
 }
 
+export function deleteSession(sessionID) {
+    if (!sessions.has(sessionID)) {
+        return false;
+    }
+    sessions.delete(sessionID);
+    return true;
+}
+
+export function deleteSessionCookies(response) {
+    response.cookie("user", "", {
+        expires: new Date(0),
+        secure: true
+    });
+    response.cookie("session", "", {
+        expires: new Date(0),
+        secure: true
+    });
+}
+
 // const saltRounds = 10;
 
 // router.post("/user", (req, res) => {
