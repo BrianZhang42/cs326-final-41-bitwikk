@@ -4,6 +4,11 @@ import { addComment, checkComment, checkEdit, editArticle, getArticle } from './
 
 export const router = express.Router();
 
+function validateSession(request, response) {
+    // TODO: implement session validation
+    return true;
+}
+
 router.get("/:articleID", asyncRoute(async (request, response) => {
     // make sure the article exists
     const article = getArticle(request.params.articleID);
@@ -25,13 +30,8 @@ router.get("/:articleID/get", asyncRoute(async (request, response) => {
 
 router.post("/:articleID/edit", asyncRoute(async (request, response) => {
     if (!validateSession(request, response)) { return; }
-    const [checkSuccess, checkResult] = checkEdit(req.body);
-    if (!checkSuccess) {
-        response.status(400).json(checkResult);
-        return;
-    }
-    const success = editArticle(request.params.articleID,
-                                ...checkResult);
+    const success = editArticle(request.params.articleID, request.body);
+
     if (success) {
         response.status(200).end();
     } else {
@@ -41,7 +41,7 @@ router.post("/:articleID/edit", asyncRoute(async (request, response) => {
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {
     if (!validateSession(request, response)) { return; }
-    const [checkSuccess, checkResult] = checkComment(req.body);
+    const [checkSuccess, checkResult] = checkComment(request.body);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
         return;
@@ -67,12 +67,12 @@ router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, respo
         const commentId = request.params.commentId;
         if (CommentExists(commentId)) {
           deleteComment(commentId);
-          res.json({ success: `deleted comment ${commentId}` });
+          response.json({ success: `deleted comment ${commentId}` });
         } else {
-          res.status(400).json({ error: "comment given does not exist" });
+          response.status(400).json({ error: "comment given does not exist" });
         }
       } catch (err) {
         console.log(err);
-        res.status(400).send();
+        response.status(400).send();
       }
 }));

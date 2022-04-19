@@ -1,6 +1,3 @@
-let articles = await fetch("../article-data.json");
-articles = await articles.json();
-
 export async function createArticle(formData) {
 	try {
 		let url = `/article/create?title=${formData.title}&contributor=${formData.contributor}&category=${formData.category}`;
@@ -22,12 +19,11 @@ export async function createArticle(formData) {
 
 export async function readArticle(articleID) {
 	try {
-		// const response = await fetch(`/article/${articleID}/get`, {
-		// 	method: 'GET',
-		// });
-		// const data = await response.json();
-		// return data;
-		return articles[Math.floor(Math.random() * articles.length)];
+		const response = await fetch(`/article/${articleID}/get`, {
+			method: 'GET',
+		});
+		const data = await response.json();
+		return data;
 	} catch (err) {
 		console.log(err);
 		return null;
@@ -36,15 +32,15 @@ export async function readArticle(articleID) {
 
 export async function updateArticle(formData) {
 	try {
-		const response = await fetch(`/article/update`, {
-			method: 'PUT',
+		const response = await fetch(`/article/${formData.ID}/edit`, {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
             body: JSON.stringify(formData),
 		});
-		const data = await response.json();
-		return data;
+		location.reload();
+		return response;
 	}
 	catch (err) {
 		console.log(err);

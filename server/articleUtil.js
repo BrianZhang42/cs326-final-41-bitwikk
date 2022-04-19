@@ -65,7 +65,8 @@ export function createArticle(title, content, contributor, category) {
 }
 
 export function getArticle(articleID) {
-    return articles.find(article => article.ID === articleID);
+    let article = articles.find(article => article.ID === articleID)
+    return article;
 }
 
 // get index of article in list
@@ -74,7 +75,7 @@ function getArticleIndex(articleID) {
     return articles.findIndex(article => article.ID === articleID);
 }
 
-const editFormDataAttrs = ["articleID", "title", "body"];
+const editFormDataAttrs = ["articleID", "title", "content"];
 export function checkEdit(formData) {
     for (const attr of editFormDataAttrs) {
         if (!formData.hasOwnProperty(attr)) {
@@ -98,8 +99,13 @@ export function checkEdit(formData) {
     return [true, [articleID, title, body]];
 }
 
-export function editArticle(articleID, title, content) {
+export function editArticle(articleID, newArticle) {
     // TODO: actually implement editing
+    let article = articles[getArticleIndex(articleID)]
+    Object.keys(newArticle).forEach(key => {
+        article[key] = newArticle[key];
+    }); 
+
     return true;
 }
 
