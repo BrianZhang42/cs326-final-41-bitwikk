@@ -32,14 +32,17 @@ async function loadContent() {
     // set body content
     currentArticle.content.forEach((topicDetails, index) => {
         let topicTitle = document.createElement("h2");
-        topicTitle.innerText = topicDetails.title;
         topicTitle.setAttribute("id", `topic-title-${index}`);
         content.appendChild(topicTitle);
+        if(topicDetails.title != undefined)
+            topicTitle.innerText = topicDetails.title;
 
         let topicBody = document.createElement("p");
-        topicBody.innerText = topicDetails.body;
         topicBody.setAttribute("id", `topic-body-${index}`);
         content.appendChild(topicBody);
+        if(topicDetails.body != undefined)
+            topicBody.innerText = topicDetails.body;
+
     }); 
 
     // set contributors
@@ -111,7 +114,7 @@ document.getElementById('post').addEventListener("click", async event => {
     let topicTitles = [];
     let topicBodies = [];
     children.forEach((child, index) => {
-        if(child.id === undefined)
+        if(child.id === undefined || child.innerText == undefined)
             return;
 
         if(child.id.substring(0, 12) === "topic-title-") {
