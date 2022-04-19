@@ -93,8 +93,28 @@ export let articles = [
             { title: "History", body: "It was made and sold." },
             { title: "Hardware", body: "It had some hardware."}],
         contributors: ["Vetruvius", "bob"],
-        images: [], commentIDs: [12],
-        category: "console"
+        images: [
+            "https://m.media-amazon.com/images/I/71zqr6fR58L._SL1500_.jpg",
+            "https://i.pinimg.com/736x/9f/04/55/9f0455c6146a4406ae9ec655f8f0fced.jpg",
+            "https://i.imgur.com/3IEsnFu.jpg",
+            "https://www.nintendo.com/etc.clientlibs/noa/clientlibs/clientlib-ncom/resources/images/page/nes-classic/nes-classic-edition-front.png",
+            "https://i.pinimg.com/originals/b8/fa/34/b8fa34e62ffdc2ec094748fd1d582084.jpg",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/bo_15px_solid_white/f_auto/q_auto/dpr_auto/c_scale,w_600/v1/ncom/en_US/products/accessories/nintendo-switch/controllers/nintendo-entertainment-system-controllers.html/109045-nintendo-switch-online-nes-controller-right-1200x675?_a=AJADJWI0",
+
+        ], 
+        commentIDs: [12],
+        categories: ["console"],
+        details: [
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+        ],
+        relatedTopics: [
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+        ],
     },
     {
         ID: "SNES", title: "SNES",
@@ -103,8 +123,26 @@ export let articles = [
             { title: "History", body: "It was made and sold." },
             { title: "Hardware", body: "It had some hardware."}],
         contributors: ["bob"],
-        images: [], commentIDs: [13, 14],
-        category: "console"
+        images: [
+            "https://m.media-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
+            "https://i.imgur.com/xrCp8eb.jpg",
+            "https://static.wikia.nocookie.net/nintendo/images/7/7f/Super_Mario_World_for_Super_Nintendo%2C_%281991%29_TV_Commercial_1%2C_HD/revision/latest?cb=20190620184006&path-prefix=en",
+            "https://www.mobygames.com/images/covers/l/431956-super-nintendo-entertainment-system-super-nes-classic-edition-dedicated-console-front-cover.jpg",
+            "https://images.nintendolife.com/8dab5ebac991e/1280x720.jpg",
+        ], 
+        commentIDs: [13, 14],
+        categories: ["console"],
+        details: [
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+        ],
+        relatedTopics: [
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+        ],
     },
     {
         ID: "Dragon_Warrior", title: "Dragon Warrior",
@@ -112,7 +150,18 @@ export let articles = [
             { body: "One guy owns 718 copies of this game." }],
         contributors: ["bob"],
         images: [], commentIDs: [14],
-        category: "game"
+        categories: ["game"],
+        details: [
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+            faker.company.bsNoun(),
+        ],
+        relatedTopics: [
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+            faker.company.bsNoun(),
+            faker.company.bsAdjective(),
+        ],
     },
     testArticle1, testArticle2,
 ]
