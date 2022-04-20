@@ -1,5 +1,6 @@
 <h1>How to set up BitWikk<h1>
 
+<p>
 In the command line, input:
 
 ```
@@ -9,3 +10,4 @@ In the command line, input:
     npm install bcrypt    
     npm install @faker-js/faker --save-dev
 ```
+</p>

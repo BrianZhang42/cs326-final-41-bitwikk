@@ -45,15 +45,15 @@ POST /user/delete?user={username}
         Requires login (cookie header)
 
 <h3>Register Page</h3>
-<img src="static/imgs/Register1.png" height="500px">
-<img src="static/imgs/register2.png" height="500px">
+<img src="../static/imgs/Register1.png" height="500px">
+<img src="../static/imgs/register2.png" height="500px">
 <br>
 Demonstrates the Create Operation by allowing a user to create an account in which the user inputs a username and
 password that is stored.
 
 <h3>Login Page</h3>
-<img src="static/imgs/login1.png" height="500px">
-<img src="static/imgs/login2.png" height="200px">
+<img src="../static/imgs/login1.png" height="500px">
+<img src="../static/imgs/login2.png" height="200px">
 <br>
 Demonstrates the Read Operation by finding a user that has registered and allowing them to login to their account 
 in which the sign in/sign up buttons become signed in/sign out.
