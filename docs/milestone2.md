@@ -61,15 +61,15 @@ Requires login (cookie header).<br/>
 This will be used to delete an account.
 
 <h3>Register Page</h3>
-<img src="../static/imgs/Register1.png" height="500px">
-<img src="../static/imgs/register2.png" height="500px">
+<img src="imgs/Register1.png" height="500px">
+<img src="imgs/register2.png" height="500px">
 <br>
 Demonstrates the Create Operation by allowing a user to create an account in which the user inputs a username and
 password that is stored.
 
 <h3>Login Page</h3>
-<img src="../static/imgs/login1.png" height="500px">
-<img src="../static/imgs/login2.png" height="200px">
+<img src="imgs/login1.png" height="500px">
+<img src="imgs/login2.png" height="200px">
 <br>
 Demonstrates the Read Operation by finding a user that has registered and allowing them to login to their account
 in which the sign in/sign up buttons become signed in/sign out.
@@ -80,7 +80,11 @@ in which the sign in/sign up buttons become signed in/sign out.
 <br>
 Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit.
 
-<h3>Delete User</h3>
-<img src="#" height="500px">
+<h3>Delete Session</h3>
+<img src="imgs/login2.png" height="200px">
+<img src="imgs/logout.png" height="200px">
 <br>
-Demonstrates the Delete Operation by allowing the user to delete their own profile after they register and are logged in.
+Demonstrates the Delete Operation by allowing the user to sign out deleting the current session.
+
+<h3>Heroku Application</h3>
+<a href="https://cs326-s22-41-bitwikk.herokuapp.com/">Heroku</a>
