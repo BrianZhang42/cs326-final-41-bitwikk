@@ -88,12 +88,18 @@ router.post("/delete", asyncRoute(async (request, response) => {
     if (!requireParams(request.query, ["user"], response)) {
         return;
     }
-    const { user } = request.query;
-
     if (!validateSession(request, response)) { return; }
 
+    // we require both a session and a query param here to make
+    // it harder to accidentally delete your account
+
+    if (request.query.user !== request.cookies.user) {
+        // user is only allowed to delete themselves
+        response.status(403).end();
+    }
+
     // TODO: error handling
-    deleteUser(user);
+    deleteUser(request.cookies.user);
     response.status(200).end();
 }));
 
