@@ -7,9 +7,9 @@ Brian Zhang, BrianZhang42 - Markdown files, Client/CRUD utility functions, HTML/
 Neil Gupta, nog642 - Various routes and data processing, session management, Heroku deployment<br>
 
 Objects:
-User - {username, password (hash and salt)}
-Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
-Comment - {ID, username, articleID, content}
+User - {username, password (hash and salt)}<br>
+Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}<br>
+Comment - {ID, username, articleID, content}<br>
 
 ### API:o
 
