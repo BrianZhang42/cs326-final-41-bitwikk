@@ -154,18 +154,6 @@ export async function login(username, password) {
         return null;
     }
 };
-// router.post("/auth", (req, res) => {
-//     User.findOne({ username: req.body.username }, (err, user) => {
-//         if (err) throw err;
-
-//         if (!user) {
-//             res.status(401).json({ error: "Invalid username" });
-//         } else {
-//             bcrypt.compare(req.body.password, user.password, (err, valid) => {
-//             });
-//         }
-//     });
-// });
 
 export function validateUpdateBody(body, response) {
     for (const attr of ["username", "password"]) {
