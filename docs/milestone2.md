@@ -7,9 +7,14 @@ Brian Zhang, BrianZhang42 - Markdown files, Client/CRUD utility functions, HTML/
 Neil Gupta, nog642 - Various routes and data processing, session management, Heroku deployment<br>
 
 ## Objects:
-User - {username, password (hash and salt)}<br>
-Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}<br>
-Comment - {ID, username, articleID, content}<br>
+
+User - {username, password (hash and salt)}
+
+Article - {ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
+
+Comment - {ID, username, articleID, content}
+
+Session - {sessionID, username, expiry}
 
 ## API:
 
@@ -69,12 +74,11 @@ This will be used to delete an account.
 Demonstrates the Create Operation by allowing a user to create an account in which the user inputs a username and
 password that is stored.
 
-### Login Page
-<img src="imgs/login1.png" height="500px">
-<img src="imgs/login2.png" height="200px">
+### Article Page
+<!-- <img src="imgs/login1.png" height="500px">
+<img src="imgs/login2.png" height="200px"> -->
 <br>
-Demonstrates the Read Operation by finding a user that has registered and allowing them to login to their account
-in which the sign in/sign up buttons become signed in/sign out.
+Demonstrates the Read Operation, because the client side JS gets the article content as a JSON from the server using a GET request, then renders it on the page.
 
 ### Article Edit Page
 <img src="imgs/edit1.png" height="500px">
