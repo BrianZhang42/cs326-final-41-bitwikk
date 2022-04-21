@@ -1,10 +1,10 @@
 <h1>BitWikk Milestone 2</h1>
 
 <h2>Division of Labor</h2>
-Donald Hurld, DonaldHurldUni - server.js get/post functions<br>
-Einar Klarlund, einarklarlund - <br>
-Brian Zhang, BrianZhang42 - <br>
-Neil Gupta, nog642 - <br>
+Donald Hurld, DonaldHurldUni - server.js and routing functions<br>
+Einar Klarlund, einarklarlund - JavaScript functions, article page functionality, models<br>
+Brian Zhang, BrianZhang42 - Markdown files, Client/CRUD utility functions, HTML/CSS pages<br>
+Neil Gupta, nog642 - Login/registration, random articles, Heroku<br>
 
 Objects:
 User - {username, password (hash and salt)}
@@ -13,36 +13,34 @@ Comment - {ID, username, articleID, content}
 
 API:
 
-Note: The article content will be stored as markdown and will need to be translated into html. It could be done on the client or the server side.
-
 GET  /article/{ID} serves the static article_page.html
 
 GET  /article/{ID}/get returns a JSON with article content
-POST /create
-        Requires login (cookie header)
-        Body: {title: title, content: content}
-UPDATE /article/{ID}/edit
-        Requires login (cookie header)
-        Body: {content: content}
-POST /article/{ID}/comment -
-        Requires login (cookie header)
-        Body: {content: content}
+POST /create<br>
+        Requires login (cookie header)<br>
+        Body: {title: title, content: content}<br>
+UPDATE /article/{ID}/edit<br>
+        Requires login (cookie header)<br>
+        Body: {content: content}<br>
+POST /article/{ID}/comment<br>
+        Requires login (cookie header)<br>
+        Body: {content: content}<br>
 
 GET  /search?query={query}
 GET  /category/{category}
 
-POST /user/login
-        Body: {username: username, password: password (plaintext)}
-POST /user/logout
-        Requires login (cookie header)
-GET  /user/get?user={username}
-POST /user/create
-        Body: {username: username, password: password (plaintext)}
-UPDATE /user/edit
-        Requires login (cookie header)
-        Body: {username: username, ...additional fields}
-DELETE /user/delete?user={username}
-        Requires login (cookie header)
+POST /user/login<br>
+        Body: {username: username, password: password (plaintext)}<br>
+POST /user/logout<br>
+        Requires login (cookie header)<br>
+GET  /user/get?user={username}<br>
+POST /user/create<br>
+        Body: {username: username, password: password (plaintext)}<br>
+UPDATE /user/edit<br>
+        Requires login (cookie header)<br>
+        Body: {username: username, ...additional fields}<br>
+DELETE /user/delete?user={username}<br>
+        Requires login (cookie header)<br>
 
 <h3>Register Page</h3>
 <img src="../static/imgs/Register1.png" height="500px">
@@ -59,11 +57,12 @@ Demonstrates the Read Operation by finding a user that has registered and allowi
 in which the sign in/sign up buttons become signed in/sign out.
 
 <h3>Edit Page</h3>
-<img src="#" height="500px">
+<img src="imgs/edit1.png" height="500px">
+<img src="imgs/edit2.png" height="500px">
 <br>
 Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit.
 
 <h3>Delete User</h3>
 <img src="#" height="500px">
 <br>
-Demonstrates the Delete Operation by allowing the user to delete their own account after they register and are logged in.
+Demonstrates the Delete Operation by allowing the user to delete their own profile after they register and are logged in.
