@@ -9,15 +9,13 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.17.3",
     "faker": "^5.5.3",
-    "jwt-simple": "^0.5.6"
+    "jwt-simple": "^0.5.6",
+    "@faker-js/faker": "^6.1.2"
   },
   "engines": {
     "node": "14.x"
   },
   "scripts": {
     "start": "node server/server.js"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^6.1.2"
   }
 }

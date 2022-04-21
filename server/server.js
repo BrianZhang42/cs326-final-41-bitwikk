@@ -12,6 +12,10 @@ import { projectRoot, asyncRoute, serve404 } from './utils.js';
 
 // TODO: once this is hosted on Heroku, check the Origin header to prevent CSRF
 
+// Heroku sets the PORT environment variable
+// default to 3000 if the variable is empty
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -106,4 +110,4 @@ app.use((request, response, next) => {
     });
 });
 
-app.listen(3000, "", () => console.log("app is listening on port 3000!"));
+app.listen(PORT, "", () => console.log(`app is listening on port ${PORT}!`));
