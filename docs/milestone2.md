@@ -75,8 +75,7 @@ Demonstrates the Create Operation by allowing a user to create an account in whi
 password that is stored.
 
 ### Article Page
-<!-- <img src="imgs/login1.png" height="500px">
-<img src="imgs/login2.png" height="200px"> -->
+<img src="imgs/snes.png" height="500px">
 <br>
 Demonstrates the Read Operation, because the client side JS gets the article content as a JSON from the server using a GET request, then renders it on the page.
 
