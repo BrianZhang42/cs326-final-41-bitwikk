@@ -95,5 +95,9 @@ Demonstrates the Update Operation by allowing the user to edit an article page a
 <br>
 Demonstrates the Delete Operation by allowing the user to sign out, making the server delete the session.
 
+Above, we first see what the user sees when they are signed in: the "Signed in" message, letting them know they are signed in, and the "Sign out" button. Next, we see what the user sees after clicking the "Sign out" button: a button to "Sign in" and a button to "Sign up".
+
+Clicking the "Sign out" button sends a POST request to the server, deleting the session, and the server response's `Set-Cookie` header deletes the cookies on the client side. The client side JS then reloads the page.
+
 ## Heroku Application
 [https://cs326-s22-41-bitwikk.herokuapp.com/](https://cs326-s22-41-bitwikk.herokuapp.com/)
