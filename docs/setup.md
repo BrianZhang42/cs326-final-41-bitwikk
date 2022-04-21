@@ -1,13 +1,7 @@
-<h1>How to set up BitWikk<h1>
+<h1>How to set up BitWikk</h1>
 
-<p>
-In the command line, input:
+1. Clone the git repository with `git clone https://github.com/BrianZhang42/cs326-final-41-bitwikk.git`
 
-```
-    npm install -save express
-    npm install cookie-parser
-    npm install jwt-simple  
-    npm install bcrypt    
-    npm install @faker-js/faker --save-dev
-```
-</p>
+2. `cd` into the repository, then install node dependencies with `npm install .`
+
+3. To run the server, use the command `npm start`
