@@ -1,10 +1,14 @@
 # BitWikk Milestone 2
 
 ## Division of Labor
-Donald Hurld, DonaldHurldUni - server.js and routing functions<br>
-Einar Klarlund, einarklarlund - JavaScript functions, article page functionality, models<br>
-Brian Zhang, BrianZhang42 - Markdown files, Client/CRUD utility functions, HTML/CSS pages<br>
-Neil Gupta, nog642 - Various routes and data processing, session management, Heroku deployment<br>
+
+Donald Hurld, DonaldHurldUni - server.js and routing functions
+
+Einar Klarlund, einarklarlund - JavaScript functions, article page functionality, models
+
+Brian Zhang, BrianZhang42 - Markdown files, Client/CRUD utility functions, HTML/CSS pages
+
+Neil Gupta, nog642 - Various routes and data processing, session management, Heroku deployment
 
 ## Objects:
 
@@ -85,11 +89,11 @@ Demonstrates the Read Operation, because the client side JS gets the article con
 <br>
 Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit.
 
-### Delete Session
+### Sign out
 <img src="imgs/login2.png" height="200px">
 <img src="imgs/logout.png" height="200px">
 <br>
-Demonstrates the Delete Operation by allowing the user to sign out deleting the current session.
+Demonstrates the Delete Operation by allowing the user to sign out, making the server delete the session.
 
 ## Heroku Application
-<a href="https://cs326-s22-41-bitwikk.herokuapp.com/">Heroku</a>
+[https://cs326-s22-41-bitwikk.herokuapp.com/](https://cs326-s22-41-bitwikk.herokuapp.com/)
