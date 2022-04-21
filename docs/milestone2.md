@@ -22,7 +22,9 @@ This serves the static `article_page.html`, which then dynamically calls `GET /a
 This returns a JSON with article content
 
 `POST /create`
+
     `Requires login (cookie header)`
+
     `Body: {title: title, content: content}`
 
 This request will be used to create new articles.
@@ -33,9 +35,9 @@ This request will be used to create new articles.
 
 This request will be used to edit articles.
 
-`POST /article/{ID}/comment`
-`        Requires login (cookie header)`
-`        Body: {content: content}`
+```POST /article/{ID}/comment
+        Requires login (cookie header)
+        Body: {content: content}```
 
 This request will be used to post a comment under an article.
 
