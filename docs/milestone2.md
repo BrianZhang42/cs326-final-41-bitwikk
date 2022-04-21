@@ -21,7 +21,7 @@ GET  /article/{ID}/get returns a JSON with article content
 POST /create
         Requires login (cookie header)
         Body: {title: title, content: content}
-POST /article/{ID}/edit
+UPDATE /article/{ID}/edit
         Requires login (cookie header)
         Body: {content: content}
 POST /article/{ID}/comment -
@@ -38,10 +38,10 @@ POST /user/logout
 GET  /user/get?user={username}
 POST /user/create
         Body: {username: username, password: password (plaintext)}
-POST /user/edit
+UPDATE /user/edit
         Requires login (cookie header)
         Body: {username: username, ...additional fields}
-POST /user/delete?user={username}
+DELETE /user/delete?user={username}
         Requires login (cookie header)
 
 <h3>Register Page</h3>
@@ -57,3 +57,13 @@ password that is stored.
 <br>
 Demonstrates the Read Operation by finding a user that has registered and allowing them to login to their account 
 in which the sign in/sign up buttons become signed in/sign out.
+
+<h3>Edit Page</h3>
+<img src="#" height="500px">
+<br>
+Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit.
+
+<h3>Delete User</h3>
+<img src="#" height="500px">
+<br>
+Demonstrates the Delete Operation by allowing the user to delete their own account after they register and are logged in.
