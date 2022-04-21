@@ -23,21 +23,19 @@ This returns a JSON with article content
 
 `POST /create`
 
-    `Requires login (cookie header)`
-
-    `Body: {title: title, content: content}`
+Requires login (cookie header). Body: `{title: title, content: content}`
 
 This request will be used to create new articles.
 
-`POST /article/{ID}/edit`<br/>
-`        Requires login (cookie header)`<br/>
-`        Body: {content: content}`
+`POST /article/{ID}/edit`
+
+Requires login (cookie header). Body: `{content: content}`
 
 This request will be used to edit articles.
 
-```POST /article/{ID}/comment
-        Requires login (cookie header)
-        Body: {content: content}```
+`POST /article/{ID}/comment`
+
+Requires login (cookie header). Body: `{content: content}`
 
 This request will be used to post a comment under an article.
 
@@ -50,7 +48,8 @@ This will be used for the searchbar. It returns a list of articles as a JSON.
 This will be used to browse by category. For now it returns a list of articles as a JSON.
 
 `POST /user/login`
-`        Body: {username: username, password: password (plaintext)}`
+
+Body: `{username: username, password: password (plaintext)}`
 
 This will be used to log in.
 
@@ -64,18 +63,20 @@ This will be used to log out (make the server forget the session).
 This will be used to get the user profile as a JSON. Currently there is no useful data there since the only thing there is the username.
 
 `POST /user/create`
-`        Body: {username: username, password: password (plaintext)}`
+
+Body: `{username: username, password: password (plaintext)}`
 
 This will be used to sign up for an account
 
 `POST /user/edit`
-`        Requires login (cookie header)`
-`        Body: {username: username, ...additional fields}`
+
+Requires login (cookie header). Body: `{username: username, ...additional fields}`
 
 This will be used to let a user edit their account (modify their profile in the future, or change their password).
 
 `POST /user/delete?user={username}`
-`        Requires login (cookie header)`
+
+Requires login (cookie header).
 
 This will be used to delete an account.
 
