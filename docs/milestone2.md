@@ -11,7 +11,7 @@ User - {username, password (hash and salt)}
 Article - ID (based on title), title, content, contributers, images (for gallery), commentIDs, category}
 Comment - {ID, username, articleID, content}
 
-### API:
+### API:o
 
 `GET  /article/{ID}`
 
@@ -22,13 +22,13 @@ This serves the static `article_page.html`, which then dynamically calls `GET /a
 This returns a JSON with article content
 
 `POST /create`
-`        Requires login (cookie header)`
-`        Body: {title: title, content: content}`
+    `Requires login (cookie header)`
+    `Body: {title: title, content: content}`
 
 This request will be used to create new articles.
 
-`POST /article/{ID}/edit`
-`        Requires login (cookie header)`
+`POST /article/{ID}/edit`<br/>
+`        Requires login (cookie header)`<br/>
 `        Body: {content: content}`
 
 This request will be used to edit articles.
