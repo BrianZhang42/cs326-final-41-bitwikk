@@ -2,7 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
-import { createArticle, getCategory, searchArticles } from './articleUtil.js';
+import { createArticle, getCategory, searchArticles,
+         getRandomArticle } from "./articleUtil.js";
 import { projectRoot, asyncRoute, serve404 } from './utils.js';
 
 // const cookieParser = require("cookie-parser");
@@ -24,7 +25,7 @@ app.use("/user", userRouter);
 app.use("/article", articleRouter);
 
 //  request body: { content: string }
-app.post("/create", asyncRoute((req, res) => {
+app.post("/create", asyncRoute(async (req, res) => {
     if (!validateSession(request, response)) { return; }
 
     // TODO: validation
@@ -42,7 +43,7 @@ app.post("/create", asyncRoute((req, res) => {
     }
 }));
 
-app.get("/category/:category", asyncRoute((req, res) => {
+app.get("/category/:category", asyncRoute(async (req, res) => {
     const { category } = req.params;
     const [success, result] = getCategory(category);
     if (!success) {
@@ -53,7 +54,7 @@ app.get("/category/:category", asyncRoute((req, res) => {
     res.json(result);
 }));
 
-app.get('/search', asyncRoute((request, response) => {
+app.get('/search', asyncRoute(async (request, response) => {
     if (!requireParams(request.query, ["query"], response)) {
         return;
     }
@@ -64,6 +65,11 @@ app.get('/search', asyncRoute((request, response) => {
         return;
     }
     res.json(result);
+}));
+
+app.get("/random", asyncRoute(async (request, response) => {
+    const articleID = getRandomArticle().ID;
+    response.redirect(307, `/article/${articleID}`);
 }));
 
 // static serving

@@ -104,7 +104,7 @@ export function editArticle(articleID, newArticle) {
     let article = articles[getArticleIndex(articleID)]
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
-    }); 
+    });
 
     return true;
 }
@@ -182,4 +182,12 @@ export function searchArticles(query) {
         ID: article.ID,
         title: article.title
     }))];
+}
+
+export function getRandomArticle() {
+    const article = articles[Math.floor(Math.random() * articles.length)];
+    return {
+        ID: article.ID,
+        title: article.title
+    };
 }
