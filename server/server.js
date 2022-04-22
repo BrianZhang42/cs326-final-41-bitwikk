@@ -5,11 +5,9 @@ import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles,
          getRandomArticle } from "./articleUtil.js";
 import { projectRoot, asyncRoute, serve404 } from './utils.js';
+import mongoose from "mongoose";
 
-// const cookieParser = require("cookie-parser");
-
-// const mongoose = require("mongoose");
-// mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
+mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/");
 
 // TODO: once this is hosted on Heroku, check the Origin header to prevent CSRF
 
