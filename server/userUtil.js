@@ -51,19 +51,13 @@ export async function createUser(username, password) {
     return createSession(username);
 }
 
-export function getUser(username) {
-    return users.find(user => user.username === username);
-}
-
-// get index of user in list
-// (probably won't be needed after we have a databse)
-function getUserIndex(username) {
-    return users.findIndex(user => user.username === username);
+export async function getUser(username) {
+    return await UserDB.findOne({ 'username' : username });
 }
 
 // this is for the /user/get route
-export function getUserProfile(username) {
-    const user = getUser(username);
+export async function getUserProfile(username) {
+    const user = await getUser(username);
 
     // filter only the keys we want to return to the client.
     // right now this has nothing useful, but in the future it will
@@ -145,8 +139,8 @@ export function validateSession(request, response) {
 }
 
 export async function checkPassword(username, password) {
-    const user = getUser(username);
-    if (user === undefined) {
+    const user = await getUser(username);
+    if (user === undefined || user === null) {
         return false;
     }
     return await bcrypt.compare(password, user.password);
@@ -171,7 +165,7 @@ export function validateUpdateBody(body, response) {
     return true;
 }
 
-export function checkUpdate({username, password}) {
+export async function checkUpdate({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -180,31 +174,31 @@ export function checkUpdate({username, password}) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
     }
-    if (getUser(username) === undefined) {
+    if (await getUser(username) === undefined) {
         return [false, {invalid: "username",
                         message: `User ${username} does not exist`}]
     }
     return [true, [username, password]];
 }
 
-export function editUser(username, password) {
-    const i = getUserIndex(username);
-    if (i === undefined) {
-        return [false, null];
-    }
-    const updatedUser = {
+export async function editUser(username, password) {
+    let newUser = {
         username: username,
         password: password
     }
-    users[i] = updatedUser;
-    return [true, updatedUser];
+
+    await UserDB.findOneAndUpdate({ 'username': username }, newUser, { upsert: false })
+
+    return [true, newUser];
 }
 
-export function deleteUser(username) {
-    const i = getUserIndex(username);
-    if (i === undefined) {
+export async function deleteUser(username) {
+    if(!(await UserDB.exists({ "username": username }))) {
         return false;
     }
-    users.splice(i, 1);
+    
+    await UserDB.deleteOne({ "username": username });
+    await UserDB.save();
+    
     return true;
 }

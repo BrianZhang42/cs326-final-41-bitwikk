@@ -132,10 +132,7 @@ Comment Document
 
 ## URL Routes/Mapping
 
-| Routes                   | Description              | Authentication Required      |
-|--------------------------|-----------               |--------------------------|
-| countername              | String                   | The name of the counter  |
-| countervalue             | integer                  | The value of the counter |
+<img src="imgs/#" height="6000px">
 
 ## Authentication/Authorization
 When a user attempts to sign in via BitWikk's login page, the server creates a session after a password check, in which the hashed password associated with the user is checked against the provided password using bcrypt. This session is set to expire after 30 days, and will be deleted if it's detected to be invalid.
@@ -144,13 +141,13 @@ Once signed in, all users will have the ability to edit pages as well as comment
 
 
 ## Division of Labor
-Donald Hurld, DonaldHurldUni - login page wireframe and Bootstrap, server.js and routing functions, front end testing, final.md writeup
+Donald Hurld, DonaldHurldUni - login page wireframe and Bootstrap, server.js and routing functions, front end testing, final.md writeup, backend work
 
-Einar Klarlund, einarklarlund -  search page wireframe and Bootstrap, JavaScript functions, article page functionality, models
+Einar Klarlund, einarklarlund -  search page wireframe and Bootstrap, JavaScript functions, article page functionality, models, Database schemas and setup
 
-Brian Zhang, BrianZhang42 - article page wireframe and Bootstrap, Markdown files, Client/CRUD utility functions, HTML/CSS pages
+Brian Zhang, BrianZhang42 - article page wireframe and Bootstrap, Markdown files, Client/CRUD utility functions, HTML/CSS pages, Database schemas and documentation
 
-Neil Gupta, nog642 - home page wireframe and Bootstrap, Various routes and data processing, session management, Heroku deployment
+Neil Gupta, nog642 - home page wireframe and Bootstrap, Various routes and data processing, session management, Heroku deployment, Database and backend work
 
 Note: Majority of cooperative working sessions were done using Visual Studio Liveshare, in case the unequal number of commits were being questioned.
 

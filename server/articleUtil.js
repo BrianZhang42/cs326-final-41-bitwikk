@@ -14,7 +14,7 @@ function generateArticleID(title) {
     return [true, encodeURI(title)];
 }
 
-export function createArticle(title, content, contributor, category) {
+export async function createArticle(title, content, contributor, category) {
     if (!title) {
         return [false, {invalid: "title",
                         message: "Title cannot be empty"}];
@@ -35,7 +35,7 @@ export function createArticle(title, content, contributor, category) {
         return [false, {invalid: "category",
                         message: `category field must be either 'game' or 'console'.`}];
     }
-    if (getUser(contributor) === undefined) {
+    if (await getUser(contributor) === undefined) {
         return [false, {invalid: "contributor",
                         message: `User ${contributor} does not exist`}];
     }
@@ -110,7 +110,7 @@ export function editArticle(articleID, newArticle) {
 }
 
 const commentFormDataAttrs = ["username", "content"];
-export function checkComment(formData) {
+export async function checkComment(formData) {
     for (const attr of commentFormDataAttrs) {
         if (!formData.hasOwnProperty(attr)) {
             return [false, {invalid: attr,
@@ -125,7 +125,7 @@ export function checkComment(formData) {
     }
     const {articleID, title, body} = formData;
 
-    if (getUser(username) === undefined) {
+    if (await getUser(username) === undefined) {
         return [false, {invalid: "username",
                         message: `User ${username} does not exist`}];
     }
