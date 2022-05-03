@@ -52,7 +52,8 @@ router.post("/create", asyncRoute(async (request, response) => {
     if (!validateRegisterBody(request.body, response)) {
         return;
     }
-    const [checkSuccess, checkResult] = checkRegister(request.body);
+    // console.log(await checkRegister(request.body));
+    const [checkSuccess, checkResult] = await checkRegister(request.body);
     if (!checkSuccess) {
         response.status(400);
         response.json(checkResult);

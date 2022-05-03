@@ -5,7 +5,7 @@ import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles,
          getRandomArticle } from "./articleUtil.js";
 import { projectRoot, asyncRoute, serve404 } from './utils.js';
-import { User } from "./userModel.js";
+import { UserDB } from "./model.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -23,18 +23,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:')); 
 db.once('open', function() {
   console.log("Successfully connected to database!");
-});
-
-// create a user a new user
-var testUser = new User({
-    username: 'jmar777',
-    password: 'Password123',
-    email: "email@email.email"
-});
-     
-// save the user to database
-testUser.save(function(err) {
-    if (err) throw err;
 });
 
 // TODO: once this is hosted on Heroku, check the Origin header to prevent CSRF

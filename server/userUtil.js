@@ -1,7 +1,7 @@
-import { users } from "./fakedata.js";
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
+import { UserDB } from "./model.js"
 
 const saltRounds = 10;
 
@@ -19,7 +19,7 @@ export function validateRegisterBody(body, response) {
     return true;
 }
 
-export function checkRegister({username, password}) {
+export async function checkRegister({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -28,21 +28,26 @@ export function checkRegister({username, password}) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
     }
-    if (!users.every(user => user.username !== username)) {
+
+    if (await UserDB.exists({ 'username' : username })) {
         return [false, {invalid: "username",
-                        message: "username is taken"}];
+                        message: "Username is taken"}]
     }
+    
     return [true, [username, password]];
 }
 
 export async function createUser(username, password) {
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-    const newUser = {
+    const newUser = new UserDB({
         username: username,
-        password: passwordHash
-    };
-    users.push(newUser);
-    console.log(`Created new user: ${username}`);
+        password: await bcrypt.hash(password, saltRounds)
+    });
+    
+    // save the user to database
+    newUser.save(err => {
+        if (err) throw err;
+    });
+    
     return createSession(username);
 }
 
