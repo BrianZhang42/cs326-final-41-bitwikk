@@ -36,6 +36,9 @@ async function loadContent() {
     // set title
     title.innerText = currentArticle.title;
     secondaryTitle.innerText = currentArticle.title;
+    const DOMTitle = document.createElement("title");
+    DOMTitle.innerText = `Bitwikk - ${articleID}`;
+    document.head.appendChild(DOMTitle);
 
     // set body content
     if(currentArticle.content !== undefined)
@@ -135,11 +138,6 @@ async function loadContent() {
             comments.appendChild(card);
         });
     }
-
-    // set title
-    const DOMTitle = document.createElement("title");
-    DOMTitle.innerText = `Bitwikk - ${articleID}`;
-    document.head.appendChild(DOMTitle);
 
     // set edit button href
     document.getElementById("editPage").href = `/article/${articleID}/edit`;
