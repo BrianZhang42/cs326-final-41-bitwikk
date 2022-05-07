@@ -1,23 +1,11 @@
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
-import jwt from "jwt-simple";
 import { UserDB } from "./model.js"
 
 const saltRounds = 10;
 
 // TODO: replace with database
 const sessions = new Map();
-
-export function validateRegisterBody(body, response) {
-    for (const attr of ["username", "password"]) {
-        if (!body.hasOwnProperty(attr)) {
-            response.status(400);
-            response.send(`Body missing required attribute: ${attr}`);
-            return false;
-        }
-    }
-    return true;
-}
 
 export async function checkRegister({username, password}) {
     if (!username) {
@@ -33,7 +21,7 @@ export async function checkRegister({username, password}) {
         return [false, {invalid: "username",
                         message: "Username is taken"}]
     }
-    
+
     return [true, [username, password]];
 }
 
@@ -42,12 +30,12 @@ export async function createUser(username, password) {
         username: username,
         password: await bcrypt.hash(password, saltRounds)
     });
-    
+
     // save the user to database
     newUser.save(err => {
         if (err) throw err;
     });
-    
+
     return createSession(username);
 }
 
@@ -196,9 +184,9 @@ export async function deleteUser(username) {
     if(!(await UserDB.exists({ "username": username }))) {
         return false;
     }
-    
+
     await UserDB.deleteOne({ "username": username });
     await UserDB.save();
-    
+
     return true;
 }

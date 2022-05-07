@@ -1,6 +1,6 @@
 import express from "express";
 import { asyncRoute, asyncRouteWithBody, requireBodyAttrs, requireParams } from "./utils.js"
-import { validateRegisterBody, checkRegister, createUser,
+import { checkRegister, createUser,
          getUserProfile,
          setSessionCookies, validateSession,
          deleteSession, deleteSessionCookies,
@@ -49,11 +49,10 @@ router.get("/get", asyncRoute(async (request, response) => {
 }));
 
 // request body: { username: string, password: string }
-router.post("/create", asyncRoute(async (request, response) => {
-    if (!validateRegisterBody(request.body, response)) {
-        return;
-    }
-    // console.log(await checkRegister(request.body));
+router.post("/create", asyncRouteWithBody({
+    "username": "string",
+    "password": "string"
+}, async (request, response) => {
     const [checkSuccess, checkResult] = await checkRegister(request.body);
     if (!checkSuccess) {
         response.status(400);
