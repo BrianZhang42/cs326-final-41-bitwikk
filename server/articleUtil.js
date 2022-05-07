@@ -1,5 +1,7 @@
 import { articles, comments } from "./fakedata.js";
+import { CommentDB } from "./model.js";
 import { getUser } from "./userUtil.js";
+import { randomUUID } from "crypto";
 
 function generateArticleID(title) {
     // don't allow non-printable characters
@@ -131,28 +133,36 @@ export function addComment(articleID, username, content) {
     if (getArticle(articleID) === undefined) {
         return [false, {message: "Article does not exist"}];
     }
-    const comment = {
-        // TODO: use UUID
-        ID: (Object.keys(comments).length) + 1,
+
+    // TODO: add the new commentId to the article's list of commentIDs
+    let commentId = randomUUID();
+    const commentBody = {
+        ID: commentId,
         username: username,
         articleID: articleID,
         content: content
-    };
+    }
 
-    let article = articles[getArticleIndex(articleID)];
-    if(article.comments === undefined)
-        article.comments = [];
+    const newComment = new CommentDB(commentBody);
+    // save the comment to database
+    await newComment.save(err => {
+        if (err) throw err;
+    });
 
-    article.comments.push(comment);
-    return [true, comment]
+    return [true, commentBody]
 }
 
-export function deleteComment(commentId) {
-    comments.splice(comments.findIndex((com) => com.commentId === commentId));
+export async function deleteComment(commentId) {
+    if(!(await CommentDB.exists({ "ID": commentId }))) {
+        return false;
+    }
+
+    await CommentDB.deleteOne({ "ID": commentId });
+    await CommentDB.save();
 }
 
-export function CommentExists(commentId) {
-    return comments.find((com) => com.commentId === commentId) !== undefined ? true : false;
+export async function CommentExists(commentId) {
+    return await CommentDB.exists({ "ID": commentId });
 }
 
 export function getCategory(category) {
