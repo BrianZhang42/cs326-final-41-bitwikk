@@ -142,17 +142,6 @@ export async function login(username, password) {
     }
 };
 
-export function validateUpdateBody(body, response) {
-    for (const attr of ["username", "password"]) {
-        if (!body.hasOwnProperty(attr)) {
-            response.status(400);
-            response.send(`Body missing required attribute: ${attr}`);
-            return false;
-        }
-    }
-    return true;
-}
-
 export async function checkUpdate({username, password}) {
     if (!username) {
         return [false, {invalid: "username",

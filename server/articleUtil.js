@@ -78,12 +78,6 @@ function getArticleIndex(articleID) {
 const editFormDataAttrs = ["articleID", "title", "content"];
 export function checkEdit(formData) {
     for (const attr of editFormDataAttrs) {
-        if (!formData.hasOwnProperty(attr)) {
-            return [false, {invalid: attr,
-                            message: `Missing required attribute: ${attr}`}]
-        }
-    }
-    for (const attr of editFormDataAttrs) {
         if (!formData[attr]) {
             return [false, {invalid: attr,
                             message: `${attr} cannot be empty`}];

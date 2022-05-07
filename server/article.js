@@ -1,5 +1,5 @@
 import express from "express";
-import { projectRoot, asyncRoute, requireParams, serve404 } from "./utils.js"
+import { projectRoot, asyncRoute, serve404 } from "./utils.js"
 import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
@@ -44,7 +44,11 @@ router.get("/:articleID/edit", asyncRoute(async (request, response) => {
     response.sendFile(`${projectRoot}/client/article_edit.html`);
 }));
 
-router.post("/:articleID/edit", asyncRoute(async (request, response) => {
+router.post("/:articleID/edit", asyncRouteWithBody({
+    "articleID": "string",
+    "title": "string",
+    "content": "string"
+}, async (request, response) => {
     if (!validateSession(request, response)) { return; }
     const success = editArticle(request.params.articleID, request.body);
 

@@ -5,7 +5,7 @@ import { checkRegister, createUser,
          setSessionCookies, validateSession,
          deleteSession, deleteSessionCookies,
          login,
-         validateUpdateBody, checkUpdate, editUser,
+         checkUpdate, editUser,
          deleteUser} from "./userUtil.js"
 
 export const router = express.Router();
@@ -48,7 +48,6 @@ router.get("/get", asyncRoute(async (request, response) => {
     }
 }));
 
-// request body: { username: string, password: string }
 router.post("/create", asyncRouteWithBody({
     "username": "string",
     "password": "string"
@@ -64,12 +63,11 @@ router.post("/create", asyncRouteWithBody({
     response.status(200).end();
 }));
 
-// request body: { username: string, password: string }
-router.post("/edit", asyncRoute(async (request, response) => {
+router.post("/edit", asyncRouteWithBody({
+    "username": "string",
+    "password": "string"
+}, async (request, response) => {
     if (!validateSession(request, response)) { return; }
-    if (!validateUpdateBody(request.body, response)) {
-        return;
-    }
     const [checkSuccess, checkResult] = checkUpdate(request.body);
     if (!checkSuccess) {
         response.status(400);
