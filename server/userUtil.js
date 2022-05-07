@@ -32,7 +32,7 @@ export async function createUser(username, password) {
     });
 
     // save the user to database
-    newUser.save(err => {
+    await newUser.save(err => {
         if (err) throw err;
     });
 
