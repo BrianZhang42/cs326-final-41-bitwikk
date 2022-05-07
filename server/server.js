@@ -45,9 +45,6 @@ app.post("/create", bwroute({
     requiredQueryParameters: [],
     bodySchema: {},  // TODO
     handler: async (req, res, username) => {
-
-        if (!validateSession(request, response)) { return; }
-
         // TODO: validation
         const { title, content } = req.body;
         const [success, result] = createArticle(title, content, username,

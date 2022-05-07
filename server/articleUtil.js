@@ -105,28 +105,24 @@ export function editArticle(articleID, newArticle) {
     return true;
 }
 
-const commentFormDataAttrs = ["username", "content"];
-export async function checkComment(formData) {
+const commentFormDataAttrs = ["content"];
+export async function checkComment(request) {
     for (const attr of commentFormDataAttrs) {
-        if (!formData.hasOwnProperty(attr)) {
+        if (!request.body.hasOwnProperty(attr)) {
             return [false, {invalid: attr,
                             message: `Missing required attribute: ${attr}`}]
         }
     }
     for (const attr of commentFormDataAttrs) {
-        if (!formData[attr]) {
+        if (!request.body[attr]) {
             return [false, {invalid: attr,
                             message: `${attr} cannot be empty`}];
         }
     }
-    const {articleID, title, body} = formData;
+    const {articleID, title, body} = request.body;
 
-    if (await getUser(formData.username) === undefined) {
-        return [false, {invalid: "username",
-                        message: `User ${username} does not exist`}];
-    }
     // TODO: validate content
-    return [true, [formData.username, formData.content]];
+    return [true, [request.cookies.user, request.body.content]];
 }
 
 export async function addComment(articleID, username, content) {
