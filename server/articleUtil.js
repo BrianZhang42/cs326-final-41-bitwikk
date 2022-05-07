@@ -129,7 +129,7 @@ export async function checkComment(formData) {
     return [true, [formData.username, formData.content]];
 }
 
-export function addComment(articleID, username, content) {
+export async function addComment(articleID, username, content) {
     if (getArticle(articleID) === undefined) {
         return [false, {message: "Article does not exist"}];
     }
@@ -145,7 +145,7 @@ export function addComment(articleID, username, content) {
 
     const newComment = new CommentDB(commentBody);
     // save the comment to database
-    await newComment.save(err => {
+    newComment.save(err => {
         if (err) throw err;
     });
 

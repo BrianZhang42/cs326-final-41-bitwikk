@@ -66,7 +66,7 @@ router.post("/:articleID/comment", asyncRoute(async (request, response) => {
         response.status(400).json(checkResult);
         return;
     }
-    const [success, result] = addComment(request.params.articleID,
+    const [success, result] = await addComment(request.params.articleID,
                                          ...checkResult);
     if (success) {
         response.json(result);
