@@ -27,5 +27,7 @@ export const serve404 = response =>
     response.status(404).sendFile(`${projectRoot}/client/404.html`, {
         lastModified: false
     }, err => {
-        response.status(500).end();
+        if (err) {
+            response.status(500).end();
+        }
     });
