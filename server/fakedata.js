@@ -143,6 +143,10 @@ export let articles = [
             faker.company.bsNoun(),
             faker.company.bsAdjective(),
         ],
+        comments: [
+            { username: "bob", content: "i just love the SNES :) it's so cool" },
+            { username: "guy", content: "the SNES sucks >:( it's so bad" },
+        ]
     },
     {
         ID: "Dragon_Warrior", title: "Dragon Warrior",

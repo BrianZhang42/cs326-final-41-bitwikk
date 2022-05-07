@@ -119,12 +119,12 @@ export async function checkComment(formData) {
     }
     const {articleID, title, body} = formData;
 
-    if (await getUser(username) === undefined) {
+    if (await getUser(formData.username) === undefined) {
         return [false, {invalid: "username",
                         message: `User ${username} does not exist`}];
     }
     // TODO: validate content
-    return [true, [username, content]];
+    return [true, [formData.username, formData.content]];
 }
 
 export function addComment(articleID, username, content) {
@@ -138,7 +138,12 @@ export function addComment(articleID, username, content) {
         articleID: articleID,
         content: content
     };
-    comments.push(comment);
+
+    let article = articles[getArticleIndex(articleID)];
+    if(article.comments === undefined)
+        article.comments = [];
+
+    article.comments.push(comment);
     return [true, comment]
 }
 
