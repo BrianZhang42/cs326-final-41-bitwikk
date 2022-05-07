@@ -1,4 +1,4 @@
-import {fileURLToPath} from "url";
+import { fileURLToPath } from "url";
 import path from "path";
 
 export const projectRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -7,8 +7,7 @@ export const asyncRoute = route =>
                           (req, res, next = console.error) =>
                           Promise.resolve(route(req, res)).catch(next);
 
-// only the types allowed in JSON
-const TYPEOF_VALUES = new Set(["object", "boolean", "number", "string"]);
+const JSON_TYPEOF_VALUES = new Set(["object", "boolean", "number", "string"]);
 
 const schemaCheck = (obj, schema) => {
     for (const attr in schema) {
@@ -22,13 +21,13 @@ const schemaCheck = (obj, schema) => {
     return [true, ""];
 }
 
-const validateSchema = schema => {
+const validateJSONSchema = schema => {
     for (const attr in schema) {
         const attrType = schema[attr];
         if ((typeof attrType) != "string") {
             throw "schema values must be strings (return value of typeof)";
         }
-        if (!TYPEOF_VALUES.has(attrType)) {
+        if (!JSON_TYPEOF_VALUES.has(attrType)) {
             throw `Invalid JSON type in schema: ${attrType}`;
         }
     }
@@ -36,18 +35,18 @@ const validateSchema = schema => {
 }
 
 export const asyncRouteWithBody = (bodySchema, route) => {
-    validateSchema(bodySchema);
+    validateJSONSchema(bodySchema);
     return (request, response, next=console.error) => {
-      const [valid, error] = schemaCheck(request.body, bodySchema);
-      if (valid) {
-        Promise.resolve(route(request, response)).catch(next);
-      } else {
-        response.status(400);
-        response.send(`Error in body: ${error}\n`);
-        // send automatically ends the response
-      }
+        const [valid, error] = schemaCheck(request.body, bodySchema);
+        if (valid) {
+            Promise.resolve(route(request, response)).catch(next);
+        } else {
+            response.status(400);
+            response.send(`Error in body: ${error}\n`);
+            // send automatically ends the response
+        }
     };
-  };
+};
 
 const requireAttrs = term => (obj, attrs, response) => {
     for (const attr of attrs) {
@@ -60,10 +59,7 @@ const requireAttrs = term => (obj, attrs, response) => {
     }
     return true;
 };
-
 export const requireParams = requireAttrs("parameter");
-
-export const requireBodyAttrs = requireAttrs("body attribute");
 
 export const serve404 = response =>
     response.status(404).sendFile(`${projectRoot}/client/404.html`, {
