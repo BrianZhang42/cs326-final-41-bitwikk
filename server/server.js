@@ -6,6 +6,7 @@ import { createArticle, getCategory, searchArticles,
          getRandomArticle } from "./articleUtil.js";
 import { projectRoot, asyncRoute, serve404 } from "./utils.js";
 import { UserDB } from "./model.js";
+import logger from "morgan";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -30,6 +31,7 @@ db.once("open", () => console.log("Successfully connected to database!"));
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 

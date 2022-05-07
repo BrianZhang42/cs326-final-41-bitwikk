@@ -10,6 +10,12 @@ function validateSession(request, response) {
 }
 
 router.get("/:articleID", asyncRoute(async (request, response) => {
+    // get rid of trailing slash
+    if (request.path.endsWith("/")) {
+        // TODO: change this to 301 or 308 maybe
+        response.redirect(307, `/article/${request.params.articleID}`);
+        return;
+    }
     // make sure the article exists
     const article = getArticle(request.params.articleID);
     if (article === undefined) {
@@ -26,6 +32,16 @@ router.get("/:articleID/get", asyncRoute(async (request, response) => {
         return;
     }
     response.json(article);
+}));
+
+router.get("/:articleID/edit", asyncRoute(async (request, response) => {
+    if (!validateSession(request, response)) { return; }
+    const article = getArticle(request.params.articleID);
+    if (article === undefined) {
+        serve404(response);
+        return;
+    }
+    response.sendFile(`${projectRoot}/client/article_edit.html`);
 }));
 
 router.post("/:articleID/edit", asyncRoute(async (request, response) => {

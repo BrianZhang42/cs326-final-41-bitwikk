@@ -43,13 +43,13 @@ async function loadContent() {
         if(topicDetails.body != undefined)
             topicBody.innerText = topicDetails.body;
 
-    }); 
+    });
 
     // set contributors
     let contributorString = "Contributors: ";
     currentArticle.contributors.forEach(contributor => contributorString += `${contributor}, `)
     contributors.innerText = contributorString;
-    
+
     // set details
     currentArticle.details.forEach((detail, index) => {
         let listElem = document.createElement("li");
@@ -86,64 +86,66 @@ async function loadContent() {
 
         img.setAttribute("class", "img-fluid");
         img.setAttribute("src", image);
-        
+
         carousel.appendChild(colDiv);
     })
+
+    document.getElementById("editPage").href = `/article/${articleID}/edit`;
 }
 
-document.getElementById('editPage').addEventListener("click", editContent);
+// document.getElementById('editPage').addEventListener("click", editContent);
 
-function editContent() {
-    if (!document.getElementById('mainArt').isContentEditable) {
-        document.getElementById('mainArt').contentEditable = true;
-    } else {
-        document.getElementById('mainArt').contentEditable = false;
-    }
-}
+// function editContent() {
+//     if (!document.getElementById('mainArt').isContentEditable) {
+//         document.getElementById('mainArt').contentEditable = true;
+//     } else {
+//         document.getElementById('mainArt').contentEditable = false;
+//     }
+// }
 
-document.getElementById('post').addEventListener("click", async event => {
-    // const comment = document.createElement('div');
-    // comment.appendCHild(document.getElementById('comment').value);
-    // document.getElementById('comment').value = '';
-    // document.getElementById('csection').appendChild(comment);
-    if(currentArticle == undefined) {
-        console.error(`no article was loaded while submitting article edit.`);
-    }
+// document.getElementById('post').addEventListener("click", async event => {
+//     // const comment = document.createElement('div');
+//     // comment.appendCHild(document.getElementById('comment').value);
+//     // document.getElementById('comment').value = '';
+//     // document.getElementById('csection').appendChild(comment);
+//     if(currentArticle == undefined) {
+//         console.error(`no article was loaded while submitting article edit.`);
+//     }
 
-    let children = content.childNodes;
-    let topicTitles = [];
-    let topicBodies = [];
-    children.forEach((child, index) => {
-        if(child.id === undefined || child.innerText == undefined)
-            return;
+//     let children = content.childNodes;
+//     let topicTitles = [];
+//     let topicBodies = [];
+//     children.forEach((child, index) => {
+//         if(child.id === undefined || child.innerText == undefined)
+//             return;
 
-        if(child.id.substring(0, 12) === "topic-title-") {
-            let topicNum = child.id.substring(12, 13);
-            topicTitles[topicNum] = child.innerText;
-        }
-        else if(child.id.substring(0, 11) === "topic-body-") {
-            let topicNum = child.id.substring(11, 12);
-            topicBodies[topicNum] = child.innerText;
-        }
-    });
-    
-    if(topicBodies.length != topicTitles.length) {
-        console.error("While generating article update request body, didn't find an equal "
-            + "number of article topic titles and article topic bodies.");
-        return;
-    }
+//         if(child.id.substring(0, 12) === "topic-title-") {
+//             let topicNum = child.id.substring(12, 13);
+//             topicTitles[topicNum] = child.innerText;
+//         }
+//         else if(child.id.substring(0, 11) === "topic-body-") {
+//             let topicNum = child.id.substring(11, 12);
+//             topicBodies[topicNum] = child.innerText;
+//         }
+//     });
 
-    let newContent = [];
-    topicBodies.forEach((body, index) => {
-        let title = topicTitles[index];
-        newContent.push({title: title, body: body});
-    });
-    
-    let formData = {
-        ID: currentArticle.ID,
-        title: title.innerText,
-        content: newContent,
-    }
+//     if(topicBodies.length != topicTitles.length) {
+//         console.error("While generating article update request body, didn't find an equal "
+//             + "number of article topic titles and article topic bodies.");
+//         return;
+//     }
 
-    article.updateArticle(formData);
-});
+//     let newContent = [];
+//     topicBodies.forEach((body, index) => {
+//         let title = topicTitles[index];
+//         newContent.push({title: title, body: body});
+//     });
+
+//     let formData = {
+//         ID: currentArticle.ID,
+//         title: title.innerText,
+//         content: newContent,
+//     }
+
+//     article.updateArticle(formData);
+// });
