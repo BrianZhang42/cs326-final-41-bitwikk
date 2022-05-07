@@ -4,7 +4,7 @@ import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles,
          getRandomArticle } from "./articleUtil.js";
-import { projectRoot, asyncRoute, serve404 } from './utils.js';
+import { projectRoot, asyncRoute, serve404 } from "./utils.js";
 import { UserDB } from "./model.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -13,17 +13,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // connect to MongoDB
-mongoose.connect(process.env.MONGO_URL, {
+await mongoose.connect(process.env.MONGO_URL, {
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASS,
 });
 
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:')); 
-db.once('open', function() {
-  console.log("Successfully connected to database!");
-});
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => console.log("Successfully connected to database!"));
 
 // TODO: once this is hosted on Heroku, check the Origin header to prevent CSRF
 
