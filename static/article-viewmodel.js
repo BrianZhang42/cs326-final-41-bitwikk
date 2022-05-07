@@ -47,6 +47,25 @@ export async function updateArticle(formData) {
     }
 }
 
+export async function addComment(formData) {
+    try {
+        const response = await fetch(`/article/${formData.articleID}/comment`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData),
+        });
+        location.reload();
+        return response;
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+}
+
+
 // export async function deleteArticle(formData) {
 //     try {
 //         const response = await fetch(`/article/delete`, {

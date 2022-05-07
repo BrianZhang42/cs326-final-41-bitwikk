@@ -1,12 +1,12 @@
 import express from "express";
-import { asyncRoute, asyncRouteWithBody, requireBodyAttrs, requireParams } from "./utils.js"
+import { asyncRoute, asyncRouteWithBody, requireParams } from "./utils.js"
 import { checkRegister, createUser,
          getUserProfile,
          setSessionCookies, validateSession,
          deleteSession, deleteSessionCookies,
          login,
          checkUpdate, editUser,
-         deleteUser} from "./userUtil.js"
+         deleteUser } from "./userUtil.js"
 
 export const router = express.Router();
 

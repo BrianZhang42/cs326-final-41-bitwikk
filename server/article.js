@@ -1,5 +1,5 @@
 import express from "express";
-import { projectRoot, asyncRoute, serve404 } from "./utils.js"
+import { projectRoot, asyncRoute, asyncRouteWithBody, serve404 } from "./utils.js"
 import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
 
 export const router = express.Router();
@@ -61,7 +61,7 @@ router.post("/:articleID/edit", asyncRouteWithBody({
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {
     if (!validateSession(request, response)) { return; }
-    const [checkSuccess, checkResult] = checkComment(request.body);
+    const [checkSuccess, checkResult] = await checkComment(request.body);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
         return;
@@ -79,7 +79,7 @@ router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, respo
     if (!validateSession(request, response)) { return; }
     // TODO: check that user is editing their own comment
     try {
-        const [checkSuccess, checkResult] = checkComment(request.body);
+        const [checkSuccess, checkResult] = await checkComment(request.body);
         if (!checkSuccess) {
             response.status(400).json(checkResult);
             return;
