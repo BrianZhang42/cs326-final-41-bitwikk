@@ -132,7 +132,8 @@ Comment Document
 
 ## URL Routes/Mapping
 
-<img src="imgs/#" height="6000px">
+<img src="imgs/urlmap1.png" height="400px">
+<img src="imgs/urlmap2.png" height="400px">
 
 ## Authentication/Authorization
 When a user attempts to sign in via BitWikk's login page, the server creates a session after a password check, in which the hashed password associated with the user is checked against the provided password using bcrypt. This session is set to expire after 30 days, and will be deleted if it's detected to be invalid.
