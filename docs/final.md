@@ -19,11 +19,8 @@ Neil Gupta, nog642
 ### Register Page
 <img src="imgs/Register1.png" height="500px">
 <img src="imgs/register2.png" height="500px">
-<img src="" height="500px"> 
+<img src="imgs/failedregister.png" height="500px"> 
 <br>
-<!---
-todo: add failed register image
--->
 Demonstrates the Create Operation by allowing a user to create an account in which the user inputs a username and password that is stored. Additionally, UI informs the user of invalid registration informaiton.
 
 ### Article Page
@@ -98,41 +95,42 @@ This will be used to delete an account.
 
 ## Database
 
-User Document 
-{
-    username: String,           //The username of a user
-    password: String            //The password of a user
+User Document<br/>
+{<br/>
+    `username: String,`           //The username of a user<br/>
+    `password: String`            //The password of a user<br/>
 }
 
-Session Document
-{
-    ID: String,                 //The ID of a user's session
-    username: String,           //The username of the session user
-    expiry: Date                //The time the session expires
+Session Document<br/>
+{<br/>
+    `ID: String,`                 //The ID of a user's session<br/>
+    `username: String,`           //The username of the session user<br/>
+    `expiry: Date`                //The time the session expires<br/>
 }
 
-Article Document
-{
-    ID: String,                 //The ID of an article document
-    title: String,              //The title of the article
-    content: String,            //The main content of the article
-    contributers: String Array, //The users who created the article
-    images: String Array,       //Array of image links in the article
-    commentId: String Array,    //Array of IDs for the comments in the article
-    category: String            //The category the article is in
+Article Document<br/>
+{<br/>
+    `ID: String,`                 //The ID of an article document<br/>
+    `title: String,`              //The title of the article<br/>
+    `content: String,`            //The main content of the article<br/>
+    `contributers: String Array,` //The users who created the article<br/>
+    `images: String Array,`       //Array of image links in the article<br/>
+    `commentId: String Array,`    //Array of IDs for the comments in the article<br/>
+    `category: String`            //The category the article is in<br/>
 }
 
-Comment Document
-{
-    ID: String,                 //The ID of the comment
-    username: String,           //The username of the user who wrote the comment
-    articleID: String,          //The ID for the article the comment is located in
-    content: String             //The content of the comment
+Comment Document<br/>
+{<br/>
+    `ID: String,`                 //The ID of the comment<br/>
+    `username: String,`           //The username of the user who wrote the comment<br/>
+    `articleID: String,`          //The ID for the article the comment is located in<br/>
+    `content: String`             //The content of the comment<br/>
 }
 
 ## URL Routes/Mapping
 
-<img src="imgs/#" height="6000px">
+<img src="imgs/urlmap1.png" height="400px">
+<img src="imgs/urlmap2.png" height="400px">
 
 ## Authentication/Authorization
 When a user attempts to sign in via BitWikk's login page, the server creates a session after a password check, in which the hashed password associated with the user is checked against the provided password using bcrypt. This session is set to expire after 30 days, and will be deleted if it's detected to be invalid.
