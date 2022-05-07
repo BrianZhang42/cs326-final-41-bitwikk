@@ -30,6 +30,21 @@ ul {
     width: auto;
 }
 
+.containerM {
+    display: flex;
+}
+
+.about {
+    padding-left: 15vw;
+    padding-right: 5vw;
+    padding-bottom: 5vh;
+}
+
+.homeImg {
+    padding-right: 13vw;
+    float: right;
+}
+
 .bar {
     background-color: rgb(39, 39, 39);
     margin: auto;
