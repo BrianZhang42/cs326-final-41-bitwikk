@@ -1,5 +1,5 @@
 import express from "express";
-import { asyncRoute, requireBodyAttrs, requireParams } from "./utils.js"
+import { asyncRoute, asyncRouteWithBody, requireBodyAttrs, requireParams } from "./utils.js"
 import { validateRegisterBody, checkRegister, createUser,
          getUserProfile,
          setSessionCookies, validateSession,
@@ -10,9 +10,10 @@ import { validateRegisterBody, checkRegister, createUser,
 
 export const router = express.Router();
 
-router.post("/login", asyncRoute(async (request, response) => {
-    if (!requireBodyAttrs(request.body, ["username", "password"],
-                          response)) { return; }
+router.post("/login", asyncRouteWithBody({
+    "username": "string",
+    "password": "string"
+}, async (request, response) => {
     const session = await login(request.body.username, request.body.password);
     if (session === null) {
         response.json({success: false});
