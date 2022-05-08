@@ -1,7 +1,7 @@
 import express from "express";
 import { projectRoot, serve404 } from "./utils.js"
 import { bwroute } from "./bwroute.js";
-import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles } from './articleUtil.js';
+import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles, deleteComment, CommentExists } from './articleUtil.js';
 
 export const router = express.Router();
 
@@ -65,7 +65,7 @@ router.post("/:articleID/edit", bwroute({
         const success = await editArticle(request.params.articleID, {
             content: request.body.content,
             images: request.body.images
-        });
+        }, request.cookies.user);
         if (success) {
             response.status(200).end();
         } else {
@@ -113,17 +113,11 @@ router.post("/:articleID/comment", bwroute({
 router.delete("/:articleID/comment/:commentId", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
-    bodySchema: {
-        content: "string"
-    },
+    bodySchema: null,
     handler: async (request, response) => {
         // TODO: check that user is editing their own comment
+        console.log("in handler...");
         try {
-            const [checkSuccess, checkResult] = await checkComment(request);
-            if (!checkSuccess) {
-                response.status(400).json(checkResult);
-                return;
-            }
             const commentId = request.params.commentId;
             if (CommentExists(commentId)) {
                 deleteComment(commentId);
@@ -132,6 +126,7 @@ router.delete("/:articleID/comment/:commentId", bwroute({
                 response.status(400).json({ error: "comment given does not exist" });
             }
         } catch (err) {
+            console.log("error");
             console.log(err);
             response.status(400).send();
         }

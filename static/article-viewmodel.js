@@ -71,7 +71,7 @@ export async function getComment(articleID, commentID) {
             method: "GET",
         });
         if (!response.ok) {
-            throw `Got ${response.status} response for comment ${commentID}: ${await response.text()}`;
+            console.log(`Got ${response.status} response for comment ${commentID}: ${await response.text()}`);
         }
         return await response.json();
     } catch (err) {
@@ -80,23 +80,22 @@ export async function getComment(articleID, commentID) {
     }
 }
 
-// export async function deleteArticle(formData) {
-//     try {
-//         const response = await fetch(`/article/delete`, {
-//             method: "DELETE",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(formData)
-//         });
-//         const data = await response.json();
-//         return data
-//     }
-//     catch (err) {
-//         console.log(err);
-//         return null;
-//     }
-// }
+export async function deleteComment(commentID, articleID) {
+    try {
+        const response = await fetch(`/article/${articleID}/comment/${commentID}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        return data
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+}
 
 export async function search(queryString) {
     try {

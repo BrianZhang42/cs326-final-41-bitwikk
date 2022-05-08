@@ -139,7 +139,7 @@ export async function editArticle(articleID, newArticle, user) {
 export async function checkComment(request) {
     if (!request.body.content) {
         return [false, {invalid: "content",
-                        message: `${content} cannot be empty`}];
+                        message: `comment content cannot be empty`}];
     }
     // TODO: validate content
     return [true, [request.cookies.user, request.body.content]];
@@ -185,13 +185,23 @@ export async function getComment(commentId) {
     return await CommentDB.findOne({ 'ID' : commentId });
 }
 
-export async function deleteComment(commentId) {
-    if(!(await CommentDB.exists({ "ID": commentId }))) {
+export async function deleteComment(commentID) {
+    if(!(await CommentDB.exists({ "ID": commentID }))) {
         return false;
     }
 
-    await CommentDB.deleteOne({ "ID": commentId });
-    await CommentDB.save();
+    let comment = getComment(commentID);
+    let article = ArticleDB.findOne({ "ID": comment.articleID });
+    
+    for(let i = 0; i < article.commentIDs.length; ++i) {
+        if(article.commentIDs[i] == commentID) {
+            article.commentIDs.splice(i, 1);
+        }
+    }
+
+    await article.save();
+
+    await CommentDB.deleteOne({ "ID": commentID });
 }
 
 export async function CommentExists(commentId) {

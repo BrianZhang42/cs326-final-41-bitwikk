@@ -65,6 +65,7 @@ async function loadContent() {
     }
 
     // set comments
+    let commenter = getUsername();
     if (currentArticle.commentIDs !== undefined) {
         currentArticle.commentIDs.forEach( async (commentID, index) => {
             let comment = await article.getComment(currentArticle.ID, commentID);
@@ -90,6 +91,15 @@ async function loadContent() {
             cardBody.appendChild(username);
 
             comments.appendChild(card);
+
+            if(commenter !== undefined && commenter === comment.username) {
+                let deleteButton = document.createElement("button");
+                deleteButton.addEventListener("click", async event => {
+                    article.deleteComment(commentID, currentArticle.ID);
+                });
+                deleteButton.innerText = "x";
+                cardBody.appendChild(deleteButton);
+            }
         });
     }
 
