@@ -97,7 +97,7 @@ export async function getComment(articleID, commentID) {
 
 export async function search(queryString) {
     try {
-        const response = await fetch(`/article/search?query=${queryString}`, {
+        const response = await fetch(`/search_articles?query=${queryString}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

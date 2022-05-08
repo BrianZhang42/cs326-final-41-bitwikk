@@ -1,7 +1,7 @@
 import express from "express";
 import { projectRoot, serve404 } from "./utils.js"
 import { bwroute } from "./bwroute.js";
-import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment } from './articleUtil.js';
+import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles } from './articleUtil.js';
 
 export const router = express.Router();
 

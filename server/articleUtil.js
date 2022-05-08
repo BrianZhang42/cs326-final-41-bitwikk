@@ -208,17 +208,15 @@ export async function searchArticles(query) {
         article.title.includes(query)
     );
 
-    results = await ArticleDB.find({$text: {$search: query}})
-       .skip(20)
+    let results = await ArticleDB.find({$text: {$search: query}})
        .limit(10);
-
-    console.log(results);
 
     // only return some keys, not all the content
     // maybe we will add preview data here later
-    return [true, categoryArticles.map(article => ({
+    return [true, results.map(article => ({
         ID: article.ID,
-        title: article.title
+        title: article.title,
+        image: article.images[0]
     }))];
 }
 

@@ -91,7 +91,9 @@ app.get("/search_articles", bwroute({
     requiredQueryParameters: ["query"],
     bodySchema: null,
     handler: async (request, response) => {
+        console.log(`searching for ${request.query.query}`)
         const [success, result] = await searchArticles(request.query.query);
+        console.log(result);
         if (!success) {
             response.status(404);
             response.json({message: result});

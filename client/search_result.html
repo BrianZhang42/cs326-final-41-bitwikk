@@ -11,6 +11,7 @@
 
     <script type="module" src="/client.js"></script>
     <link rel="stylesheet" href="/search_result.css">
+    <script type="module" src="/search_result.js"></script>
 
   </head>
   <body class="d-flex flex-column min-vh-100">
@@ -57,15 +58,15 @@
       <section class="py-5 text-center container">
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Search results for: "mario"</h1>
+            <h1 class="fw-light" id="search-result-text">Search results for: ""</h1>
             </div>
         </div>
       </section>
 
       <div class="album py-5 bg-light">
         <div class="container">
-          <h1 class="display-1 text-center">No Matches</h1>
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <h1 class="display-1 text-center" id="no-matches-text">No Matches</h1>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="search-result-grid">
             <!-- <div class="col">
               <div class="card shadow-sm">
                 <img class="bd-placeholder-img card-img-top" src="https://www.nintendoenthusiast.com/wp-content/uploads/2020/08/Andromeda-galaxy-in-Super-Mario-Galaxys-logo-nintendo-switch.jpg" height="225"/>
