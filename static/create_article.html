@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/article.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script type="module" src="/client.js"></script>
-    <script type="module" src="/article_edit.js"></script>
+    <!-- <script type="module" src="/article_create.js"></script> -->
   </head>
   <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -33,9 +33,9 @@
           </ul>
           <form class="d-flex ms-auto me-auto" id="searchForm">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit" id="search-submit-button">Search</button>
           </form>
-          <button class="btn btn-outline-success me-auto" id="createArticleButton">New Article</button>
+          <a href="/create_article" class="btn btn-outline-success me-auto">New Article</a>
           <div class="btn-group my-2" id="signed-out-bar" hidden>
             <a href="/login" class="btn btn-outline-success text-nowrap">Sign in</a>
             <a href="/register" class="btn btn-outline-success text-nowrap">Sign up</a>
