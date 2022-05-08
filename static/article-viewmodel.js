@@ -29,34 +29,31 @@ export async function readArticle(articleID) {
     }
 }
 
-export async function updateArticle(formData) {
+export async function updateArticle(articleID, formData) {
     try {
-        const response = await fetch(`/article/${formData.ID}/edit`, {
+        const response = await fetch(`/article/${articleID}/edit`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(formData),
         });
-        location.reload();
         return response;
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         return null;
     }
 }
 
-export async function addComment(formData) {
+export async function addComment(articleID, formData) {
     try {
-        const response = await fetch(`/article/${formData.articleID}/comment`, {
+        const response = await fetch(`/article/${articleID}/comment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(formData),
         });
-        location.reload();
         return response;
     }
     catch (err) {

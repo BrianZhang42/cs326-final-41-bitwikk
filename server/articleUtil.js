@@ -116,8 +116,8 @@ export async function editArticle(articleID, newArticle) {
     let article = await ArticleDB.findOne({ 'ID': articleID });
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
-    });    
-    
+    });
+
     // save the changes
     await article.save(err => {
         if (err) throw err;
@@ -223,12 +223,7 @@ export async function searchArticles(query) {
 }
 
 export async function getRandomArticle() {
-    let article = {};
-    let random = {};
-    let count = await ArticleDB.count();
-
-    random = random = Math.floor(Math.random() * count);
-    article = await ArticleDB.findOne().skip(random);
-
-    return article;
+    const count = await ArticleDB.count();
+    const idx = Math.floor(Math.random() * count);
+    return await ArticleDB.findOne().skip(idx);
 }

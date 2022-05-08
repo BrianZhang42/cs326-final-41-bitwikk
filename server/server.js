@@ -77,7 +77,16 @@ app.get("/category/:category", bwroute({
     }
 }));
 
-app.get('/search', bwroute({
+app.get("/search", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: ["query"],
+    bodySchema: null,
+    handler: async (request, response) => {
+        response.sendFile(`${projectRoot}/client/search_result.html`);
+    }
+}));
+
+app.get("/search_articles", bwroute({
     requiresLogin: false,
     requiredQueryParameters: ["query"],
     bodySchema: null,
