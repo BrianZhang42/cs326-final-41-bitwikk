@@ -14,6 +14,7 @@ const category = document.getElementById("article-category");
 const comments = document.getElementById("article-comments");
 const commentTextInput = document.getElementById("comment-text-input");
 const commentSubmitButton = document.getElementById("comment-submit-button");
+const editButton = document.getElementById("editPage");
 
 let currentArticle = undefined;
 
@@ -120,7 +121,11 @@ async function loadContent() {
     }
 
     // set edit button href
-    document.getElementById("editPage").href = `/article/${articleID}/edit`;
+    if (getUsername() !== undefined) {
+        editButton.classList.remove("disabled");
+        editButton.setAttribute('aria-disabled', false);
+        editButton.href = `/article/${articleID}/edit`;
+    }
 }
 
 await loadContent();

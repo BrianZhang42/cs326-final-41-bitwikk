@@ -17,7 +17,7 @@ router.get("/:articleID", bwroute({
             return;
         }
         // make sure the article exists
-        const article = getArticle(request.params.articleID);
+        const article = await getArticle(request.params.articleID);
         if (article === undefined) {
             serve404(response);
             return;
@@ -58,12 +58,12 @@ router.post("/:articleID/edit", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
     bodySchema: {
-        articleID: "string",
-        title: "string",
         content: "string"
     },
     handler: async (request, response) => {
-        const success = editArticle(request.params.articleID, request.body);
+        const success = editArticle(request.params.articleID, {
+            content: request.body.content
+        });
         if (success) {
             response.status(200).end();
         } else {
