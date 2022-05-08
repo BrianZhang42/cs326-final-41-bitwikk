@@ -55,24 +55,9 @@
             <h1 class="blog-post-title" id="article-title">Article Title</h1>
             <hr/>
             <p class="blog-post-meta" id="article-contributors" >Contributors</p>
-
+            
+            <!-- article_page.js loads the article content as a child of this div-->
             <div id="article-content"></div>
-            <!-- <h2>Topic Info</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam corporis expedita rem sequi ipsam et distinctio magni, inventore ullam ab numquam voluptatem. Excepturi quia commodi ullam quae deleniti labore dicta.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odio repellat eius corrupti aspernatur temporibus eum laudantium inventore, facilis perferendis tempore similique nobis aut impedit sit dolores enim amet reiciendis!
-            </p>
-            <svg class="bd-placeholder-img float-end ms-3" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect class="galImg" width="100%" height="100%" fill="#55595c"/><text x="37%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg>
-            <ul>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, vel. Et sequi magni quisquam, cum possimus aspernatur vitae quos saepe culpa quas atque aliquam accusantium voluptatem corporis laboriosam, laborum omnis.</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, nostrum iusto et in non illum incidunt placeat obcaecati! Accusamus illo hic asperiores maiores itaque porro aperiam perspiciatis nostrum dignissimos commodi?</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur iste et aspernatur, doloremque odio velit! Officia, in cum magnam aperiam vero ipsa perferendis dignissimos obcaecati sunt odio quis magni quisquam!</li>
-            </ul>
-            <h2>Topic Info 2</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas nulla perspiciatis fugiat aperiam modi maiores ab perferendis. Inventore provident corrupti atque eum, ea quod obcaecati dignissimos aspernatur hic, omnis fugit.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem eveniet nam magnam assumenda adipisci ullam minima vitae, alias id illo? Cupiditate sapiente voluptatum veniam quibusdam dolores quod optio aut temporibus!.
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aut laborum, at inventore ut magnam reiciendis corrupti optio, maiores unde hic voluptas. Optio error aspernatur beatae, repellat placeat fugiat aliquid.
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae incidunt quod aliquid. Cupiditate dolores officiis sequi doloremque. Nemo esse beatae exercitationem reprehenderit repellendus perferendis, vitae animi consectetur dolore libero aliquam.
-            </p> -->
 
             <div class="p-4 p-md-4 mb-4 text-white rounded bg-dark">
               <h1 class="display-4 fst-italic mb-3">Gallery</h1>
@@ -80,16 +65,10 @@
                 <div class="carousel-inner d-flex align-items-center">
                   <div class="carousel-item active">
                     <div class="row align-items-center" id="article-active-image-carousel">
-                      <!-- <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?1"></div>
-                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?2"></div>
-                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?3"></div> -->
                     </div>
                   </div>
                   <div class="carousel-item">
                     <div class="row align-items-center" id="article-inactive-image-carousel">
-                      <!-- <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?4"></div>
-                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?5"></div>
-                      <div class="col"><img class="img-fluid" src="https://source.unsplash.com/random?6"></div> -->
                     </div>
                   </div>
                 </div>
@@ -107,18 +86,14 @@
           <div class="col-md-8">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">  
               <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+
+                <!-- article_page.js will load comments as a child of this div -->
                 <div class="card-body p-4" id="article-comments">
+
                   <div class="form-outline mb-4">
                     <input type="text" id="comment-text-input" class="form-control" placeholder="Type comment..." />
                     <input type="submit" id="comment-submit-button" value="Submit">
                   </div>
-
-                  <!-- <div class="card">
-                    <div class="card-body">
-                      <p>Type your note, and hit enter to add it</p>
-                      <p class="small mb-0 ms-2">Johny</p>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -130,9 +105,8 @@
             <div class="p-4 mb-3 bg-light rounded">
               <h4 class="fst-italic" id="article-title-secondary">Article Title</h4>
               <img id="article-primary-image" width="300" height="200">
-              <!-- <svg class="bd-placeholder-img" width="300" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Image</text></svg> -->
-              <h4 class="fst-italic">Brief Details</h4>
-              <ol class="list-unstyled mb-0" id="article-details">
+              <h4 class="fst-italic">Category:</h4>
+              <ol class="list-unstyled mb-0" id="article-category">
               </ol>
             </div>
             <div class="p-4">

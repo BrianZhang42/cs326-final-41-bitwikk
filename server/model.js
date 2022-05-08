@@ -16,9 +16,9 @@ export const ArticleDB = mongoose.model("Article", new Schema({
     ID: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
-    contributers: { type: [String], required: true },
+    contributors: { type: [String], required: true },
     images: { type: [String], required: true },
-    commentId: { type: [String], required: true },
+    commentIDs: { type: [String], required: true },
     category: { type: String, required: true }
 }));
 

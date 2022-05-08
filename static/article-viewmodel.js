@@ -65,6 +65,17 @@ export async function addComment(formData) {
     }
 }
 
+export async function getComment(articleID, commentID) {
+    try {
+        const response = await fetch(`/article/${articleID}/comment/${commentID}`, {
+            method: "GET",
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
 
 // export async function deleteArticle(formData) {
 //     try {

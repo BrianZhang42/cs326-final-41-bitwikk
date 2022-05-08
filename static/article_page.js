@@ -11,7 +11,7 @@ const primaryImage = document.getElementById("article-primary-image");
 const relatedTopics = document.getElementById("article-related-topics");
 const activeCarouselImages = document.getElementById("article-active-image-carousel");
 const inactiveCarouselImages = document.getElementById("article-inactive-image-carousel");
-const categories = document.getElementById("article-categories");
+const category = document.getElementById("article-category");
 const comments = document.getElementById("article-comments");
 const commentTextInput = document.getElementById("comment-text-input");
 const commentSubmitButton = document.getElementById("comment-submit-button");
@@ -40,20 +40,26 @@ async function loadContent() {
     // set body content
     if(currentArticle.content !== undefined)
     {
-        currentArticle.content.forEach((topicDetails, index) => {
-            let topicTitle = document.createElement("h2");
-            topicTitle.setAttribute("id", `topic-title-${index}`);
-            content.appendChild(topicTitle);
-            if(topicDetails.title != undefined)
-                topicTitle.innerText = topicDetails.title;
-    
-            let topicBody = document.createElement("p");
-            topicBody.setAttribute("id", `topic-body-${index}`);
-            content.appendChild(topicBody);
-            if(topicDetails.body != undefined)
-                topicBody.innerText = topicDetails.body;
-    
-        });
+        if(currentArticle.content.forEach !== undefined) {
+            currentArticle.content.forEach((topicDetails, index) => {
+                let topicTitle = document.createElement("h2");
+                topicTitle.setAttribute("id", `topic-title-${index}`);
+                content.appendChild(topicTitle);
+                if(topicDetails.title != undefined)
+                    topicTitle.innerText = topicDetails.title;
+        
+                let topicBody = document.createElement("p");
+                topicBody.setAttribute("id", `topic-body-${index}`);
+                content.appendChild(topicBody);
+                if(topicDetails.body != undefined)
+                    topicBody.innerText = topicDetails.body;
+            });
+        }
+        else {
+            let contentBody = document.createElement("p");
+            content.appendChild(contentBody);
+            contentBody.innerText = currentArticle.content;
+        }
     }
 
     // set contributors
@@ -65,18 +71,11 @@ async function loadContent() {
     contributors.innerText = contributorString;
 
     // set details
-    if(currentArticle.details !== undefined)
-    {    
-        currentArticle.details.forEach((detail, index) => {
-            let listElem = document.createElement("li");
-            let aElem = document.createElement("a");
-            aElem.innerText = detail;
-            aElem.setAttribute("href", "http://www.google.com");
-
-            listElem.appendChild(aElem);
-            listElem.setAttribute("id", `detail-${index}`);
-            details.appendChild(listElem);
-        })
+    if(currentArticle.category !== undefined)
+    {   
+        let olElem = document.createElement("ol");
+        olElem.innerText = currentArticle.category;
+        category.appendChild(olElem);
     }
 
     // set related topics
@@ -113,9 +112,11 @@ async function loadContent() {
     }
 
     // set comments
-    if(currentArticle.comments !== undefined)
+    if(currentArticle.commentIDs !== undefined)
     {
-        currentArticle.comments.forEach((comment, index) => {
+        currentArticle.commentIDs.forEach( async (commentID, index) => {
+            let comment = await article.getComment(currentArticle.ID, commentID);
+
             let card = document.createElement("div");
             card.setAttribute("class", "card");
 
@@ -145,4 +146,4 @@ async function loadContent() {
     document.getElementById("editPage").href = `/article/${articleID}/edit`;
 }
 
-loadContent();
+await loadContent();

@@ -40,6 +40,10 @@ export async function createUser(username, password) {
 }
 
 export async function getUser(username) {
+    if(!(await UserDB.exists({ 'username': username }))) {
+        return undefined;
+    }
+
     return await UserDB.findOne({ 'username' : username });
 }
 

@@ -1,6 +1,6 @@
 import express from "express";
 import { projectRoot, asyncRoute, asyncRouteWithBody, serve404 } from "./utils.js"
-import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
+import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment } from './articleUtil.js';
 
 export const router = express.Router();
 
@@ -26,7 +26,7 @@ router.get("/:articleID", asyncRoute(async (request, response) => {
 }));
 
 router.get("/:articleID/get", asyncRoute(async (request, response) => {
-    const article = getArticle(request.params.articleID);
+    const article = await getArticle(request.params.articleID);
     if (article === undefined) {
         response.status(404).end();
         return;
@@ -57,6 +57,15 @@ router.post("/:articleID/edit", asyncRouteWithBody({
     } else {
         response.status(500).end();
     }
+}));
+
+router.get("/:articleID/comment/:commentId", asyncRoute(async (request, response) => {
+    const comment = await getComment(request.params.commentId);
+    if (comment === undefined) {
+        response.status(404).end();
+        return;
+    }
+    response.json(comment);
 }));
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {

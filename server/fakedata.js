@@ -3,19 +3,16 @@ import faker from "@faker-js/faker";
 let getNewArticleData = () =>  {
     return {
         title: faker.company.companyName(),
-        content: [
+        content: JSON.stringify([
             { title: faker.company.bsNoun(), body: faker.lorem.paragraph() },
             { title: faker.company.bsNoun(), body: faker.lorem.paragraphs() },
-        ],
+        ]),
         contributors: [
             faker.internet.userName(),
             faker.internet.userName(),
             faker.internet.userName(),
         ],
-        categories: [
-            faker.company.catchPhrase(),
-            faker.company.catchPhrase(),
-        ],
+        category: faker.company.catchPhrase(),
         images: [
             faker.image.avatar(),
             faker.image.avatar(),
@@ -88,10 +85,10 @@ testArticle2.ID = "test-article-2";
 export let articles = [
     {
         ID: "NES", title: "NES",
-        content: [
+        content: JSON.stringify([
             { body: "It was pretty great." },
             { title: "History", body: "It was made and sold." },
-            { title: "Hardware", body: "It had some hardware."}],
+            { title: "Hardware", body: "It had some hardware."}]),
         contributors: ["Vetruvius", "bob"],
         images: [
             "https://m.media-amazon.com/images/I/71zqr6fR58L._SL1500_.jpg",
@@ -103,7 +100,7 @@ export let articles = [
 
         ], 
         commentIDs: [12],
-        categories: ["console"],
+        category: "console",
         details: [
             faker.company.bsNoun(),
             faker.company.bsNoun(),
@@ -118,10 +115,10 @@ export let articles = [
     },
     {
         ID: "SNES", title: "SNES",
-        content: [
+        content: JSON.stringify([
             { body: "It was pretty super." },
             { title: "History", body: "It was made and sold." },
-            { title: "Hardware", body: "It had some hardware."}],
+            { title: "Hardware", body: "It had some hardware."}]),
         contributors: ["bob"],
         images: [
             "https://m.media-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
@@ -131,7 +128,7 @@ export let articles = [
             "https://images.nintendolife.com/8dab5ebac991e/1280x720.jpg",
         ], 
         commentIDs: [13, 14],
-        categories: ["console"],
+        category: "console",
         details: [
             faker.company.bsNoun(),
             faker.company.bsNoun(),
@@ -150,11 +147,11 @@ export let articles = [
     },
     {
         ID: "Dragon_Warrior", title: "Dragon Warrior",
-        content: [
-            { body: "One guy owns 718 copies of this game." }],
+        content: JSON.stringify([
+            { body: "One guy owns 718 copies of this game." }]),
         contributors: ["bob"],
         images: [], commentIDs: [14],
-        categories: ["game"],
+        category: "game",
         details: [
             faker.company.bsNoun(),
             faker.company.bsNoun(),

@@ -1,7 +1,14 @@
 import { articles, comments } from "./fakedata.js";
-import { CommentDB } from "./model.js";
+import { ArticleDB, CommentDB } from "./model.js";
 import { getUser } from "./userUtil.js";
 import { randomUUID } from "crypto";
+
+// let articleBody1 = articles[0];
+// let articleBody2 = articles[1];
+// let article1 = new ArticleDB(articleBody1);
+// let article2 = new ArticleDB(articleBody2);
+// article1.save();
+// article2.save();
 
 function generateArticleID(title) {
     // don't allow non-printable characters
@@ -47,28 +54,43 @@ export async function createArticle(title, content, contributor, category) {
         return [false, {invalid: "title",
                         message: articleIDResult}];
     }
-    if (!articles.every(article => article.ID !== articleIDResult)) {
+    if (await ArticleDB.exists({ "ID": articleIDResult })) {
         return [false, {invalid: "title",
                         message: `/article/${articleIDResult} already exists`}];
     }
 
     // TODO: validate content
 
-    const article = {
+    const articleBody = {
         ID: articleIDResult,
         title: title,
         content: content,
-        contributers: [contributor],
+        contributors: [contributor],
         images: [], commentIDs: [],
         category: category
     }
-    articles.push(article);
-    return [true, article];
+
+    const article = new ArticleDB(articleBody);
+    article.save();
+
+    return [true, articleBody];
 }
 
-export function getArticle(articleID) {
-    let article = articles.find(article => article.ID === articleID)
-    return article;
+export async function getArticle(articleID) {
+    if(!(await ArticleDB.exists({ 'ID': articleID }))){
+        return undefined;
+    }
+
+    let article = await ArticleDB.findOne({ 'ID' : articleID });
+    article.comments = [];
+    if(article.commentIDs !== undefined) {
+        article.commentIDs.forEach(async commentID => {
+            let comment = await getComment(commentID);
+            article.comments.push(comment);
+        });
+    }
+
+    return article; 
 }
 
 // get index of article in list
@@ -78,7 +100,7 @@ function getArticleIndex(articleID) {
 }
 
 const editFormDataAttrs = ["articleID", "title", "content"];
-export function checkEdit(formData) {
+export async function checkEdit(formData) {
     for (const attr of editFormDataAttrs) {
         if (!formData[attr]) {
             return [false, {invalid: attr,
@@ -87,7 +109,7 @@ export function checkEdit(formData) {
     }
     const {articleID, title, body} = formData;
 
-    if (getArticle(articleID) === undefined) {
+    if (!(await ArticleDB.exists({ 'ID': articleID }))) {
         return [false, {invalid: "articleID",
                         message: "Article does not exist"}];
     }
@@ -95,9 +117,12 @@ export function checkEdit(formData) {
     return [true, [articleID, title, body]];
 }
 
-export function editArticle(articleID, newArticle) {
-    // TODO: actually implement editing
-    let article = articles[getArticleIndex(articleID)]
+export async function editArticle(articleID, newArticle) {
+    if(!(await ArticleDB.exists({ 'ID': articleID }))) {
+        return false;
+    }
+
+    let article = await ArticleDB.findOne({ 'ID': articleID });
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
     });
@@ -130,14 +155,14 @@ export async function checkComment(formData) {
 }
 
 export async function addComment(articleID, username, content) {
-    if (getArticle(articleID) === undefined) {
+    let commentedArticle = getArticle(articleID);
+    if (commentedArticle === undefined) {
         return [false, {message: "Article does not exist"}];
     }
 
-    // TODO: add the new commentId to the article's list of commentIDs
-    let commentId = randomUUID();
+    let commentID = randomUUID();
     const commentBody = {
-        ID: commentId,
+        ID: commentID,
         username: username,
         articleID: articleID,
         content: content
@@ -145,11 +170,28 @@ export async function addComment(articleID, username, content) {
 
     const newComment = new CommentDB(commentBody);
     // save the comment to database
-    newComment.save(err => {
+    await newComment.save(err => {
         if (err) throw err;
     });
 
+    // add the new comment's id to the article
+    if(commentedArticle.commentIDs === undefined) {
+        commentedArticle.commentIDs = [];
+    }
+    commentedArticle.commentIDs.push(commentID);
+    await commentedArticle.save(err => {
+        if(err) throw err;
+    });
+
     return [true, commentBody]
+}
+
+export async function getComment(commentId) {
+    if(!(await CommentDB.exists({ 'ID': commentId }))) {
+        return undefined;
+    }
+
+    return await CommentDB.findOne({ 'ID' : commentId });
 }
 
 export async function deleteComment(commentId) {
