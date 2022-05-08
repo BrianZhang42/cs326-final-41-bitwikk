@@ -17,7 +17,7 @@ router.get("/:articleID", bwroute({
             return;
         }
         // make sure the article exists
-        const article = getArticle(request.params.articleID);
+        const article = await getArticle(request.params.articleID);
         if (article === undefined) {
             serve404(response);
             return;
