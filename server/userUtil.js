@@ -2,7 +2,6 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import { UserDB } from "./model.js"
 import { SessionDB } from "./model.js";
-import { Session } from "inspector";
 
 const saltRounds = 10;
 
@@ -90,11 +89,11 @@ export function setSessionCookies(response, {username, ID: sessionID, expiry}) {
 }
 
 async function checkSession(username, sessionID) {
-    if (!(await SessionDB.exists({ sessionID: sessionID }))) {
+    if (!(await SessionDB.exists({ ID: sessionID }))) {
         return false;
     }
 
-    const session = await SessionDB.findOne({ sessionID: sessionID });
+    const session = await SessionDB.findOne({ ID: sessionID });
     if (session.username !== username) {
         return false;
     }
@@ -102,11 +101,11 @@ async function checkSession(username, sessionID) {
 }
 
 export async function deleteSession(sessionID) {
-    if (!(await SessionDB.exists({ sessionID: sessionID }))) {
+    if (!(await SessionDB.exists({ ID: sessionID }))) {
         return false;
     }
 
-    await SessionDB.deleteOne({ sessionID: sessionID });
+    await SessionDB.deleteOne({ ID: sessionID });
 
     return true;
 }
