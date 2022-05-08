@@ -96,6 +96,7 @@ async function loadContent() {
                 let deleteButton = document.createElement("button");
                 deleteButton.addEventListener("click", async event => {
                     article.deleteComment(commentID, currentArticle.ID);
+                    window.location.reload();
                 });
                 deleteButton.innerText = "x";
                 cardBody.appendChild(deleteButton);
