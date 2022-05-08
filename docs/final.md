@@ -31,8 +31,9 @@ Demonstrates the Read Operation, because the client side JS gets the article con
 ### Article Edit Page
 <img src="imgs/edit1.png" height="500px">
 <img src="imgs/edit2.png" height="500px">
+<img src="imgs/edit3.png" height="500px">
 <br>
-Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit, additionally adding the user to that page's list of contributors.
+Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit. 
 
 ### Sign out
 <img src="imgs/login2.png" height="200px">
@@ -68,7 +69,7 @@ This request will be used to post a comment under an article.
 This will be used for the searchbar. It returns a list of articles as a JSON.
 
 `GET  /category/{category}`<br/>
-This will be used to browse by category. For now it returns a list of articles as a JSON.
+This will be used to browse by category. It returns a list of articles as a JSON.
 
 `POST /user/login`<br/>
 Body: `{username: username, password: password (plaintext)}`<br/>
@@ -115,7 +116,7 @@ Article Document<br/>
     &nbsp;`content: String,`            &nbsp;The main content of the article<br/>
     &nbsp;`contributers: String Array,` &nbsp;The users who created the article<br/>
     &nbsp;`images: String Array,`       &nbsp;Array of image links in the article<br/>
-    &nbsp;`commentId: String Array,`    &nbsp;Array of IDs for the comments in the article<br/>
+    &nbsp;`commentIDs: String Array,`    &nbsp;Array of IDs for the comments in the article<br/>
     &nbsp;`category: String`            &nbsp;The category the article is in<br/>
 }
 
@@ -153,3 +154,35 @@ Note: Majority of cooperative working sessions were done using Visual Studio Liv
 One important bit of information learned was that even when we thought we had planned out absolutely everything, there would always be several additions as we realized aspects of a wiki that we were missing or general features we hadn't begun to write out APIs for yet.
 
 All things considered, the overall development went fairly smooth. Our largest issue was likely when we had to modify a decent amount of code for the site to work as requested with Heroku deployment in mind, since the majority of testing was done both locally and with testing-specific files which kept the databse.
+
+
+## Grading Rubric
+Heroku(10 points) - <br/>
+&nbsp; `0` - No video created<br/>
+&nbsp; `3` - Video is created but its too short/not much of the requirements fulfilled<br/>
+&nbsp; `6` - Video is created but it's missing a few requirements<br/>
+&nbsp; `10` - Video is created and is near 5 minutes in length with requirements fulfilled<br/>
+
+Video Demo(10 points) -<br/>
+&nbsp; `0` - No Heroku Deployment<br/>
+&nbsp; `5` - Heroku is deployed but crashes<br/>
+&nbsp; `10` - Heroku is deployed and successful<br/>
+
+User Login/Register(30 points) -<br/>
+&nbsp; `0` - User fails to register and log in<br/>
+&nbsp; `10` - User successfully registers but can't log in<br/>
+&nbsp; `20` - User successfully registers and logs in, but can't sign out or user manages to register again with a used username<br/> 
+&nbsp; `30` - User successfully registers and logs in while also being able to log out.<br/>
+
+Article Edit/Creation(30 points) -<br/>
+&nbsp; `0` - User can't edit and article or create one<br/>
+&nbsp; `10` - User edits an article successfully but fails to create one<br/>
+&nbsp; `20` - User edits and creates an article sucessfully but changes in the edit aren't saved<br/>
+&nbsp; `30` - User successfully edits and creates an article and it saves<br/>
+
+Comment Section(20 points) - <br/>
+&nbsp; `0` - User can't write a comment<br/>
+&nbsp; `10` - User manages to write a comment without having to register and log in<br/>
+&nbsp; `15` - User manages to write a comment, but the comment doesn't save<br/>
+&nbsp; `20` - User successfully writes a comment and it saves<br/>
+

@@ -43,16 +43,21 @@ app.use("/article", articleRouter);
 app.post("/create", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
-    bodySchema: {},  // TODO
+    bodySchema: {
+        "title": "string",
+        "category": "string",
+        "content": "string",
+        "images": ["string"]
+    },
     handler: async (req, res, username) => {
         // TODO: validation
-        const { title, content } = req.body;
-        const [success, result] = createArticle(title, content, username,
-                                                category);
+        const { title, category, content, images } = req.body;
+        const [success, result] = await createArticle(title, content, username, category);
         if (success) {
             // Status code 201: Created
             // Standard requires setting the Location header
             // to the location of the created resource
+            res.set("Access-Control-Expose-Headers", "Location")
             res.location(`/article/${result.ID}`)
             res.status(201).end();
         } else {
