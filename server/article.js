@@ -58,12 +58,12 @@ router.post("/:articleID/edit", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
     bodySchema: {
-        articleID: "string",
-        title: "string",
         content: "string"
     },
     handler: async (request, response) => {
-        const success = editArticle(request.params.articleID, request.body);
+        const success = editArticle(request.params.articleID, {
+            content: request.body.content
+        });
         if (success) {
             response.status(200).end();
         } else {
