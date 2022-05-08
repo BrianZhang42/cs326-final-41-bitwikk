@@ -57,6 +57,9 @@ This returns a JSON with article content
 Requires login (cookie header). Body: `{title: title, content: content}`<br/>
 This request will be used to create new articles.
 
+`GET /random`<br/>
+This returns a random article in JSON
+
 `POST /article/{ID}/edit`<br/>
 Requires login (cookie header). Body: `{content: content}`<br/>
 This request will be used to edit articles.
@@ -64,6 +67,10 @@ This request will be used to edit articles.
 `POST /article/{ID}/comment`<br/>
 Requires login (cookie header). Body: `{content: content}`<br/>
 This request will be used to post a comment under an article.
+
+`DELETE /article/{ID}/comment/{commentID}`<br/>
+Requires login (cookie header). Body: `{content: content}`<br/>
+This will delete a comment.
 
 `GET  /search?query={query}`<br/>
 This will be used for the searchbar. It returns a list of articles as a JSON.
@@ -168,7 +175,7 @@ Video Demo(10 points) -<br/>
 &nbsp; `5` - Heroku is deployed but crashes<br/>
 &nbsp; `10` - Heroku is deployed and successful<br/>
 
-User Login/Register(30 points) -<br/>
+User Login/Register(20 points) -<br/>
 &nbsp; `0` - User fails to register and log in<br/>
 &nbsp; `10` - User successfully registers but can't log in<br/>
 &nbsp; `20` - User successfully registers and logs in, but can't sign out or user manages to register again with a used username<br/> 
@@ -182,7 +189,12 @@ Article Edit/Creation(30 points) -<br/>
 
 Comment Section(20 points) - <br/>
 &nbsp; `0` - User can't write a comment<br/>
-&nbsp; `10` - User manages to write a comment without having to register and log in<br/>
-&nbsp; `15` - User manages to write a comment, but the comment doesn't save<br/>
-&nbsp; `20` - User successfully writes a comment and it saves<br/>
+&nbsp; `10` - User manages to write a comment without having to register and log in or user can't delete a comment<br/>
+&nbsp; `15` - User manages to write and delete a comment, but the comment re-appears when page is reloaded<br/>
+&nbsp; `20` - User successfully writes and deletes a comment and it saves<br/>
+
+Article Search(10 points) - <br/>
+&nbsp; `0` - Nothing happens when Search button is clicked<br/>
+&nbsp; `5` - User successfully searches but nothing/wrong item appears<br/>
+&nbsp; `10` - User successfully searches and the correct relevant items appear on the search results page<br/>
 
