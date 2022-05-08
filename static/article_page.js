@@ -5,9 +5,7 @@ const title = document.getElementById("article-title");
 const secondaryTitle = document.getElementById("article-title-secondary");
 const contentDOM = document.getElementById("article-content");
 const contributors = document.getElementById("article-contributors");
-const details = document.getElementById("article-details");
 const primaryImage = document.getElementById("article-primary-image");
-const relatedTopics = document.getElementById("article-related-topics");
 const activeCarouselImages = document.getElementById("article-active-image-carousel");
 const inactiveCarouselImages = document.getElementById("article-inactive-image-carousel");
 const category = document.getElementById("article-category");
@@ -41,31 +39,15 @@ async function loadContent() {
     }
     contributors.innerText = contributorString;
 
-    // set details
-    if(currentArticle.category !== undefined)
-    {
+    // set category
+    if (currentArticle.category !== undefined) {
         let olElem = document.createElement("ol");
         olElem.innerText = currentArticle.category;
         category.appendChild(olElem);
     }
 
-    // set related topics
-    if(currentArticle.relatedTopics !== undefined)
-    {
-        currentArticle.relatedTopics.forEach((topic, index) => {
-            let listElem = document.createElement("li");
-            let aElem = document.createElement("a");
-            aElem.innerText = topic;
-            aElem.setAttribute("href", "http://www.google.com");
-
-            listElem.appendChild(aElem);
-            listElem.setAttribute("id", `related-topic-${index}`);
-            relatedTopics.appendChild(listElem);
-        })
-    }
     // set images
-    if(currentArticle.images !== undefined)
-    {
+    if (currentArticle.images !== undefined) {
         primaryImage.setAttribute("src", currentArticle.images[0]);
         currentArticle.images.forEach((image, index) => {
             let carousel = index < 3 ? activeCarouselImages : inactiveCarouselImages;
@@ -83,8 +65,7 @@ async function loadContent() {
     }
 
     // set comments
-    if(currentArticle.commentIDs !== undefined)
-    {
+    if (currentArticle.commentIDs !== undefined) {
         currentArticle.commentIDs.forEach( async (commentID, index) => {
             let comment = await article.getComment(currentArticle.ID, commentID);
             if (comment === null) {
