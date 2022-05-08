@@ -28,6 +28,10 @@ export async function createArticle(title, content, contributor, category, image
         return [false, {invalid: "title",
                         message: "Title cannot be empty"}];
     }
+    if (!content) {
+        return [false, {invalid: "content",
+                        message: "Content cannot be empty"}];
+    }
     if (!contributor) {
         // message is for the user, and this can only happen
         // if there is a bug in the client side code
@@ -72,7 +76,7 @@ export async function createArticle(title, content, contributor, category, image
     }
 
     const article = new ArticleDB(articleBody);
-    article.save();
+    await article.save();
 
     return [true, articleBody];
 }
