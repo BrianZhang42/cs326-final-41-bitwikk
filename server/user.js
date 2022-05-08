@@ -73,7 +73,7 @@ router.post("/create", bwroute({
             response.json(checkResult);
             return;
         }
-        const session = createUser(...checkResult);
+        const session = await createUser(...checkResult);
         setSessionCookies(response, session);
         response.status(200).end();
     }
