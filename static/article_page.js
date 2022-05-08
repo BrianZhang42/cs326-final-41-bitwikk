@@ -92,13 +92,21 @@ async function loadContent() {
 
             comments.appendChild(card);
 
-            if(commenter !== undefined && commenter === comment.username) {
-                let deleteButton = document.createElement("button");
+            if (commenter !== undefined && commenter === comment.username) {
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("btn");
+                deleteButton.classList.add("btn-secondary");
+                // deleteButton.classList.add("flexbox");
+                deleteButton.classList.add("mt-2");
+
                 deleteButton.addEventListener("click", async event => {
+                    if (!confirm("Are you sure you want to delete this comment?")) {
+                        return;
+                    }
                     article.deleteComment(commentID, currentArticle.ID);
                     window.location.reload();
                 });
-                deleteButton.innerText = "x";
+                deleteButton.innerText = "Delete comment";
                 cardBody.appendChild(deleteButton);
             }
         });
