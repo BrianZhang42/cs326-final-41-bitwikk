@@ -31,7 +31,20 @@ saveButton.addEventListener("click", async event => {
     console.log(response);
     if (response !== null && response.ok) {
         window.location.href = `/article/${articleID}`;
-    } else {
-        alert("Sorry, there was an error");
+    } else if (response.status === 400) {
+        let isJSON = false;
+        let invalid;
+        let message;
+        try {
+            ({ invalid, message } = await response.json());
+            isJSON = true;
+        } catch {
+        }
+        if (isJSON) {
+            // TODO: highlight invalid field
+            alert(message);
+            return;
+        }
     }
+    alert("Sorry, there was an error");
 });

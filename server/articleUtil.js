@@ -91,31 +91,17 @@ function getArticleIndex(articleID) {
     return articles.findIndex(article => article.ID === articleID);
 }
 
-const editFormDataAttrs = ["articleID", "title", "content"];
-export async function checkEdit(formData) {
-    for (const attr of editFormDataAttrs) {
-        if (!formData[attr]) {
-            return [false, {invalid: attr,
-                            message: `${attr} cannot be empty`}];
-        }
+export async function checkEdit(request) {
+    if (request.body.content.length === 0) {
+        return [false, {invalid: "content",
+                        message: "content cannot be empty"}];
     }
-    const {articleID, title, body} = formData;
-
-    if (!(await ArticleDB.exists({ 'ID': articleID }))) {
-        return [false, {invalid: "articleID",
-                        message: "Article does not exist"}];
-    }
-    // TODO: validate body content
-    return [true, [articleID, title, body]];
+    return [true, null];
 }
 
 export async function editArticle(articleID, newArticle, user) {
     if ((typeof user) !== "string") {
         throw "user must be string";
-    }
-
-    if(!(await ArticleDB.exists({ ID: articleID }))) {
-        return false;
     }
 
     let article = await ArticleDB.findOne({ ID: articleID });

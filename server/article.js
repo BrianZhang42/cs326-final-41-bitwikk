@@ -62,6 +62,11 @@ router.post("/:articleID/edit", bwroute({
         images: ["string"]
     },
     handler: async (request, response, username) => {
+        const [checkSuccess, checkResult] = await checkEdit(request);
+        if (!checkSuccess) {
+            response.status(400).json(checkResult);
+            return;
+        }
         const success = await editArticle(request.params.articleID, {
             content: request.body.content,
             images: request.body.images
