@@ -156,32 +156,32 @@ All things considered, the overall development went fairly smooth. Our largest i
 
 
 ## Grading Rubric
-Heroku(10 points) -
-&nbsp; `0` - No video created
-&nbsp; `3` - Video is created but its too short/not much of the requirements fulfilled
-&nbsp; `6` - Video is created but it's missing a few requirements
-&nbsp; `10` - Video is created and is near 5 minutes in length with requirements fulfilled
+Heroku(10 points) - <br/>
+&nbsp; `0` - No video created<br/>
+&nbsp; `3` - Video is created but its too short/not much of the requirements fulfilled<br/>
+&nbsp; `6` - Video is created but it's missing a few requirements<br/>
+&nbsp; `10` - Video is created and is near 5 minutes in length with requirements fulfilled<br/>
 
-Video Demo(10 points) -
-&nbsp; `0` - No Heroku Deployment
-&nbsp; `5` - Heroku is deployed but crashes
-&nbsp; `10` - Heroku is deployed and successful
+Video Demo(10 points) -<br/>
+&nbsp; `0` - No Heroku Deployment<br/>
+&nbsp; `5` - Heroku is deployed but crashes<br/>
+&nbsp; `10` - Heroku is deployed and successful<br/>
 
-User Login/Register(30 points) -
-&nbsp; `0` - User fails to register and log in
-&nbsp; `10` - User successfully registers but can't log in
-&nbsp; `20` - User successfully registers and logs in, but can't sign out or user manages to register again with a used username
-&nbsp; `30` - User successfully registers and logs in while also being able to log out.
+User Login/Register(30 points) -<br/>
+&nbsp; `0` - User fails to register and log in<br/>
+&nbsp; `10` - User successfully registers but can't log in<br/>
+&nbsp; `20` - User successfully registers and logs in, but can't sign out or user manages to register again with a used username<br/> 
+&nbsp; `30` - User successfully registers and logs in while also being able to log out.<br/>
 
-Article Edit/Creation(30 points) -
-&nbsp; `0` - User can't edit and article or create one
-&nbsp; `10` - User edits an article successfully but fails to create one
-&nbsp; `20` - User edits and creates an article sucessfully but changes in the edit aren't saved
-&nbsp; `30` - User successfully edits and creates an article and it saves
+Article Edit/Creation(30 points) -<br/>
+&nbsp; `0` - User can't edit and article or create one<br/>
+&nbsp; `10` - User edits an article successfully but fails to create one<br/>
+&nbsp; `20` - User edits and creates an article sucessfully but changes in the edit aren't saved<br/>
+&nbsp; `30` - User successfully edits and creates an article and it saves<br/>
 
-Comment Section(20 points) - 
-&nbsp; `0` - User can't write a comment
-&nbsp; `10` - User manages to write a comment without having to register and log in
-&nbsp; `15` - User manages to write a comment, but the comment doesn't save
-&nbsp; `20` - User successfully writes a comment and it saves
+Comment Section(20 points) - <br/>
+&nbsp; `0` - User can't write a comment<br/>
+&nbsp; `10` - User manages to write a comment without having to register and log in<br/>
+&nbsp; `15` - User manages to write a comment, but the comment doesn't save<br/>
+&nbsp; `20` - User successfully writes a comment and it saves<br/>
 
