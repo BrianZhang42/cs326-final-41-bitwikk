@@ -3,9 +3,11 @@ const searchForm = document.getElementById("searchForm");
 const signedOutBar = document.getElementById("signed-out-bar");
 const signedInBar = document.getElementById("signed-in-bar");
 const logout = document.getElementById("logout");
+const searchTextInput = document.getElementById("search-text-input");
+const searchSubmitButton = document.getElementById("search-submit-button");
 
-searchForm.addEventListener("submit", event => {
-    window.location.href = "./search_result.html";
+searchSubmitButton.addEventListener("click", event => {
+    window.location.href = `/search/${searchTextInput.value}`;
     event.preventDefault();
 });
 

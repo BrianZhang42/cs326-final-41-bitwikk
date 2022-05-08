@@ -202,11 +202,17 @@ export function getCategory(category) {
     }))];
 }
 
-export function searchArticles(query) {
+export async function searchArticles(query) {
     const categoryArticles = articles.filter(article =>
         // TODO: make this case insensitive, at least
         article.title.includes(query)
     );
+
+    results = await ArticleDB.find({$text: {$search: query}})
+       .skip(20)
+       .limit(10);
+
+    console.log(results);
 
     // only return some keys, not all the content
     // maybe we will add preview data here later

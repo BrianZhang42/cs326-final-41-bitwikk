@@ -12,7 +12,7 @@ export const SessionDB = mongoose.model("Session", new Schema({
     expiry: { type: Date, required: true },
 }));
 
-export const ArticleDB = mongoose.model("Article", new Schema({
+let articleSchema =  Schema({
     ID: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
@@ -20,7 +20,13 @@ export const ArticleDB = mongoose.model("Article", new Schema({
     images: { type: [String], required: true },
     commentIDs: { type: [String], required: true },
     category: { type: String, required: true }
-}));
+})
+
+// index articles by their title and content so that they
+// can be text-searched
+articleSchema.index({ title: 'text', content: 'text' });
+
+export const ArticleDB = mongoose.model("Article", articleSchema);
 
 export const CommentDB = mongoose.model("Comment", new Schema({
     ID: { type: String, required: true, unique: true },
