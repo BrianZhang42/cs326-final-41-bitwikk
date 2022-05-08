@@ -70,6 +70,9 @@ export async function getComment(articleID, commentID) {
         const response = await fetch(`/article/${articleID}/comment/${commentID}`, {
             method: "GET",
         });
+        if (!response.ok) {
+            throw `Got ${response.status} response for comment ${commentID}: ${await response.text()}`;
+        }
         return await response.json();
     } catch (err) {
         console.error(err);

@@ -95,6 +95,10 @@ async function loadContent() {
     {
         currentArticle.commentIDs.forEach( async (commentID, index) => {
             let comment = await article.getComment(currentArticle.ID, commentID);
+            if (comment === null) {
+                // there was an error leading the comment
+                return;
+            }
 
             let card = document.createElement("div");
             card.setAttribute("class", "card");
