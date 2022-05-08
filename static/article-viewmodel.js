@@ -29,9 +29,9 @@ export async function readArticle(articleID) {
     }
 }
 
-export async function updateArticle(formData) {
+export async function updateArticle(articleID, formData) {
     try {
-        const response = await fetch(`/article/${formData.ID}/edit`, {
+        const response = await fetch(`/article/${articleID}/edit`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

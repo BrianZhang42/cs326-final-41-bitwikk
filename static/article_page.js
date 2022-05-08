@@ -123,7 +123,7 @@ async function loadContent() {
     // set edit button href
     if (getUsername() !== undefined) {
         editButton.classList.remove("disabled");
-        editButton.setAttribute('aria-disabled', false);
+        editButton.setAttribute("aria-disabled", false);
         editButton.href = `/article/${articleID}/edit`;
     }
 }

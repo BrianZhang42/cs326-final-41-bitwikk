@@ -18,6 +18,8 @@ contentTextbox.addEventListener("input", event => {
     contentPreview.innerHTML = marked.parse(contentTextbox.value);
 });
 
+contentTextbox.value = currentArticle.content;
+
 saveButton.addEventListener("click", event => {
-    article.updateArticle({content: contentTextbox.value});
+    article.updateArticle(articleID, {content: contentTextbox.value});
 });

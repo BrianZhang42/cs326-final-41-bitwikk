@@ -61,13 +61,13 @@ router.post("/:articleID/edit", bwroute({
         content: "string"
     },
     handler: async (request, response) => {
-        const success = editArticle(request.params.articleID, {
+        const success = await editArticle(request.params.articleID, {
             content: request.body.content
         });
         if (success) {
             response.status(200).end();
         } else {
-            response.status(500).end();
+            response.status(400).end();
         }
     }
 }));
