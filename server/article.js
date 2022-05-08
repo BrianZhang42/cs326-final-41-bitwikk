@@ -1,7 +1,7 @@
 import express from "express";
 import { projectRoot, serve404 } from "./utils.js"
 import { bwroute } from "./bwroute.js";
-import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles, deleteComment, CommentExists } from './articleUtil.js';
+import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles, deleteComment, commentExists } from './articleUtil.js';
 
 export const router = express.Router();
 
@@ -119,9 +119,9 @@ router.delete("/:articleID/comment/:commentId", bwroute({
         console.log("in handler...");
         try {
             const commentId = request.params.commentId;
-            if (CommentExists(commentId)) {
-                deleteComment(commentId);
-            response.json({ success: `deleted comment ${commentId}` });
+            if (await commentExists(commentId)) {
+                await deleteComment(commentId);
+                response.json({ success: `deleted comment ${commentId}` });
             } else {
                 response.status(400).json({ error: "comment given does not exist" });
             }

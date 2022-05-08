@@ -194,9 +194,9 @@ export async function deleteComment(commentID) {
         return false;
     }
 
-    let comment = getComment(commentID);
-    let article = ArticleDB.findOne({ "ID": comment.articleID });
-    
+    const comment = await getComment(commentID);
+    const article = await ArticleDB.findOne({ ID: comment.articleID });
+
     for(let i = 0; i < article.commentIDs.length; ++i) {
         if(article.commentIDs[i] == commentID) {
             article.commentIDs.splice(i, 1);
@@ -208,7 +208,7 @@ export async function deleteComment(commentID) {
     await CommentDB.deleteOne({ "ID": commentID });
 }
 
-export async function CommentExists(commentId) {
+export async function commentExists(commentId) {
     return await CommentDB.exists({ "ID": commentId });
 }
 
