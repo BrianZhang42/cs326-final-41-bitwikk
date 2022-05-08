@@ -109,7 +109,7 @@ export async function checkEdit(formData) {
     return [true, [articleID, title, body]];
 }
 
-export async function editArticle(articleID, newArticle) {
+export async function editArticle(articleID, newArticle, user) {
     if(!(await ArticleDB.exists({ 'ID': articleID }))) {
         return false;
     }
@@ -118,6 +118,15 @@ export async function editArticle(articleID, newArticle) {
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
     });
+    
+    let isUserNew = false;
+    article.contributors.forEach(contributor => {
+        if(contributor === user)
+            isUserNew = true;
+    })
+    if(!isUserNew)
+        article.contributors.push(user);
+    console.log(isUserNew);
 
     // save the changes
     await article.save(err => {
