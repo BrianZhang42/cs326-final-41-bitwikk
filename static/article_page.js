@@ -108,6 +108,7 @@ async function loadContent() {
                 // TODO: make the post comment button disabled
             } else {
                 await article.addComment(articleID, {content: commentTextInput.value});
+                window.location.reload();
             }
         });
     }

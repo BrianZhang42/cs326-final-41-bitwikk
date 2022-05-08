@@ -38,10 +38,8 @@ export async function updateArticle(articleID, formData) {
             },
             body: JSON.stringify(formData),
         });
-        location.reload();
         return response;
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         return null;
     }
@@ -56,7 +54,6 @@ export async function addComment(articleID, formData) {
             },
             body: JSON.stringify(formData),
         });
-        location.reload();
         return response;
     }
     catch (err) {

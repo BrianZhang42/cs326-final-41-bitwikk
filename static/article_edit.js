@@ -19,7 +19,14 @@ contentTextbox.addEventListener("input", event => {
 });
 
 contentTextbox.value = currentArticle.content;
+contentPreview.innerHTML = marked.parse(contentTextbox.value);
 
-saveButton.addEventListener("click", event => {
-    article.updateArticle(articleID, {content: contentTextbox.value});
+saveButton.addEventListener("click", async event => {
+    const response = await article.updateArticle(articleID, {content: contentTextbox.value});
+    console.log(response);
+    if (response !== null && response.ok) {
+        window.location.href = `/article/${articleID}`;
+    } else {
+        alert("Sorry, there was an error");
+    }
 });
