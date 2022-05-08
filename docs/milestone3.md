@@ -2,7 +2,7 @@
 
 ## Division of Labor
 
-Donald Hurld, DonaldHurldUni - final.md writeup, backend work
+Donald Hurld, DonaldHurldUni - final.md writeup, backend work, video script, video recording
 
 Einar Klarlund, einarklarlund - Database schemas and setup
 

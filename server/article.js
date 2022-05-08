@@ -4,11 +4,6 @@ import { addComment, checkComment, checkEdit, editArticle, getArticle, getCommen
 
 export const router = express.Router();
 
-function validateSession(request, response) {
-    // TODO: implement session validation
-    return true;
-}
-
 router.get("/:articleID", asyncRoute(async (request, response) => {
     // get rid of trailing slash
     if (request.path.endsWith("/")) {
@@ -70,7 +65,9 @@ router.get("/:articleID/comment/:commentId", asyncRoute(async (request, response
 
 router.post("/:articleID/comment", asyncRoute(async (request, response) => {
     if (!validateSession(request, response)) { return; }
-    const [checkSuccess, checkResult] = await checkComment(request.body);
+    console.log(request);
+    const [checkSuccess, checkResult] = await checkComment(request);
+    console.log([checkSuccess, checkResult]);
     if (!checkSuccess) {
         response.status(400).json(checkResult);
         return;
@@ -88,7 +85,7 @@ router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, respo
     if (!validateSession(request, response)) { return; }
     // TODO: check that user is editing their own comment
     try {
-        const [checkSuccess, checkResult] = await checkComment(request.body);
+        const [checkSuccess, checkResult] = await checkComment(request);
         if (!checkSuccess) {
             response.status(400).json(checkResult);
             return;

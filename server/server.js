@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import { bwroute } from "./bwroute.js";
 import { router as userRouter } from "./user.js";
 import { router as articleRouter } from "./article.js";
 import { createArticle, getCategory, searchArticles,
@@ -39,51 +40,66 @@ app.use("/user", userRouter);
 app.use("/article", articleRouter);
 
 //  request body: { content: string }
-app.post("/create", asyncRoute(async (req, res) => {
-    if (!validateSession(request, response)) { return; }
-
-    // TODO: validation
-    const { title, content } = req.body;
-    const [success, result] = createArticle(title, content, request.cookies.user,
-                                            category);
-    if (success) {
-        // Status code 201: Created
-        // Standard requires setting the Location header
-        // to the location of the created resource
-        res.location(`/article/${result.ID}`)
-        res.status(201).end();
-    } else {
-        res.status(400).json(result);
+app.post("/create", bwroute({
+    requiresLogin: true,
+    requiredQueryParameters: [],
+    bodySchema: {},  // TODO
+    handler: async (req, res, username) => {
+        // TODO: validation
+        const { title, content } = req.body;
+        const [success, result] = createArticle(title, content, username,
+                                                category);
+        if (success) {
+            // Status code 201: Created
+            // Standard requires setting the Location header
+            // to the location of the created resource
+            res.location(`/article/${result.ID}`)
+            res.status(201).end();
+        } else {
+            res.status(400).json(result);
+        }
     }
 }));
 
-app.get("/category/:category", asyncRoute(async (req, res) => {
-    const { category } = req.params;
-    const [success, result] = getCategory(category);
-    if (!success) {
-        res.status(404);
-        res.json({message: result});
-        return;
+app.get("/category/:category", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (req, res) => {
+        const { category } = req.params;
+        const [success, result] = getCategory(category);
+        if (!success) {
+            res.status(404);
+            res.json({message: result});
+            return;
+        }
+        res.json(result);
     }
-    res.json(result);
 }));
 
-app.get('/search', asyncRoute(async (request, response) => {
-    if (!requireParams(request.query, ["query"], response)) {
-        return;
+app.get('/search', bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: ["query"],
+    bodySchema: null,
+    handler: async (request, response) => {
+        const [success, result] = searchArticles(request.query.query);
+        if (!success) {
+            response.status(404);
+            response.json({message: result});
+            return;
+        }
+        response.json(result);
     }
-    const [success, result] = searchArticles(request.query.query);
-    if (!success) {
-        res.status(404);
-        res.json({message: result});
-        return;
-    }
-    res.json(result);
 }));
 
-app.get("/random", asyncRoute(async (request, response) => {
-    const articleID = getRandomArticle().ID;
-    response.redirect(307, `/article/${articleID}`);
+app.get("/random", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        const articleID = getRandomArticle().ID;
+        response.redirect(307, `/article/${articleID}`);
+    }
 }));
 
 // static serving

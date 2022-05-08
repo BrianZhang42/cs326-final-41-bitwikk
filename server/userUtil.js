@@ -121,12 +121,12 @@ export function validateSession(request, response) {
     const username = request.cookies.user;
     const sessionID = request.cookies.session;
     if (checkSession(username, sessionID)) {
-        return true;
+        return [true, username];
     } else {
         response.status(403);
         deleteSessionCookies(response);
         response.end();
-        return false;
+        return [false, undefined];
     }
 }
 
