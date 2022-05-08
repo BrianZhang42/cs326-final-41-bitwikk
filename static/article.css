@@ -72,3 +72,11 @@ ul {
     color: rgb(191, 185, 185)
 }
 
+textarea {
+    white-space: nowrap;
+    overflow:    scroll;
+    overflow-y:  hidden;
+    overflow-x:  scroll;
+    overflow:    -moz-scrollbars-horizontal;
+}
+
