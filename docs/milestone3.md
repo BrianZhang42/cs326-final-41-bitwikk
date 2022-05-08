@@ -4,11 +4,11 @@
 
 Donald Hurld, DonaldHurldUni - final.md writeup, backend work, video script, video recording
 
-Einar Klarlund, einarklarlund - Database schemas and setup
+Einar Klarlund, einarklarlund - Database hookups, both client and server side
 
-Brian Zhang, BrianZhang42 - Database schemas and documentation
+Brian Zhang, BrianZhang42 - Database schemas and documentation, video editing
 
-Neil Gupta, nog642 - Database and backend work
+Neil Gupta, nog642 - Article editing and creation, server side clean up
 
 ## Database Documentation
 
