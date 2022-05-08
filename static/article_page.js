@@ -47,7 +47,7 @@ async function loadContent() {
     }
 
     // set images
-    if (currentArticle.images !== undefined) {
+    if (currentArticle.images !== undefined && currentArticle.images.length > 0) {
         primaryImage.setAttribute("src", currentArticle.images[0]);
         currentArticle.images.forEach((image, index) => {
             let carousel = index < 3 ? activeCarouselImages : inactiveCarouselImages;

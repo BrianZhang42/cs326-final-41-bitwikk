@@ -78,13 +78,13 @@ async function createSession(username) {
     return sessionBody;
 }
 
-export function setSessionCookies(response, {username, sessionID, expires}) {
+export function setSessionCookies(response, {username, ID: sessionID, expiry}) {
     response.cookie("user", username, {
-        expires: expires,
+        expires: expiry,
         secure: true
     });
     response.cookie("session", sessionID, {
-        expires: expires,
+        expires: expiry,
         secure: true
     });
 }
@@ -107,7 +107,7 @@ export async function deleteSession(sessionID) {
     }
 
     await SessionDB.deleteOne({ sessionID: sessionID });
-    
+
     return true;
 }
 
