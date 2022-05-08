@@ -1,6 +1,5 @@
 import * as article from './article-viewmodel.js';
 import { getUsername } from "./sessionUtils.js";
-import * as user from './user-viewmodel.js';
 
 const title = document.getElementById("article-title");
 const secondaryTitle = document.getElementById("article-title-secondary");
@@ -15,6 +14,7 @@ const category = document.getElementById("article-category");
 const comments = document.getElementById("article-comments");
 const commentTextInput = document.getElementById("comment-text-input");
 const commentSubmitButton = document.getElementById("comment-submit-button");
+
 let currentArticle = undefined;
 
 commentSubmitButton.addEventListener("click", async event => {
@@ -43,9 +43,8 @@ async function loadContent() {
 
     // set contributors
     let contributorString = "Contributors: ";
-    if(currentArticle.contributors !== undefined)
-    {
-        currentArticle.contributors.forEach(contributor => contributorString += `${contributor}, `)
+    if (currentArticle.contributors !== undefined) {
+        contributorString += currentArticle.contributors.join(", ");
     }
     contributors.innerText = contributorString;
 

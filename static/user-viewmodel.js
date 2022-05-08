@@ -49,7 +49,7 @@ export async function updateUser(formData) {
 		return null;
 	}
 }
-  
+
 export async function deleteUser(formData) {
 	try {
 		const response = await fetch(`user/delete?userID=${userID}`, {
