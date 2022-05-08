@@ -13,17 +13,16 @@ contentTextbox.addEventListener("input", event => {
 });
 
 createArticleButton.addEventListener("click", async event => {
-    const response = await article.createArticle({
+    const newURL = await article.createArticle({
         title: articleTitleInput.value,
         category: categoryInput.value,
         content: contentTextbox.value,
         images: galleryTextbox.value.split("\n").map(s => s.trim()).filter(s => s)
     });
-    console.log(response);
-    if (response !== null && response.ok) {
-        window.location.href = `/article/${articleID}`;
-    } else {
+    if (newURL === null) {
         alert("Sorry, there was an error");
+    } else if (newURL) {
+        window.location.href = newURL;
     }
 });
 

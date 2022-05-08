@@ -57,6 +57,7 @@ app.post("/create", bwroute({
             // Status code 201: Created
             // Standard requires setting the Location header
             // to the location of the created resource
+            res.set("Access-Control-Expose-Headers", "Location")
             res.location(`/article/${result.ID}`)
             res.status(201).end();
         } else {

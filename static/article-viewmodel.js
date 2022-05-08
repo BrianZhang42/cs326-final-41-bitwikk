@@ -8,9 +8,8 @@ export async function createArticle(formData) {
             },
             body: JSON.stringify(formData),
         });
-        console.log(response.status);
-        if (response.ok) {
-            ;
+        if (response.status === 201) {
+            return response.headers.get("Location");
         } else if (response.status === 400) {
             const data = await response.json();
             alert(data.message);
