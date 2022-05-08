@@ -153,3 +153,35 @@ Note: Majority of cooperative working sessions were done using Visual Studio Liv
 One important bit of information learned was that even when we thought we had planned out absolutely everything, there would always be several additions as we realized aspects of a wiki that we were missing or general features we hadn't begun to write out APIs for yet.
 
 All things considered, the overall development went fairly smooth. Our largest issue was likely when we had to modify a decent amount of code for the site to work as requested with Heroku deployment in mind, since the majority of testing was done both locally and with testing-specific files which kept the databse.
+
+
+## Grading Rubric
+Heroku(10 points) -
+&nbsp; `0` - No video created
+&nbsp; `3` - Video is created but its too short/not much of the requirements fulfilled
+&nbsp; `6` - Video is created but it's missing a few requirements
+&nbsp; `10` - Video is created and is near 5 minutes in length with requirements fulfilled
+
+Video Demo(10 points) -
+&nbsp; `0` - No Heroku Deployment
+&nbsp; `5` - Heroku is deployed but crashes
+&nbsp; `10` - Heroku is deployed and successful
+
+User Login/Register(30 points) -
+&nbsp; `0` - User fails to register and log in
+&nbsp; `10` - User successfully registers but can't log in
+&nbsp; `20` - User successfully registers and logs in, but can't sign out or user manages to register again with a used username
+&nbsp; `30` - User successfully registers and logs in while also being able to log out.
+
+Article Edit/Creation(30 points) -
+&nbsp; `0` - User can't edit and article or create one
+&nbsp; `10` - User edits an article successfully but fails to create one
+&nbsp; `20` - User edits and creates an article sucessfully but changes in the edit aren't saved
+&nbsp; `30` - User successfully edits and creates an article and it saves
+
+Comment Section(20 points) - 
+&nbsp; `0` - User can't write a comment
+&nbsp; `10` - User manages to write a comment without having to register and log in
+&nbsp; `15` - User manages to write a comment, but the comment doesn't save
+&nbsp; `20` - User successfully writes a comment and it saves
+
