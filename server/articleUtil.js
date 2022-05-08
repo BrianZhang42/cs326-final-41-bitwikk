@@ -140,7 +140,7 @@ export async function checkComment(request) {
 }
 
 export async function addComment(articleID, username, content) {
-    let commentedArticle = getArticle(articleID);
+    let commentedArticle = await getArticle(articleID);
     if (commentedArticle === undefined) {
         return [false, {message: "Article does not exist"}];
     }
