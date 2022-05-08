@@ -47,9 +47,9 @@ export async function updateArticle(articleID, formData) {
     }
 }
 
-export async function addComment(formData) {
+export async function addComment(articleID, formData) {
     try {
-        const response = await fetch(`/article/${formData.articleID}/comment`, {
+        const response = await fetch(`/article/${articleID}/comment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -18,14 +18,6 @@ const editButton = document.getElementById("editPage");
 
 let currentArticle = undefined;
 
-commentSubmitButton.addEventListener("click", async event => {
-    if (getUsername() === undefined) {
-        // TODO: make the post comment button disabled
-    } else {
-        await article.addComment({content: commentTextInput.value});
-    }
-});
-
 async function loadContent() {
     const articleID = window.location.pathname.substring(9);
     currentArticle = await article.readArticle(articleID);
@@ -120,11 +112,23 @@ async function loadContent() {
         });
     }
 
-    // set edit button href
-    if (getUsername() !== undefined) {
+    if (getUsername() !== undefined) { // if the user is logged in
+
+        // enable the edit button
         editButton.classList.remove("disabled");
         editButton.setAttribute("aria-disabled", false);
         editButton.href = `/article/${articleID}/edit`;
+
+        // enable comment submit
+        commentSubmitButton.classList.remove("disabled");
+        commentSubmitButton.setAttribute("aria-disabled", false);
+        commentSubmitButton.addEventListener("click", async event => {
+            if (getUsername() === undefined) {
+                // TODO: make the post comment button disabled
+            } else {
+                await article.addComment(articleID, {content: commentTextInput.value});
+            }
+        });
     }
 }
 
