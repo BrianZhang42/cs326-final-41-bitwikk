@@ -24,7 +24,10 @@ contentPreview.innerHTML = marked.parse(contentTextbox.value);
 galleryTextbox.value = currentArticle.images.join("\n");
 
 saveButton.addEventListener("click", async event => {
-    const response = await article.updateArticle(articleID, {content: contentTextbox.value});
+    const response = await article.updateArticle(articleID, {
+        content: contentTextbox.value,
+        images: galleryTextbox.value.split("\n").map(s => s.trim()).filter(s => s)
+    });
     console.log(response);
     if (response !== null && response.ok) {
         window.location.href = `/article/${articleID}`;

@@ -58,11 +58,13 @@ router.post("/:articleID/edit", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
     bodySchema: {
-        content: "string"
+        content: "string",
+        images: ["string"]
     },
     handler: async (request, response) => {
         const success = await editArticle(request.params.articleID, {
-            content: request.body.content
+            content: request.body.content,
+            images: request.body.images
         });
         if (success) {
             response.status(200).end();
