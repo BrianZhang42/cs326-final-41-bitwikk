@@ -1,11 +1,10 @@
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import { UserDB } from "./model.js"
+import { SessionDB } from "./model.js";
+import { Session } from "inspector";
 
 const saltRounds = 10;
-
-// TODO: replace with database
-const sessions = new Map();
 
 export async function checkRegister({username, password}) {
     if (!username) {
@@ -36,7 +35,7 @@ export async function createUser(username, password) {
         if (err) throw err;
     });
 
-    return createSession(username);
+    return await createSession(username);
 }
 
 export async function getUser(username) {
@@ -61,19 +60,22 @@ export async function getUserProfile(username) {
     };
 }
 
-function createSession(username) {
+async function createSession(username) {
     const sessionID = randomUUID();
     // 30 day expiry, in milliseconds
     const expires = new Date(Date.now() + 30*24*3600*1000);
-    sessions.set(sessionID, {
+    let sessionBody = {
+        ID: sessionID,
         username: username,
-        expires: expires
-    });
-    return {
-        sessionID: sessionID,
-        username: username,
-        expires: expires
+        expiry: expires
     };
+    const session = new SessionDB(sessionBody);
+
+    await session.save(err => {
+        if (err) throw err;
+    });
+
+    return sessionBody;
 }
 
 export function setSessionCookies(response, {username, sessionID, expires}) {
@@ -87,22 +89,25 @@ export function setSessionCookies(response, {username, sessionID, expires}) {
     });
 }
 
-function checkSession(username, sessionID) {
-    if (!sessions.has(sessionID)) {
+async function checkSession(username, sessionID) {
+    if (!(await SessionDB.exists({ sessionID: sessionID }))) {
         return false;
     }
-    const session = sessions.get(sessionID);
+
+    const session = await SessionDB.findOne({ sessionID: sessionID });
     if (session.username !== username) {
         return false;
     }
     return true;
 }
 
-export function deleteSession(sessionID) {
-    if (!sessions.has(sessionID)) {
+export async function deleteSession(sessionID) {
+    if (!(await SessionDB.exists({ sessionID: sessionID }))) {
         return false;
     }
-    sessions.delete(sessionID);
+
+    await SessionDB.deleteOne({ sessionID: sessionID });
+    
     return true;
 }
 
@@ -117,10 +122,10 @@ export function deleteSessionCookies(response) {
     });
 }
 
-export function validateSession(request, response) {
+export async function validateSession(request, response) {
     const username = request.cookies.user;
     const sessionID = request.cookies.session;
-    if (checkSession(username, sessionID)) {
+    if (await checkSession(username, sessionID)) {
         return [true, username];
     } else {
         response.status(403);
@@ -140,7 +145,7 @@ export async function checkPassword(username, password) {
 
 export async function login(username, password) {
     if (await checkPassword(username, password)) {
-        return createSession(username);
+        return await createSession(username);
     } else {
         return null;
     }

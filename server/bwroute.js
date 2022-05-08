@@ -88,11 +88,11 @@ export const bwroute = config => {
     if (bodySchema !== null) {
         validateJSONSchema(bodySchema)
     }
-    return (request, response, next=console.error) => {
+    return async (request, response, next=console.error) => {
         let username = undefined;
         if (requiresLogin) {
             let sessionValid;
-            [ sessionValid, username ] = validateSession(request, response);
+            [ sessionValid, username ] = await validateSession(request, response);
             if (!sessionValid) {
                 return;
             }

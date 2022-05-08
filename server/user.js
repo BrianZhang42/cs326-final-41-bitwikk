@@ -34,7 +34,7 @@ router.post("/logout", bwroute({
     requiredQueryParameters: [],
     bodySchema: null,
     handler: async (request, response) => {
-        const success = deleteSession(request.cookies.session);
+        const success = await deleteSession(request.cookies.session);
         if (!success) {
             response.status(400);
         }
