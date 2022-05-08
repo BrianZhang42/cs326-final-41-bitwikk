@@ -1,4 +1,3 @@
-import req from "express/lib/request";
 import { validateSession } from "./userUtil.js"
 
 const TYPEOF_VALUES = new Set(["undefined", "object", "boolean", "number", "bigint", "string", "symbol", "function"]);

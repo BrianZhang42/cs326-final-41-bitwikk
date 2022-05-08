@@ -44,11 +44,20 @@ document.getElementById("register").addEventListener("click", async () => {
         window.location.href = "/";
         return;
     }
-    if (response.status == 400 && response.headers.get("content-type") == "application/json") {
-        const { invalid, message } = await response.json();
-        // TODO: highlight invalid field
-        alert(message);
-        return;
+    if (response.status === 400) {
+        let isJSON = false;
+        let invalid;
+        let message;
+        try {
+            ({ invalid, message } = await response.json());
+            isJSON = true;
+        } catch {
+        }
+        if (isJSON) {
+            // TODO: highlight invalid field
+            alert(message);
+            return;
+        }
     }
     alert(`Unexpected error: ${response.status} ${response.statusText} ${await response.text()}`);
 });
