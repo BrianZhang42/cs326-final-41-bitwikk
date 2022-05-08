@@ -7,7 +7,7 @@ const searchTextInput = document.getElementById("search-text-input");
 const searchSubmitButton = document.getElementById("search-submit-button");
 
 searchSubmitButton.addEventListener("click", event => {
-    window.location.href = `/search/${searchTextInput.value}`;
+    window.location.href = `/search?query=${searchTextInput.value}`;
     event.preventDefault();
 });
 
