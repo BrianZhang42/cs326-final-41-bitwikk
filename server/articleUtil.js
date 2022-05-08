@@ -17,7 +17,7 @@ function generateArticleID(title) {
     }
 
     // replace spaces with underscores
-    title = title.replace(" ", "_");
+    title = title.replace(/ /g, "_");
 
     // URL-encode the title
     return [true, encodeURI(title)];
