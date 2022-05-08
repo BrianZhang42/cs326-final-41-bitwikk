@@ -88,7 +88,7 @@ export const bwroute = config => {
     if (bodySchema !== null) {
         validateJSONSchema(bodySchema)
     }
-    return async (request, response, next=console.error) => {
+    return (request, response, next=console.error) => Promise.resolve((async () => {
         let username = undefined;
         if (requiresLogin) {
             let sessionValid;
@@ -114,6 +114,6 @@ export const bwroute = config => {
                 return;
             }
         }
-        Promise.resolve(handler(request, response, username)).catch(next);
-    };
+        return await handler(request, response, username);
+    })()).catch(next);
 };
