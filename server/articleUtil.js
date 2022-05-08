@@ -110,15 +110,19 @@ export async function checkEdit(formData) {
 }
 
 export async function editArticle(articleID, newArticle, user) {
-    if(!(await ArticleDB.exists({ 'ID': articleID }))) {
+    if ((typeof user) !== "string") {
+        throw "user must be string";
+    }
+
+    if(!(await ArticleDB.exists({ ID: articleID }))) {
         return false;
     }
 
-    let article = await ArticleDB.findOne({ 'ID': articleID });
+    let article = await ArticleDB.findOne({ ID: articleID });
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
     });
-    
+
     let isUserNew = false;
     article.contributors.forEach(contributor => {
         if(contributor === user)
