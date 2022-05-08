@@ -4,7 +4,7 @@ import * as user from './user-viewmodel.js';
 
 const title = document.getElementById("article-title");
 const secondaryTitle = document.getElementById("article-title-secondary");
-const content = document.getElementById("article-content");
+const contentDOM = document.getElementById("article-content");
 const contributors = document.getElementById("article-contributors");
 const details = document.getElementById("article-details");
 const primaryImage = document.getElementById("article-primary-image");
@@ -17,17 +17,13 @@ const commentTextInput = document.getElementById("comment-text-input");
 const commentSubmitButton = document.getElementById("comment-submit-button");
 let currentArticle = undefined;
 
-commentSubmitButton.addEventListener("click", submitComment);
-
-async function submitComment() {
-    let username = getUsername();
-    if(username !== undefined) {
-        await article.addComment({
-            articleID: currentArticle.ID,
-            username: username, 
-            content: commentTextInput.value});    
+commentSubmitButton.addEventListener("click", async event => {
+    if (getUsername() === undefined) {
+        // TODO: make the post comment button disabled
+    } else {
+        await article.addComment({content: commentTextInput.value});
     }
-}
+});
 
 async function loadContent() {
     const articleID = window.location.pathname.substring(9);
@@ -41,28 +37,8 @@ async function loadContent() {
     document.head.appendChild(DOMTitle);
 
     // set body content
-    if(currentArticle.content !== undefined)
-    {
-        if(currentArticle.content.forEach !== undefined) {
-            currentArticle.content.forEach((topicDetails, index) => {
-                let topicTitle = document.createElement("h2");
-                topicTitle.setAttribute("id", `topic-title-${index}`);
-                content.appendChild(topicTitle);
-                if(topicDetails.title != undefined)
-                    topicTitle.innerText = topicDetails.title;
-        
-                let topicBody = document.createElement("p");
-                topicBody.setAttribute("id", `topic-body-${index}`);
-                content.appendChild(topicBody);
-                if(topicDetails.body != undefined)
-                    topicBody.innerText = topicDetails.body;
-            });
-        }
-        else {
-            let contentBody = document.createElement("p");
-            content.appendChild(contentBody);
-            contentBody.innerText = currentArticle.content;
-        }
+    if (currentArticle.content !== undefined) {
+        contentDOM.innerHTML = marked.parse(currentArticle.content);
     }
 
     // set contributors
@@ -75,7 +51,7 @@ async function loadContent() {
 
     // set details
     if(currentArticle.category !== undefined)
-    {   
+    {
         let olElem = document.createElement("ol");
         olElem.innerText = currentArticle.category;
         category.appendChild(olElem);
@@ -97,7 +73,7 @@ async function loadContent() {
     }
     // set images
     if(currentArticle.images !== undefined)
-    {    
+    {
         primaryImage.setAttribute("src", currentArticle.images[0]);
         currentArticle.images.forEach((image, index) => {
             let carousel = index < 3 ? activeCarouselImages : inactiveCarouselImages;
