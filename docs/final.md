@@ -144,7 +144,7 @@ Donald Hurld, DonaldHurldUni - login page wireframe and Bootstrap, server.js and
 
 Einar Klarlund, einarklarlund -  search page wireframe and Bootstrap, JavaScript functions, article page functionality, models, Database schemas and setup
 
-Brian Zhang, BrianZhang42 - article page wireframe and Bootstrap, Markdown files, Client/CRUD utility functions, HTML/CSS pages, Database schemas and documentation
+Brian Zhang, BrianZhang42 - article page wireframe and Bootstrap, Markdown files, Client/CRUD utility functions, HTML/CSS pages, Database schemas, route mapping, documentation.
 
 Neil Gupta, nog642 - home page wireframe and Bootstrap, Various routes and data processing, session management, Heroku deployment, Database and backend work
 
