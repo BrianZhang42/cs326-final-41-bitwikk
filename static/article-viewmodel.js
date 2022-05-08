@@ -6,7 +6,7 @@ export async function createArticle(formData) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({formData}),
+            body: JSON.stringify(formData),
         });
         console.log(response.status);
         if (response.ok) {
