@@ -43,10 +43,15 @@ app.use("/article", articleRouter);
 app.post("/create", bwroute({
     requiresLogin: true,
     requiredQueryParameters: [],
-    bodySchema: {},  // TODO
+    bodySchema: {
+        "title": "string",
+        "category": "string",
+        "content": "string",
+        "images": ["string"]
+    },
     handler: async (req, res, username) => {
         // TODO: validation
-        const { title, content } = req.body;
+        const { title, category, content, images } = req.body;
         const [success, result] = createArticle(title, content, username,
                                                 category);
         if (success) {

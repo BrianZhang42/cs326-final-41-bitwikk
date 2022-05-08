@@ -23,7 +23,7 @@ function generateArticleID(title) {
     return [true, encodeURI(title)];
 }
 
-export async function createArticle(title, content, contributor, category) {
+export async function createArticle(title, content, contributor, category, images) {
     if (!title) {
         return [false, {invalid: "title",
                         message: "Title cannot be empty"}];
@@ -66,7 +66,8 @@ export async function createArticle(title, content, contributor, category) {
         title: title,
         content: content,
         contributors: [contributor],
-        images: [], commentIDs: [],
+        images: images,
+        commentIDs: [],
         category: category
     }
 

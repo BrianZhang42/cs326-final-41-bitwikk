@@ -1,18 +1,22 @@
 export async function createArticle(formData) {
     try {
-        let url = `/article/create?title=${formData.title}&contributor=${formData.contributor}&category=${formData.category}`;
+        let url = `/create`;
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({formData}),
         });
-        const data = await response.json();
-        return data;
-    }
-    catch (err) {
-        console.log(err);
+        console.log(response.status);
+        if (response.ok) {
+            ;
+        } else if (response.status === 400) {
+            const data = await response.json();
+            alert(data.message);
+        }
+    } catch (err) {
+        console.error(err);
         return null;
     }
 }
