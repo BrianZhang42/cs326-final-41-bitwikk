@@ -1,5 +1,14 @@
 import { articles, comments } from "./fakedata.js";
+import { ArticleDB, CommentDB } from "./model.js";
 import { getUser } from "./userUtil.js";
+import { randomUUID } from "crypto";
+
+// let articleBody1 = articles[0];
+// let articleBody2 = articles[1];
+// let article1 = new ArticleDB(articleBody1);
+// let article2 = new ArticleDB(articleBody2);
+// article1.save();
+// article2.save();
 
 function generateArticleID(title) {
     // don't allow non-printable characters
@@ -8,16 +17,20 @@ function generateArticleID(title) {
     }
 
     // replace spaces with underscores
-    title = title.replace(" ", "_");
+    title = title.replace(/ /g, "_");
 
     // URL-encode the title
     return [true, encodeURI(title)];
 }
 
-export function createArticle(title, content, contributor, category) {
+export async function createArticle(title, content, contributor, category, images) {
     if (!title) {
         return [false, {invalid: "title",
                         message: "Title cannot be empty"}];
+    }
+    if (!content) {
+        return [false, {invalid: "content",
+                        message: "Content cannot be empty"}];
     }
     if (!contributor) {
         // message is for the user, and this can only happen
@@ -35,7 +48,7 @@ export function createArticle(title, content, contributor, category) {
         return [false, {invalid: "category",
                         message: `category field must be either 'game' or 'console'.`}];
     }
-    if (getUser(contributor) === undefined) {
+    if (await getUser(contributor) === undefined) {
         return [false, {invalid: "contributor",
                         message: `User ${contributor} does not exist`}];
     }
@@ -45,28 +58,35 @@ export function createArticle(title, content, contributor, category) {
         return [false, {invalid: "title",
                         message: articleIDResult}];
     }
-    if (!articles.every(article => article.ID !== articleIDResult)) {
+    if (await ArticleDB.exists({ "ID": articleIDResult })) {
         return [false, {invalid: "title",
                         message: `/article/${articleIDResult} already exists`}];
     }
 
     // TODO: validate content
 
-    const article = {
+    const articleBody = {
         ID: articleIDResult,
         title: title,
         content: content,
-        contributers: [contributor],
-        images: [], commentIDs: [],
+        contributors: [contributor],
+        images: images,
+        commentIDs: [],
         category: category
     }
-    articles.push(article);
-    return [true, article];
+
+    const article = new ArticleDB(articleBody);
+    await article.save();
+
+    return [true, articleBody];
 }
 
-export function getArticle(articleID) {
-    let article = articles.find(article => article.ID === articleID)
-    return article;
+export async function getArticle(articleID) {
+    if(!(await ArticleDB.exists({ 'ID': articleID }))){
+        return undefined;
+    }
+
+    return await ArticleDB.findOne({ 'ID' : articleID });;
 }
 
 // get index of article in list
@@ -75,85 +95,111 @@ function getArticleIndex(articleID) {
     return articles.findIndex(article => article.ID === articleID);
 }
 
-const editFormDataAttrs = ["articleID", "title", "content"];
-export function checkEdit(formData) {
-    for (const attr of editFormDataAttrs) {
-        if (!formData.hasOwnProperty(attr)) {
-            return [false, {invalid: attr,
-                            message: `Missing required attribute: ${attr}`}]
-        }
+export async function checkEdit(request) {
+    if (request.body.content.length === 0) {
+        return [false, {invalid: "content",
+                        message: "content cannot be empty"}];
     }
-    for (const attr of editFormDataAttrs) {
-        if (!formData[attr]) {
-            return [false, {invalid: attr,
-                            message: `${attr} cannot be empty`}];
-        }
-    }
-    const {articleID, title, body} = formData;
-
-    if (getArticle(articleID) === undefined) {
-        return [false, {invalid: "articleID",
-                        message: "Article does not exist"}];
-    }
-    // TODO: validate body content
-    return [true, [articleID, title, body]];
+    return [true, null];
 }
 
-export function editArticle(articleID, newArticle) {
-    // TODO: actually implement editing
-    let article = articles[getArticleIndex(articleID)]
+export async function editArticle(articleID, newArticle, user) {
+    if ((typeof user) !== "string") {
+        throw "user must be string";
+    }
+
+    let article = await ArticleDB.findOne({ ID: articleID });
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
+    });
+
+    let isUserNew = false;
+    article.contributors.forEach(contributor => {
+        if(contributor === user)
+            isUserNew = true;
+    })
+    if(!isUserNew)
+        article.contributors.push(user);
+    console.log(isUserNew);
+
+    // save the changes
+    await article.save(err => {
+        if (err) throw err;
     });
 
     return true;
 }
 
-const commentFormDataAttrs = ["username", "content"];
-export function checkComment(formData) {
-    for (const attr of commentFormDataAttrs) {
-        if (!formData.hasOwnProperty(attr)) {
-            return [false, {invalid: attr,
-                            message: `Missing required attribute: ${attr}`}]
-        }
-    }
-    for (const attr of commentFormDataAttrs) {
-        if (!formData[attr]) {
-            return [false, {invalid: attr,
-                            message: `${attr} cannot be empty`}];
-        }
-    }
-    const {articleID, title, body} = formData;
-
-    if (getUser(username) === undefined) {
-        return [false, {invalid: "username",
-                        message: `User ${username} does not exist`}];
+export async function checkComment(request) {
+    if (!request.body.content) {
+        return [false, {invalid: "content",
+                        message: `comment content cannot be empty`}];
     }
     // TODO: validate content
-    return [true, [username, content]];
+    return [true, [request.cookies.user, request.body.content]];
 }
 
-export function addComment(articleID, username, content) {
-    if (getArticle(articleID) === undefined) {
+export async function addComment(articleID, username, content) {
+    let commentedArticle = await getArticle(articleID);
+    if (commentedArticle === undefined) {
         return [false, {message: "Article does not exist"}];
     }
-    const comment = {
-        // TODO: use UUID
-        ID: (Object.keys(comments).length) + 1,
+
+    let commentID = randomUUID();
+    const commentBody = {
+        ID: commentID,
         username: username,
         articleID: articleID,
         content: content
-    };
-    comments.push(comment);
-    return [true, comment]
+    }
+
+    const newComment = new CommentDB(commentBody);
+    // save the comment to database
+    await newComment.save(err => {
+        if (err) throw err;
+    });
+
+    // add the new comment's id to the article
+    if(commentedArticle.commentIDs === undefined) {
+        commentedArticle.commentIDs = [];
+    }
+    commentedArticle.commentIDs.push(commentID);
+    await commentedArticle.save(err => {
+        if(err) throw err;
+    });
+
+    return [true, commentBody]
 }
 
-export function deleteComment(commentId) {
-    comments.splice(comments.findIndex((com) => com.commentId === commentId));
+export async function getComment(commentId) {
+    if(!(await CommentDB.exists({ 'ID': commentId }))) {
+        return undefined;
+    }
+
+    return await CommentDB.findOne({ 'ID' : commentId });
 }
 
-export function CommentExists(commentId) {
-    return comments.find((com) => com.commentId === commentId) !== undefined ? true : false;
+export async function deleteComment(commentID) {
+    if(!(await CommentDB.exists({ "ID": commentID }))) {
+        return false;
+    }
+
+    const comment = await getComment(commentID);
+    const article = await ArticleDB.findOne({ ID: comment.articleID });
+
+    for(let i = 0; i < article.commentIDs.length; ++i) {
+        if(article.commentIDs[i] == commentID) {
+            article.commentIDs.splice(i, 1);
+        }
+    }
+
+    await article.save();
+
+    await CommentDB.deleteOne({ "ID": commentID });
+}
+
+export async function commentExists(commentId) {
+    return await CommentDB.exists({ "ID": commentId });
 }
 
 export function getCategory(category) {
@@ -170,24 +216,26 @@ export function getCategory(category) {
     }))];
 }
 
-export function searchArticles(query) {
+export async function searchArticles(query) {
     const categoryArticles = articles.filter(article =>
         // TODO: make this case insensitive, at least
         article.title.includes(query)
     );
 
+    let results = await ArticleDB.find({$text: {$search: query}})
+       .limit(10);
+
     // only return some keys, not all the content
     // maybe we will add preview data here later
-    return [true, categoryArticles.map(article => ({
+    return [true, results.map(article => ({
         ID: article.ID,
-        title: article.title
+        title: article.title,
+        image: article.images[0]
     }))];
 }
 
-export function getRandomArticle() {
-    const article = articles[Math.floor(Math.random() * articles.length)];
-    return {
-        ID: article.ID,
-        title: article.title
-    };
+export async function getRandomArticle() {
+    const count = await ArticleDB.count();
+    const idx = Math.floor(Math.random() * count);
+    return await ArticleDB.findOne().skip(idx);
 }

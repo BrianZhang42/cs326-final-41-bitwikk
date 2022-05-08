@@ -1,149 +1,136 @@
 import * as article from './article-viewmodel.js';
+import { getUsername } from "./sessionUtils.js";
 
 const title = document.getElementById("article-title");
 const secondaryTitle = document.getElementById("article-title-secondary");
-const content = document.getElementById("article-content");
+const contentDOM = document.getElementById("article-content");
 const contributors = document.getElementById("article-contributors");
-const details = document.getElementById("article-details");
 const primaryImage = document.getElementById("article-primary-image");
-const relatedTopics = document.getElementById("article-related-topics");
 const activeCarouselImages = document.getElementById("article-active-image-carousel");
 const inactiveCarouselImages = document.getElementById("article-inactive-image-carousel");
-const categories = document.getElementById("article-categories");
+const category = document.getElementById("article-category");
 const comments = document.getElementById("article-comments");
+const commentTextInput = document.getElementById("comment-text-input");
+const commentSubmitButton = document.getElementById("comment-submit-button");
+const editButton = document.getElementById("editPage");
 
 let currentArticle = undefined;
 
-if(document.readyState !== "loading") {
-    loadContent();
-}
-else {
-    window.addEventListener("load", loadContent);
-}
-
 async function loadContent() {
-    let articleID = window.location.pathname.substring(9);
+    const articleID = window.location.pathname.substring(9);
     currentArticle = await article.readArticle(articleID);
 
     // set title
     title.innerText = currentArticle.title;
     secondaryTitle.innerText = currentArticle.title;
+    const DOMTitle = document.createElement("title");
+    DOMTitle.innerText = `Bitwikk - ${articleID}`;
+    document.head.appendChild(DOMTitle);
 
     // set body content
-    currentArticle.content.forEach((topicDetails, index) => {
-        let topicTitle = document.createElement("h2");
-        topicTitle.setAttribute("id", `topic-title-${index}`);
-        content.appendChild(topicTitle);
-        if(topicDetails.title != undefined)
-            topicTitle.innerText = topicDetails.title;
-
-        let topicBody = document.createElement("p");
-        topicBody.setAttribute("id", `topic-body-${index}`);
-        content.appendChild(topicBody);
-        if(topicDetails.body != undefined)
-            topicBody.innerText = topicDetails.body;
-
-    }); 
+    if (currentArticle.content !== undefined) {
+        contentDOM.innerHTML = marked.parse(currentArticle.content);
+    }
 
     // set contributors
     let contributorString = "Contributors: ";
-    currentArticle.contributors.forEach(contributor => contributorString += `${contributor}, `)
+    if (currentArticle.contributors !== undefined) {
+        contributorString += currentArticle.contributors.join(", ");
+    }
     contributors.innerText = contributorString;
-    
-    // set details
-    currentArticle.details.forEach((detail, index) => {
-        let listElem = document.createElement("li");
-        let aElem = document.createElement("a");
-        aElem.innerText = detail;
-        aElem.setAttribute("href", "http://www.google.com");
 
-        listElem.appendChild(aElem);
-        listElem.setAttribute("id", `detail-${index}`);
-        details.appendChild(listElem);
-    })
-
-    // set related topics
-    currentArticle.relatedTopics.forEach((topic, index) => {
-        let listElem = document.createElement("li");
-        let aElem = document.createElement("a");
-        aElem.innerText = topic;
-        aElem.setAttribute("href", "http://www.google.com");
-
-        listElem.appendChild(aElem);
-        listElem.setAttribute("id", `related-topic-${index}`);
-        relatedTopics.appendChild(listElem);
-    })
+    // set category
+    if (currentArticle.category !== undefined) {
+        let olElem = document.createElement("ol");
+        olElem.innerText = currentArticle.category;
+        category.appendChild(olElem);
+    }
 
     // set images
-    primaryImage.setAttribute("src", currentArticle.images[0]);
-    currentArticle.images.forEach((image, index) => {
-        let carousel = index < 3 ? activeCarouselImages : inactiveCarouselImages;
-        let colDiv = document.createElement("div");
-        let img = document.createElement("img");
+    if (currentArticle.images !== undefined && currentArticle.images.length > 0) {
+        primaryImage.setAttribute("src", currentArticle.images[0]);
+        currentArticle.images.forEach((image, index) => {
+            let carousel = index < 3 ? activeCarouselImages : inactiveCarouselImages;
+            let colDiv = document.createElement("div");
+            let img = document.createElement("img");
 
-        colDiv.setAttribute("class", "col")
-        colDiv.appendChild(img);
+            colDiv.setAttribute("class", "col")
+            colDiv.appendChild(img);
 
-        img.setAttribute("class", "img-fluid");
-        img.setAttribute("src", image);
-        
-        carousel.appendChild(colDiv);
-    })
-}
+            img.setAttribute("class", "img-fluid");
+            img.setAttribute("src", image);
 
-document.getElementById('editPage').addEventListener("click", editContent);
+            carousel.appendChild(colDiv);
+        })
+    }
 
-function editContent() {
-    if (!document.getElementById('mainArt').isContentEditable) {
-        document.getElementById('mainArt').contentEditable = true;
-    } else {
-        document.getElementById('mainArt').contentEditable = false;
+    // set comments
+    let commenter = getUsername();
+    if (currentArticle.commentIDs !== undefined) {
+        currentArticle.commentIDs.forEach( async (commentID, index) => {
+            let comment = await article.getComment(currentArticle.ID, commentID);
+            if (comment === null) {
+                // there was an error leading the comment
+                return;
+            }
+
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+
+            let cardBody = document.createElement("div");
+            cardBody.setAttribute("class", "card-body");
+            card.appendChild(cardBody);
+
+            let content = document.createElement("p");
+            content.innerText = comment.content;
+            cardBody.appendChild(content);
+
+            let username = document.createElement("p");
+            username.setAttribute("class", "small mb-0 ms-2");
+            username.innerText = comment.username;
+            cardBody.appendChild(username);
+
+            comments.appendChild(card);
+
+            if (commenter !== undefined && commenter === comment.username) {
+                const deleteButton = document.createElement("button");
+                deleteButton.classList.add("btn");
+                deleteButton.classList.add("btn-secondary");
+                // deleteButton.classList.add("flexbox");
+                deleteButton.classList.add("mt-2");
+
+                deleteButton.addEventListener("click", async event => {
+                    if (!confirm("Are you sure you want to delete this comment?")) {
+                        return;
+                    }
+                    article.deleteComment(commentID, currentArticle.ID);
+                    window.location.reload();
+                });
+                deleteButton.innerText = "Delete comment";
+                cardBody.appendChild(deleteButton);
+            }
+        });
+    }
+
+    if (getUsername() !== undefined) { // if the user is logged in
+
+        // enable the edit button
+        editButton.classList.remove("disabled");
+        editButton.setAttribute("aria-disabled", false);
+        editButton.href = `/article/${articleID}/edit`;
+
+        // enable comment submit
+        commentSubmitButton.classList.remove("disabled");
+        commentSubmitButton.setAttribute("aria-disabled", false);
+        commentSubmitButton.addEventListener("click", async event => {
+            if (getUsername() === undefined) {
+                // TODO: make the post comment button disabled
+            } else {
+                await article.addComment(articleID, {content: commentTextInput.value});
+                window.location.reload();
+            }
+        });
     }
 }
 
-document.getElementById('post').addEventListener("click", async event => {
-    // const comment = document.createElement('div');
-    // comment.appendCHild(document.getElementById('comment').value);
-    // document.getElementById('comment').value = '';
-    // document.getElementById('csection').appendChild(comment);
-    if(currentArticle == undefined) {
-        console.error(`no article was loaded while submitting article edit.`);
-    }
-
-    let children = content.childNodes;
-    let topicTitles = [];
-    let topicBodies = [];
-    children.forEach((child, index) => {
-        if(child.id === undefined || child.innerText == undefined)
-            return;
-
-        if(child.id.substring(0, 12) === "topic-title-") {
-            let topicNum = child.id.substring(12, 13);
-            topicTitles[topicNum] = child.innerText;
-        }
-        else if(child.id.substring(0, 11) === "topic-body-") {
-            let topicNum = child.id.substring(11, 12);
-            topicBodies[topicNum] = child.innerText;
-        }
-    });
-    
-    if(topicBodies.length != topicTitles.length) {
-        console.error("While generating article update request body, didn't find an equal "
-            + "number of article topic titles and article topic bodies.");
-        return;
-    }
-
-    let newContent = [];
-    topicBodies.forEach((body, index) => {
-        let title = topicTitles[index];
-        newContent.push({title: title, body: body});
-    });
-    
-    let formData = {
-        ID: currentArticle.ID,
-        title: title.innerText,
-        content: newContent,
-    }
-
-    article.updateArticle(formData);
-});
+await loadContent();

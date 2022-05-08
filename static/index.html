@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/article.css">
     <script type="module" src="/client.js"></script>
     <title>Bitwikk - Home</title>
   </head>
@@ -30,9 +31,10 @@
             </li>
           </ul>
           <form class="d-flex ms-auto me-auto" id="searchForm">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" id="search-text-input" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" id="search-submit-button">Search</button>
           </form>
+          <a href="/create_article" class="btn btn-outline-success me-auto">New Article</a>
           <div class="btn-group my-2" id="signed-out-bar" hidden>
             <a href="/login" class="btn btn-outline-success text-nowrap">Sign in</a>
             <a href="/register" class="btn btn-outline-success text-nowrap">Sign up</a>
@@ -50,14 +52,27 @@
       <p class="lead text-center">Retro Games Wiki</p>
     </header>
 
-    <main class="container">
-      <h1>Section heading</h1>
-      <p>Site Info/Description (directed mainly at readers)</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultricies lacus justo, quis convallis leo auctor semper. Nullam luctus venenatis lorem, at vestibulum sapien aliquam et. Suspendisse vestibulum pharetra orci eu tincidunt. Morbi lobortis ex eget rutrum tincidunt. Suspendisse aliquet accumsan nisi id lobortis. Nullam eu porta elit. Donec a eros diam. Quisque pulvinar justo eu justo aliquet pretium. Aliquam pulvinar sodales vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur nec accumsan metus. Curabitur viverra felis leo, id faucibus massa luctus laoreet. Aliquam justo turpis, tristique vitae pretium vel, sodales eleifend tellus.</p>
-      <h1>Section heading</h1>
-      <p>Site Info/Description (directed specifically at contributors)</p>
-      <p>Nulla ullamcorper dictum vestibulum. Aenean blandit a libero ac mattis. Proin posuere erat quis nulla laoreet, a accumsan risus lacinia. Ut feugiat neque nec quam aliquam, sit amet lobortis diam pretium. Curabitur vel ex vitae orci fringilla suscipit. Vestibulum congue pretium turpis, id tempor turpis vestibulum sed. In semper ex ac massa ultricies rutrum. Sed interdum elit finibus justo semper, nec vestibulum ipsum vehicula. Quisque a blandit mi, at venenatis libero. Nam ullamcorper ut nisi nec pharetra. Integer mattis ante a ex varius condimentum. Morbi erat lorem, imperdiet eget tincidunt ac, varius et odio.</p>
-      <p>(Links to) help resources, guides, rules, etc.</p>
+    <main class="containerM">
+      <div class="about">
+        <h2>Welcome</h2>
+        <p>Welcome to Bitwikk, a collaborative encyclopedia about retro games that
+          anyone can edit. The wiki serves as a repository of games, consoles, images as well as explanatory
+          articles summarizing information about these games and consoles.</p>
+        <h2>About Retro Games</h2>
+        <p>
+          Retro gaming (also known as classic gaming and old school gaming) is the act of playing older consoles and computers
+          such as the Nintendo Entertainment System and games on said consoles and computers as opposed to playing on
+          newer consoles and computers. Most often the consoles and computers that are played are often discontinued and "obsolete".
+          <br><br>
+          Retro gaming is a positive aspect of gaming because it helps to show that you don't need the most powerful technology to make a good game and many of these older games still hold value to people. Playing these older games also let people appreciate how gaming has evolved over the years and how things were done before with the hardware limitations of that time. Retro gaming also gives older gamers the opportunity to check out games and consoles that they didn't own during their childhoods. Systems like the NES Classic and SNES Classic make it easier for people to revisit old school games.
+        </p>
+        <h2>Other Interesting Resources</h2>
+        <a href="https://www.retrogames.cz/zebricky.php?language=EN">Top 100 Retro Games</a><br>
+        <a href="https://videogamesstats.com/list-of-video-game-consoles/">Complete List of Video Game Consoles</a>
+      </div>
+      <div class="homeImg">
+        <img class="homeLink" src="https://s1.econotimes.com/assets/uploads/20160602915a6d1827a049166_th_1024x0.jpg" height="300"/>
+      </div>
     </main>
 
     <footer class="container-fluid mt-auto bg-dark">
@@ -67,7 +82,7 @@
             <a class="nav-link text-muted" href="/">Homepage</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-muted" href="/404.html">Contact us</a>
+            <a class="nav-link text-muted" href="/contact">Contact us</a>
           </li>
         </ul>
       </div>

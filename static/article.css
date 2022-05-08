@@ -18,40 +18,65 @@ ul {
 }
 
 .contTop {
-    color: white;
+    color: rgb(39, 39, 39);
     display: flex;
     justify-content: center;
-    margin-top: 200px;
+    margin-top: 5vh;
 }
 
 .contacts {
     background-color: rgb(39, 39, 39);
     height: 90vh;
     width: auto;
+    padding-bottom: 1vh;
+}
+
+.containerM {
+    display: flex;
+}
+
+.about {
+    padding-left: 15vw;
+    padding-right: 5vw;
+    padding-bottom: 5vh;
+}
+
+.homeImg {
+    padding-right: 13vw;
+    float: right;
 }
 
 .bar {
-    background-color: rgb(39, 39, 39);
+    background-color: white;
     margin: auto;
     display: flex;
     justify-content: center;
     margin-top: 100px;
+    min-height: 10vh;
 }
 
 .barItem {
     float: left;
     display: block;
-    color: white;
+    color: rgb(39, 39, 39);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .cont:link {
-    color: white;
+    color: rgb(39, 39, 39);;
 }
 
 .cont:hover {
-    color: rgb(191, 191, 191);
+    color: rgb(191, 185, 185)
+}
+
+textarea {
+    white-space: nowrap;
+    overflow:    scroll;
+    overflow-y:  hidden;
+    overflow-x:  scroll;
+    overflow:    -moz-scrollbars-horizontal;
 }
 

@@ -36,9 +36,10 @@
             </li>
           </ul>
           <form class="d-flex ms-auto me-auto" id="searchForm">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" id="search-text-input" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" id="search-submit-button">Search</button>
           </form>
+          <a href="/create_article" class="btn btn-outline-success me-auto">New Article</a>
           <div class="btn-group my-2" id="signed-out-bar" hidden>
             <a href="/login" class="btn btn-outline-success text-nowrap">Sign in</a>
             <a href="/register" class="btn btn-outline-success text-nowrap">Sign up</a>
@@ -63,62 +64,82 @@
 
       <div class="album py-5 bg-light">
         <div class="container">
-
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div class="col">
               <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://m.media-amazon.com/images/I/81s7B+Als-L._SL1500_.jpg" height="225"/>
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2020/01/Atari-2600-console-300x236.jpg" height="225"/>
                 <div class="card-body">
-                  <h5>NES</h5>
-                  <p class="card-text">The Nintendo Entertainment System is an 8-bit video game console produced and distributed by Nintendo. The NES helped revitalize the North American video game industry following the video game crash of 1983. The system's use of interchangeable cartridges allowed video game companies other than Nintendo to produce and manufacture games for the system.</p>
+                  <h5>Atari 2600</h5>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://m.media-amazon.com/images/I/61WyNYECFYL._SL1500_.jpg" height="225"/>
-                <div class="card-body">
-                  <h5>SNES</h5>
-                  <p class="card-text">The Nintendo Entertainment System is an 8-bit video game console produced and distributed by Nintendo. Nintendo would eventually manufacture SNES systems with different casings and label them with new names such as Super Famicom Jr. and SNS-101. The SNES was discontinued outside of Japan in 1999 and in Japan in 2003.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://upload.wikimedia.org/wikipedia/en/0/03/Super_Mario_Bros._box.png" height="225"/>
-                <div class="card-body">
-                  <h5>N64</h5>
-                  <p class="card-text">The Nintendo 64 (JP) (N64), stylized as NINTENDO⁶⁴, is a home video game console developed and marketed by Nintendo. Named for its 64-bit processing unit, it was first released in Japan and North America in 1996, followed by Australia, Europe, and other parts of the world in 1997.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col">
-              <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://static.wikia.nocookie.net/nintendo/images/6/6f/Game_Boy_%28Grey_Model%29.png/revision/latest/scale-to-width-down/304?cb=20121110153849&path-prefix=en" height="225"/>
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2019/12/game-boy-console-248x300.jpg" height="225"/>
                 <div class="card-body">
                   <h5>Game Boy</h5>
-                  <p class="card-text">The Game Boy (JP) (DMG-001 model) is a Nintendo manufactured portable handheld console released initially in 1989. It was the first dedicated 8-bit handheld system from the company using interchangeable cartridges to play many different titles. It featured a 2.6" 4-shade LCD, stereo sound through headphones, and interchangeable cartridges. </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2019/12/nintendo-64-console-facts-stats-300x137.jpg" height="225"/>
+                <div class="card-body">
+                  <h5>N64.</h5>
                 </div>
               </div>
             </div>
 
             <div class="col">
               <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://static.wikia.nocookie.net/nintendo/images/e/e4/VB_kit.jpg/revision/latest/scale-to-width-down/350?cb=20090814165034&path-prefix=en" height="225"/>
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2019/12/nintendo-entertainment-system-console-facts-stats-games-300x163.jpg" height="225"/>
                 <div class="card-body">
-                  <h5>Virtual Boy</h5>
-                  <p class="card-text">The Virtual Boy was a portable video game console released in 1995 by Nintendo. The system used a monochromatic (red and black) visor that simulated a 3D view on its games. It is noteworthy for being one of the few financially failed products of Nintendo.</p>
+                  <h5>NES</h5>
                 </div>
               </div>
             </div>
 
             <div class="col">
               <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" src="https://static.wikia.nocookie.net/nintendo/images/d/d7/The_Nintendo_Wii.png/revision/latest/scale-to-width-down/350?cb=20120228012001&path-prefix=en" height="225"/>
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2019/12/nintendo-gamecube-console-facts-stats-games-300x169.jpg" height="225"/>
                 <div class="card-body">
-                  <h5>Wii</h5>
-                  <p class="card-text">The Wii (also known unofficially as the Nintendo Wii) is a seventh generation video game console created by Nintendo, and a successor to Nintendo's previous console, the Nintendo GameCube. It is Nintendo's fifth major home console. It competed with the Xbox 360 and PlayStation 3 during its lifetime.</p>
+                  <h5>Nintendo GameCube</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2019/12/Super-Nintendo-Entertainment-System-console-facts-stats-games-300x156.jpg" height="225"/>
+                <div class="card-body">
+                  <h5>SNES</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2020/01/Famicom-console-facts-300x270.jpg" height="225"/>
+                <div class="card-body">
+                  <h5>Famicon</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2020/01/Sega-Genesis-console-facts.jpg" height="225"/>
+                <div class="card-body">
+                  <h5>Sega Genesis</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="https://videogamesstats.com/wp-content/uploads/2020/01/Sega-CD-console-facts-300x181.jpg" height="225"/>
+                <div class="card-body">
+                  <h5>Sega CD</h5>
                 </div>
               </div>
             </div>
@@ -135,7 +156,7 @@
             <a class="nav-link text-muted" href="/">Homepage</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-muted" href="/contact.html">Contact us</a>
+            <a class="nav-link text-muted" href="/contact">Contact us</a>
           </li>
         </ul>
       </div>

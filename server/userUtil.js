@@ -1,25 +1,11 @@
-import { users } from "./fakedata.js";
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
-import jwt from "jwt-simple";
+import { UserDB } from "./model.js"
+import { SessionDB } from "./model.js";
 
 const saltRounds = 10;
 
-// TODO: replace with database
-const sessions = new Map();
-
-export function validateRegisterBody(body, response) {
-    for (const attr of ["username", "password"]) {
-        if (!body.hasOwnProperty(attr)) {
-            response.status(400);
-            response.send(`Body missing required attribute: ${attr}`);
-            return false;
-        }
-    }
-    return true;
-}
-
-export function checkRegister({username, password}) {
+export async function checkRegister({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -28,37 +14,40 @@ export function checkRegister({username, password}) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
     }
-    if (!users.every(user => user.username !== username)) {
+
+    if (await UserDB.exists({ 'username' : username })) {
         return [false, {invalid: "username",
-                        message: "username is taken"}];
+                        message: "Username is taken"}]
     }
+
     return [true, [username, password]];
 }
 
 export async function createUser(username, password) {
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-    const newUser = {
+    const newUser = new UserDB({
         username: username,
-        password: passwordHash
-    };
-    users.push(newUser);
-    console.log(`Created new user: ${username}`);
-    return createSession(username);
+        password: await bcrypt.hash(password, saltRounds)
+    });
+
+    // save the user to database
+    await newUser.save(err => {
+        if (err) throw err;
+    });
+
+    return await createSession(username);
 }
 
-export function getUser(username) {
-    return users.find(user => user.username === username);
-}
+export async function getUser(username) {
+    if(!(await UserDB.exists({ 'username': username }))) {
+        return undefined;
+    }
 
-// get index of user in list
-// (probably won't be needed after we have a databse)
-function getUserIndex(username) {
-    return users.findIndex(user => user.username === username);
+    return await UserDB.findOne({ 'username' : username });
 }
 
 // this is for the /user/get route
-export function getUserProfile(username) {
-    const user = getUser(username);
+export async function getUserProfile(username) {
+    const user = await getUser(username);
 
     // filter only the keys we want to return to the client.
     // right now this has nothing useful, but in the future it will
@@ -70,48 +59,54 @@ export function getUserProfile(username) {
     };
 }
 
-function createSession(username) {
+async function createSession(username) {
     const sessionID = randomUUID();
     // 30 day expiry, in milliseconds
     const expires = new Date(Date.now() + 30*24*3600*1000);
-    sessions.set(sessionID, {
+    let sessionBody = {
+        ID: sessionID,
         username: username,
-        expires: expires
-    });
-    return {
-        sessionID: sessionID,
-        username: username,
-        expires: expires
+        expiry: expires
     };
+    const session = new SessionDB(sessionBody);
+
+    await session.save(err => {
+        if (err) throw err;
+    });
+
+    return sessionBody;
 }
 
-export function setSessionCookies(response, {username, sessionID, expires}) {
+export function setSessionCookies(response, {username, ID: sessionID, expiry}) {
     response.cookie("user", username, {
-        expires: expires,
+        expires: expiry,
         secure: true
     });
     response.cookie("session", sessionID, {
-        expires: expires,
+        expires: expiry,
         secure: true
     });
 }
 
-function checkSession(username, sessionID) {
-    if (!sessions.has(sessionID)) {
+async function checkSession(username, sessionID) {
+    if (!(await SessionDB.exists({ ID: sessionID }))) {
         return false;
     }
-    const session = sessions.get(sessionID);
+
+    const session = await SessionDB.findOne({ ID: sessionID });
     if (session.username !== username) {
         return false;
     }
     return true;
 }
 
-export function deleteSession(sessionID) {
-    if (!sessions.has(sessionID)) {
+export async function deleteSession(sessionID) {
+    if (!(await SessionDB.exists({ ID: sessionID }))) {
         return false;
     }
-    sessions.delete(sessionID);
+
+    await SessionDB.deleteOne({ ID: sessionID });
+
     return true;
 }
 
@@ -126,22 +121,22 @@ export function deleteSessionCookies(response) {
     });
 }
 
-export function validateSession(request, response) {
+export async function validateSession(request, response) {
     const username = request.cookies.user;
     const sessionID = request.cookies.session;
-    if (checkSession(username, sessionID)) {
-        return true;
+    if (await checkSession(username, sessionID)) {
+        return [true, username];
     } else {
         response.status(403);
         deleteSessionCookies(response);
         response.end();
-        return false;
+        return [false, undefined];
     }
 }
 
 export async function checkPassword(username, password) {
-    const user = getUser(username);
-    if (user === undefined) {
+    const user = await getUser(username);
+    if (user === undefined || user === null) {
         return false;
     }
     return await bcrypt.compare(password, user.password);
@@ -149,24 +144,13 @@ export async function checkPassword(username, password) {
 
 export async function login(username, password) {
     if (await checkPassword(username, password)) {
-        return createSession(username);
+        return await createSession(username);
     } else {
         return null;
     }
 };
 
-export function validateUpdateBody(body, response) {
-    for (const attr of ["username", "password"]) {
-        if (!body.hasOwnProperty(attr)) {
-            response.status(400);
-            response.send(`Body missing required attribute: ${attr}`);
-            return false;
-        }
-    }
-    return true;
-}
-
-export function checkUpdate({username, password}) {
+export async function checkUpdate({username, password}) {
     if (!username) {
         return [false, {invalid: "username",
                         message: "No username entered"}];
@@ -175,31 +159,31 @@ export function checkUpdate({username, password}) {
         return [false, {invalid: "password",
                         message: "No password entered"}];
     }
-    if (getUser(username) === undefined) {
+    if (await getUser(username) === undefined) {
         return [false, {invalid: "username",
                         message: `User ${username} does not exist`}]
     }
     return [true, [username, password]];
 }
 
-export function editUser(username, password) {
-    const i = getUserIndex(username);
-    if (i === undefined) {
-        return [false, null];
-    }
-    const updatedUser = {
+export async function editUser(username, password) {
+    let newUser = {
         username: username,
         password: password
     }
-    users[i] = updatedUser;
-    return [true, updatedUser];
+
+    await UserDB.findOneAndUpdate({ 'username': username }, newUser, { upsert: false })
+
+    return [true, newUser];
 }
 
-export function deleteUser(username) {
-    const i = getUserIndex(username);
-    if (i === undefined) {
+export async function deleteUser(username) {
+    if(!(await UserDB.exists({ "username": username }))) {
         return false;
     }
-    users.splice(i, 1);
+
+    await UserDB.deleteOne({ "username": username });
+    await UserDB.save();
+
     return true;
 }

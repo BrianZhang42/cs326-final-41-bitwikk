@@ -1,78 +1,139 @@
 import express from "express";
-import { projectRoot, asyncRoute, requireParams, serve404 } from "./utils.js"
-import { addComment, checkComment, checkEdit, editArticle, getArticle } from './articleUtil.js';
+import { projectRoot, serve404 } from "./utils.js"
+import { bwroute } from "./bwroute.js";
+import { addComment, checkComment, checkEdit, editArticle, getArticle, getComment, searchArticles, deleteComment, commentExists } from './articleUtil.js';
 
 export const router = express.Router();
 
-function validateSession(request, response) {
-    // TODO: implement session validation
-    return true;
-}
-
-router.get("/:articleID", asyncRoute(async (request, response) => {
-    // make sure the article exists
-    const article = getArticle(request.params.articleID);
-    if (article === undefined) {
-        serve404(response);
-        return;
-    }
-    response.sendFile(`${projectRoot}/client/article_page.html`);
-}));
-
-router.get("/:articleID/get", asyncRoute(async (request, response) => {
-    const article = getArticle(request.params.articleID);
-    if (article === undefined) {
-        response.status(404).end();
-        return;
-    }
-    response.json(article);
-}));
-
-router.post("/:articleID/edit", asyncRoute(async (request, response) => {
-    if (!validateSession(request, response)) { return; }
-    const success = editArticle(request.params.articleID, request.body);
-
-    if (success) {
-        response.status(200).end();
-    } else {
-        response.status(500).end();
+router.get("/:articleID", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        // get rid of trailing slash
+        if (request.path.endsWith("/")) {
+            // TODO: change this to 301 or 308 maybe
+            response.redirect(307, `/article/${request.params.articleID}`);
+            return;
+        }
+        // make sure the article exists
+        const article = await getArticle(request.params.articleID);
+        if (article === undefined) {
+            serve404(response);
+            return;
+        }
+        response.sendFile(`${projectRoot}/client/article_page.html`);
     }
 }));
 
-router.post("/:articleID/comment", asyncRoute(async (request, response) => {
-    if (!validateSession(request, response)) { return; }
-    const [checkSuccess, checkResult] = checkComment(request.body);
-    if (!checkSuccess) {
-        response.status(400).json(checkResult);
-        return;
-    }
-    const [success, result] = addComment(request.params.articleID,
-                                         ...checkResult);
-    if (success) {
-        response.json(result);
-    } else {
-        response.status(400).json(result);
+router.get("/:articleID/get", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        const article = await getArticle(request.params.articleID);
+        if (article === undefined) {
+            response.status(404).end();
+            return;
+        }
+        response.json(article);
     }
 }));
 
-router.delete("/:articleID/comment/:commentId", asyncRoute(async (request, response) => {
-    if (!validateSession(request, response)) { return; }
-    // TODO: check that user is editing their own comment
-    try {
-        const [checkSuccess, checkResult] = checkComment(request.body);
+router.get("/:articleID/edit", bwroute({
+    requiresLogin: true,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        const article = getArticle(request.params.articleID);
+        if (article === undefined) {
+            serve404(response);
+            return;
+        }
+        response.sendFile(`${projectRoot}/client/article_edit.html`);
+    }
+}));
+
+router.post("/:articleID/edit", bwroute({
+    requiresLogin: true,
+    requiredQueryParameters: [],
+    bodySchema: {
+        content: "string",
+        images: ["string"]
+    },
+    handler: async (request, response, username) => {
+        const [checkSuccess, checkResult] = await checkEdit(request);
         if (!checkSuccess) {
             response.status(400).json(checkResult);
             return;
         }
-        const commentId = request.params.commentId;
-        if (CommentExists(commentId)) {
-          deleteComment(commentId);
-          response.json({ success: `deleted comment ${commentId}` });
+        const success = await editArticle(request.params.articleID, {
+            content: request.body.content,
+            images: request.body.images
+        }, username);
+        if (success) {
+            response.status(200).end();
         } else {
-          response.status(400).json({ error: "comment given does not exist" });
+            response.status(400).end();
         }
-      } catch (err) {
-        console.log(err);
-        response.status(400).send();
-      }
+    }
+}));
+
+router.get("/:articleID/comment/:commentId", bwroute({
+    requiresLogin: false,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        const comment = await getComment(request.params.commentId);
+        if (comment === undefined) {
+            response.status(404).end();
+            return;
+        }
+        response.json(comment);
+    }
+}));
+
+router.post("/:articleID/comment", bwroute({
+    requiresLogin: true,
+    requiredQueryParameters: [],
+    bodySchema: {
+        content: "string"
+    },
+    handler: async (request, response) => {
+        const [checkSuccess, checkResult] = await checkComment(request);
+        if (!checkSuccess) {
+            response.status(400).json(checkResult);
+            return;
+        }
+        const [success, result] = await addComment(request.params.articleID,
+                                                   ...checkResult);
+        if (success) {
+            response.json(result);
+        } else {
+            response.status(400).json(result);
+        }
+    }
+}));
+
+router.delete("/:articleID/comment/:commentId", bwroute({
+    requiresLogin: true,
+    requiredQueryParameters: [],
+    bodySchema: null,
+    handler: async (request, response) => {
+        // TODO: check that user is editing their own comment
+        console.log("in handler...");
+        try {
+            const commentId = request.params.commentId;
+            if (await commentExists(commentId)) {
+                await deleteComment(commentId);
+                response.json({ success: `deleted comment ${commentId}` });
+            } else {
+                response.status(400).json({ error: "comment given does not exist" });
+            }
+        } catch (err) {
+            console.log("error");
+            console.log(err);
+            response.status(400).send();
+        }
+    }
 }));

@@ -11,6 +11,7 @@
 
     <script type="module" src="/client.js"></script>
     <link rel="stylesheet" href="/search_result.css">
+    <script type="module" src="/search_result.js"></script>
 
   </head>
   <body class="d-flex flex-column min-vh-100">
@@ -37,9 +38,10 @@
             </li>
           </ul>
           <form class="d-flex ms-auto me-auto" id="searchForm">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" id="search-text-input" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" id="search-submit-button">Search</button>
           </form>
+          <a href="/create_article" class="btn btn-outline-success me-auto">New Article</a>
           <div class="btn-group my-2" id="signed-out-bar" hidden>
             <a href="/login" class="btn btn-outline-success text-nowrap">Sign in</a>
             <a href="/register" class="btn btn-outline-success text-nowrap">Sign up</a>
@@ -57,16 +59,16 @@
       <section class="py-5 text-center container">
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Search results for: "mario"</h1>
+            <h1 class="fw-light" id="search-result-text">Search results for: ""</h1>
             </div>
         </div>
       </section>
 
       <div class="album py-5 bg-light">
         <div class="container">
-
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col">
+          <h1 class="display-1 text-center" id="no-matches-text">No Matches</h1>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="search-result-grid">
+            <!-- <div class="col">
               <div class="card shadow-sm">
                 <img class="bd-placeholder-img card-img-top" src="https://www.nintendoenthusiast.com/wp-content/uploads/2020/08/Andromeda-galaxy-in-Super-Mario-Galaxys-logo-nintendo-switch.jpg" height="225"/>
                 <div class="card-body">
@@ -122,7 +124,7 @@
                   <p class="card-text">Super Mario Odyssey is a 2017 action-adventure platform game developed and published by Nintendo for the Nintendo Switch video game console. In contrast to the linear gameplay of prior entries, the game returns to the primarily open-ended, 3D platform gameplay featured in Super Mario 64 and Super Mario Sunshine.</p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -136,7 +138,7 @@
             <a class="nav-link text-muted" href="/">Homepage</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-muted" href="/404.html">Contact us</a>
+            <a class="nav-link text-muted" href="/contact">Contact us</a>
           </li>
         </ul>
       </div>

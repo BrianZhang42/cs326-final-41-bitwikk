@@ -4,4 +4,6 @@
 
 2. `cd` into the repository, then install node dependencies with `npm install .`
 
-3. To run the server, use the command `npm start`
+3. Create a `.env` file containing `MONGO_URL`, `MONGO_USER`, and `MONGO_PASS` environment variables for a mongodb database.
+
+4. To run the server, use the command `npm start`
