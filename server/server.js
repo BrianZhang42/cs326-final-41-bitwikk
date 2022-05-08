@@ -53,7 +53,6 @@ app.post("/create", bwroute({
         // TODO: validation
         const { title, category, content, images } = req.body;
         const [success, result] = await createArticle(title, content, username, category);
-        console.log([success, result]);
         if (success) {
             // Status code 201: Created
             // Standard requires setting the Location header
