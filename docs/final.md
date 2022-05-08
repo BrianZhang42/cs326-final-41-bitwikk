@@ -31,8 +31,9 @@ Demonstrates the Read Operation, because the client side JS gets the article con
 ### Article Edit Page
 <img src="imgs/edit1.png" height="500px">
 <img src="imgs/edit2.png" height="500px">
+<img src="imgs/edit3.png" height="500px">
 <br>
-Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit, additionally adding the user to that page's list of contributors.
+Demonstrates the Update Operation by allowing the user to edit an article page and update any information they see fit. 
 
 ### Sign out
 <img src="imgs/login2.png" height="200px">
@@ -68,7 +69,7 @@ This request will be used to post a comment under an article.
 This will be used for the searchbar. It returns a list of articles as a JSON.
 
 `GET  /category/{category}`<br/>
-This will be used to browse by category. For now it returns a list of articles as a JSON.
+This will be used to browse by category. It returns a list of articles as a JSON.
 
 `POST /user/login`<br/>
 Body: `{username: username, password: password (plaintext)}`<br/>
@@ -115,7 +116,7 @@ Article Document<br/>
     &nbsp;`content: String,`            &nbsp;The main content of the article<br/>
     &nbsp;`contributers: String Array,` &nbsp;The users who created the article<br/>
     &nbsp;`images: String Array,`       &nbsp;Array of image links in the article<br/>
-    &nbsp;`commentId: String Array,`    &nbsp;Array of IDs for the comments in the article<br/>
+    &nbsp;`commentIDs: String Array,`    &nbsp;Array of IDs for the comments in the article<br/>
     &nbsp;`category: String`            &nbsp;The category the article is in<br/>
 }
 
