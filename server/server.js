@@ -97,8 +97,8 @@ app.get("/random", bwroute({
     requiredQueryParameters: [],
     bodySchema: null,
     handler: async (request, response) => {
-        const articleID = await getRandomArticle().ID;
-        response.redirect(307, `/article/${articleID}`);
+        let article = await getRandomArticle();
+        response.redirect(307, `/article/${article.ID}`);
     }
 }));
 

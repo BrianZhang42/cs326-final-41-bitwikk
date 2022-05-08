@@ -216,3 +216,13 @@ export function searchArticles(query) {
     }))];
 }
 
+export async function getRandomArticle() {
+    let article = {};
+    let random = {};
+    let count = await ArticleDB.count();
+
+    random = random = Math.floor(Math.random() * count);
+    article = await ArticleDB.findOne().skip(random);
+
+    return article;
+}
