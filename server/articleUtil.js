@@ -81,16 +81,7 @@ export async function getArticle(articleID) {
         return undefined;
     }
 
-    let article = await ArticleDB.findOne({ 'ID' : articleID });
-    article.comments = [];
-    if(article.commentIDs !== undefined) {
-        article.commentIDs.forEach(async commentID => {
-            let comment = await getComment(commentID);
-            article.comments.push(comment);
-        });
-    }
-
-    return article;
+    return await ArticleDB.findOne({ 'ID' : articleID });;
 }
 
 // get index of article in list
@@ -125,6 +116,11 @@ export async function editArticle(articleID, newArticle) {
     let article = await ArticleDB.findOne({ 'ID': articleID });
     Object.keys(newArticle).forEach(key => {
         article[key] = newArticle[key];
+    });    
+    
+    // save the changes
+    await article.save(err => {
+        if (err) throw err;
     });
 
     return true;
@@ -220,10 +216,3 @@ export function searchArticles(query) {
     }))];
 }
 
-export function getRandomArticle() {
-    const article = articles[Math.floor(Math.random() * articles.length)];
-    return {
-        ID: article.ID,
-        title: article.title
-    };
-}
