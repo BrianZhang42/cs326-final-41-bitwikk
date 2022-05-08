@@ -90,7 +90,7 @@ export async function getArticle(articleID) {
         });
     }
 
-    return article; 
+    return article;
 }
 
 // get index of article in list
@@ -130,22 +130,11 @@ export async function editArticle(articleID, newArticle) {
     return true;
 }
 
-const commentFormDataAttrs = ["content"];
 export async function checkComment(request) {
-    for (const attr of commentFormDataAttrs) {
-        if (!request.body.hasOwnProperty(attr)) {
-            return [false, {invalid: attr,
-                            message: `Missing required attribute: ${attr}`}]
-        }
+    if (!request.body.content) {
+        return [false, {invalid: "content",
+                        message: `${content} cannot be empty`}];
     }
-    for (const attr of commentFormDataAttrs) {
-        if (!request.body[attr]) {
-            return [false, {invalid: attr,
-                            message: `${attr} cannot be empty`}];
-        }
-    }
-    const {articleID, title, body} = request.body;
-
     // TODO: validate content
     return [true, [request.cookies.user, request.body.content]];
 }
